@@ -36,4 +36,7 @@ end
 # Development-only gems
 group :development do
   gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
+  gem "sorbet"
+  gem "sorbet-runtime"
+  gem "tapioca", require: false
 end
