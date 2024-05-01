@@ -23,6 +23,18 @@ module CoxinhaTodaTodaApi
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
+    # Allowing fallback to happen
+    config.i18n.fallbacks = true
+
+    # Set available locales
+    config.i18n.available_locales = [:pt, :en]
+
+    # Set default locale to :pt (Portuguese)
+    config.i18n.default_locale = :pt
+
+    # Set the timezone to Brazilian time
+    config.time_zone = "Brasilia"
+
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
