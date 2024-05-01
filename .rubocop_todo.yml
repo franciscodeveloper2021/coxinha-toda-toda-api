@@ -1,0 +1,135 @@
+# Set the maximum allowed length of a method to 20 lines (1 offense)
+Metrics/MethodLength:
+  Max: 20
+
+# Bundler/OrderedGems cop (6 offenses)
+# This cop ensures gems in Gemfile(s) are ordered correctly.
+Bundler/OrderedGems:
+  Exclude: []
+
+# Layout/ArgumentAlignment cop (1 offense)
+# This cop enforces consistent alignment of arguments in method calls.
+Layout/ArgumentAlignment:
+  Exclude:
+    - 'config/initializers/cors.rb'
+
+# Layout/EmptyLineAfterGuardClause cop (6 offenses)
+# This cop enforces an empty line after guard clauses.
+Layout/EmptyLineAfterGuardClause:
+  Exclude:
+    - 'bin/bundle'
+
+# Layout/EmptyLines cop (1 offense)
+# This cop enforces empty lines in certain contexts.
+Layout/EmptyLines:
+  Exclude:
+    - 'config/environments/development.rb'
+
+# Layout/LeadingCommentSpace cop (2 offenses)
+# This cop ensures consistent spacing for leading comments.
+Layout/LeadingCommentSpace:
+  Exclude:
+    - 'spec/rails_helper.rb'
+
+# Layout/MultilineMethodCallIndentation cop (2 offenses)
+# This cop enforces consistent indentation for multiline method calls.
+Layout/MultilineMethodCallIndentation:
+  Exclude:
+    - 'config/environments/production.rb'
+
+# Layout/SpaceInsideArrayLiteralBrackets cop (2 offenses)
+# This cop enforces consistent spacing inside array literal brackets.
+Layout/SpaceInsideArrayLiteralBrackets:
+  Exclude:
+    - 'config/environments/production.rb'
+
+# Layout/SpaceInsidePercentLiteralDelimiters cop (2 offenses)
+# This cop enforces consistent spacing inside percent literal delimiters.
+Layout/SpaceInsidePercentLiteralDelimiters:
+  Exclude:
+    - 'Gemfile'
+
+# Metrics/CyclomaticComplexity cop (1 offense)
+# This cop limits the cyclomatic complexity of methods to 9.
+Metrics/CyclomaticComplexity:
+  Max: 9
+
+# Metrics/PerceivedComplexity cop (1 offense)
+# This cop limits the perceived complexity of methods to 9.
+Metrics/PerceivedComplexity:
+  Max: 9
+
+# Style/BlockComments cop (1 offense)
+# This cop ensures consistent style for block comments.
+Style/BlockComments:
+  Exclude:
+    - 'spec/spec_helper.rb'
+
+# Style/Documentation cop (3 offenses)
+# This cop checks documentation comments for consistency.
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'
+    - 'app/mailers/application_mailer.rb'
+    - 'app/models/application_record.rb'
+    - 'config/application.rb'
+
+# Style/FrozenStringLiteralComment cop (26 offenses)
+# This cop checks for consistent usage of frozen string literals.
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# Style/GlobalStdStream cop (1 offense)
+# This cop checks for consistency in global standard stream usage.
+Style/GlobalStdStream:
+  Exclude:
+    - 'config/environments/production.rb'
+
+# Style/IfUnlessModifier cop (2 offenses)
+# This cop checks for consistent usage of if/unless modifiers.
+Style/IfUnlessModifier:
+  Exclude:
+    - 'bin/bundle'
+
+# Style/PercentLiteralDelimiters cop (1 offense)
+# This cop enforces consistent usage of percent literal delimiters.
+Style/PercentLiteralDelimiters:
+  Exclude:
+    - 'config/application.rb'
+
+# Style/PerlBackrefs cop (1 offense)
+# This cop checks for consistent usage of Perl-style backrefs.
+Style/PerlBackrefs:
+  Exclude:
+    - 'bin/bundle'
+
+# Style/RedundantFetchBlock cop (2 offenses)
+# This cop checks for redundant blocks in `fetch` method usage.
+Style/RedundantFetchBlock:
+  Exclude:
+    - 'config/puma.rb'
+
+# Style/SpecialGlobalVars cop (1 offense)
+# This cop checks for consistent usage of special global variables.
+Style/SpecialGlobalVars:
+  EnforcedStyle: use_perl_names
+
+# Style/StringLiterals cop (118 offenses)
+# This cop checks for consistent usage of single or double quotes for string literals.
+Style/StringLiterals:
+  Enabled: false
+
+# Style/SymbolArray cop (4 offenses)
+# This cop checks for consistent usage of symbols in arrays.
+Style/SymbolArray:
+  Exclude:
+    - 'Gemfile'
+    - 'config/application.rb'
+    - 'config/initializers/cors.rb'
+    - 'config/initializers/filter_parameter_logging.rb'
+
+# Layout/LineLength cop (2 offenses)
+# This cop limits the maximum line length to 198 characters.
+Layout/LineLength:
+  Max: 198
