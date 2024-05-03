@@ -12,7 +12,6 @@ RUN bundle install
 
 COPY . .
 
-ARG DEFAULT_PORT=3000
 ENV RAILS_ENV=development
 
 ENTRYPOINT ["/coxinha-toda-toda-api/bin/docker-entrypoint"]
