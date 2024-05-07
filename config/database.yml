@@ -1,21 +1,15 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  host: db
+  username: postgres
+  password: mysecretpassword
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: localhost
-  username: francisco
-  password: 123
 
 development:
   <<: *default
-  database: coxinha_toda_toda_api_development
+  database: coxinha_toda_toda_development
 
 test:
   <<: *default
-  database: coxinha_toda_toda_api_test
-
-production:
-  <<: *default
-  database: coxinha_toda_toda_api_production
-  username: coxinha_toda_toda_api
-  password: <%= ENV["COXINHA_TODA_TODA_API_DATABASE_PASSWORD"] %>
+  database: coxinha_toda_toda_test

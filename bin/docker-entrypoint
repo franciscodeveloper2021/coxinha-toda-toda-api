@@ -1,8 +1,12 @@
 #!/bin/bash -e
 
-# If running the rails server then create or migrate existing database
-if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
-  ./bin/rails db:prepare
+# Set working directory
+cd /coxinha-toda-toda-api
+
+# Run the Rails server
+if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ] && [ "${3}" == "-b" ] && [ "${4}" == "0.0.0.0" ]; then
+  bundle exec rails db:prepare
 fi
 
-exec "${@}"
+# Execute the command
+exec "$@"
