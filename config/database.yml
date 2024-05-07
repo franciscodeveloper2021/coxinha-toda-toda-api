@@ -21,4 +21,3 @@ production:
 staging:
   <<: *default
   database: coxinha_toda_toda_staging
-
