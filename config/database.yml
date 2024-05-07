@@ -13,3 +13,12 @@ development:
 test:
   <<: *default
   database: coxinha_toda_toda_test
+
+production:
+  <<: *default
+  database: coxinha_toda_toda_production
+
+staging:
+  <<: *default
+  database: coxinha_toda_toda_staging
+
