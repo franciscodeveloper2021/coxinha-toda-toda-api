@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 # Core gems
+gem "awesome_print"
 gem "bcrypt", "~> 3.1.7"
 gem "bootsnap", require: false
 gem "devise", "~> 4.8"
@@ -16,7 +17,6 @@ gem "tapioca", require: false
 gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
 
 # Development and Test gems
-gem "awesome_print"
 gem "byebug"
 gem "debug", platforms: [:mri, :mswin, :mswin64, :mingw, :x64_mingw]
 gem "factory_bot_rails"
