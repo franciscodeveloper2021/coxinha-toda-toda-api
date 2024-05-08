@@ -7,8 +7,8 @@ Rails.application.configure do
   # Eager load code on boot for better performance.
   config.eager_load = true
 
-  # EDetermines whether detailed error pages are displayed for local requests.
-  config.consider_all_requests_local = true
+  # Enable caching and disable full error reports for better performance and security.
+  config.consider_all_requests_local = false
 
   # Specify the local storage service for uploaded files.
   config.active_storage.service = :local
@@ -18,9 +18,9 @@ Rails.application.configure do
 
   # Log to STDOUT with tagged logging.
   config.logger = ActiveSupport::Logger.new($stdout)
-                                      .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
-                                      .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
-  config.log_tags = [ :request_id ]
+                                       .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
+                                       .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
+  config.log_tags = [:request_id]
 
   # Set log level to "info" to include generic system operation information.
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")

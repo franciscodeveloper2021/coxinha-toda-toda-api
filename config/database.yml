@@ -13,3 +13,15 @@ development:
 test:
   <<: *default
   database: coxinha_toda_toda_test
+
+production:
+  <<: *default
+  database: coxinha_toda_toda_production
+  username: <%= ENV['PROD_DB_USERNAME'] %>
+  password: <%= ENV['PROD_DB_PASSWORD'] %>
+
+staging:
+  <<: *default
+  database: coxinha_toda_toda_staging
+  username: <%= ENV['STAGING_DB_USERNAME'] %>
+  password: <%= ENV['STAGING_DB_PASSWORD'] %>
