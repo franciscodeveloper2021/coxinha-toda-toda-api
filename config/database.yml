@@ -25,4 +25,3 @@ staging:
   database: coxinha_toda_toda_staging
   username: <%= ENV['STAGING_DB_USERNAME'] %>
   password: <%= ENV['STAGING_DB_PASSWORD'] %>
-
