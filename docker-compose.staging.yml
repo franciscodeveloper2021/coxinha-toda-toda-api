@@ -1,0 +1,22 @@
+services:
+  db:
+    image: 'postgres:latest'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${STAGING_DB_PASSWORD}
+
+  rails:
+    build:
+      context: ./
+      dockerfile: Dockerfile.staging
+    volumes:
+      - .:/coxinha-toda-toda-api
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: staging
+      DATABASE_URL: <%= ENV['STAGING_DATABASE_URL'] %>
+
+volumes:
+  postgres:
