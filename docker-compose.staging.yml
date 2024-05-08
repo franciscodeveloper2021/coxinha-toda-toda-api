@@ -10,8 +10,6 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile.staging
-    ports:
-      - '3000:3000'
     volumes:
       - .:/coxinha-toda-toda-api
     depends_on:
