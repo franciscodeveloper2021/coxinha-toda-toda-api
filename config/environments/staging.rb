@@ -6,8 +6,8 @@ Rails.application.configure do
 
   # Eager load code on boot for better performance.
   config.eager_load = true
-
-  # Enable caching and disable full error reports for better performance and security.
+  
+  # Determines whether detailed error pages are displayed for local requests.
   config.consider_all_requests_local = false
 
   # Specify the local storage service for uploaded files.
