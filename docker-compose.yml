@@ -9,7 +9,6 @@ services:
   rails:
     build:
       context: ./
-      dockerfile: Dockerfile.development
     ports:
       - '3000:3000'
     volumes:
