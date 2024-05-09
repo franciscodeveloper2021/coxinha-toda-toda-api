@@ -10,7 +10,7 @@ RUN gem install bundler
 
 COPY Gemfile* ./
 
-RUN bundle install --without development test
+RUN bundle install --full-index --jobs=$(nproc) --without development test
 
 COPY . .
 
