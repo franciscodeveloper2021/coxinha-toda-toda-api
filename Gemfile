@@ -10,9 +10,6 @@ gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 gem "rack-cors"
 gem "rails", "~> 7.1.3", ">= 7.1.3.2"
-gem "sorbet"
-gem "sorbet-runtime"
-gem "tapioca", require: false
 gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
 
 group :development, :test do
@@ -26,8 +23,4 @@ end
 
 group :development do
   gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
-  gem "rubocop", require: false
-  gem "rubocop-factory_bot", require: false
-  gem "rubocop-rails", require: false
-  gem "rubocop-rspec_rails", require: false
 end
