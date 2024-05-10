@@ -1,2 +1,13 @@
 pt:
-  hello: "Olá"
+  activerecord:
+    errors:
+      messages:
+        blank: "não pode ficar em branco"
+        too_short: "é muito curto (mínimo de %{count} caracteres)"
+        too_long: "é muito longo (máximo de %{count} caracteres)"
+        record_invalid: "A validação falhou: %{errors}"
+      full_messages:
+        blank: "%{attribute} não pode ficar em branco"
+        too_short: "%{attribute} é muito curto (mínimo de %{count} caracteres)"
+        too_long: "%{attribute} é muito longo (máximo de %{count} caracteres)"
+        record_invalid: "A validação falhou: %{errors}"
