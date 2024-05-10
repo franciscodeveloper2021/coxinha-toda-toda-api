@@ -17,26 +17,28 @@ RSpec.describe Sector, type: :model do
       end
       context "when sectors's name is too short" do
         it "raises an ActiveRecord too short error" do
-          minimum_length_name = 5
-          below_minimum_length_name = 4
+          below_minimum_length_name = Sector::MINIMUM_NAME_LENGTH - 1
 
-          sector.name.slice!(below_minimum_length_name..)
+          sector.name = sector.name.slice!(below_minimum_length_name..)
           sector.valid?
 
           expect(sector.errors.full_messages)
-            .to include(I18n.t("activerecord.errors.full_messages.too_short", attribute: attribute_name, count: minimum_length_name))
+            .to include(
+              I18n.t("activerecord.errors.full_messages.too_short", attribute: attribute_name, count: Sector::MINIMUM_NAME_LENGTH)
+            )
         end
       end
       context "when sector's name is too long" do
         it "raises an ActiveRecord too long error" do
-          maximum_length_name = 50
-          name_above_maximum_length = sector.name.slice!(1..) * (maximum_length_name + 1)
+          name_above_maximum_length = sector.name.slice!(1..) * (Sector::MAXIMUM_NAME_LENGTH + 1)
 
           sector.name = name_above_maximum_length
           sector.valid?
 
           expect(sector.errors.full_messages)
-            .to include(I18n.t("activerecord.errors.full_messages.too_long", attribute: attribute_name, count: maximum_length_name))
+            .to include(
+              I18n.t("activerecord.errors.full_messages.too_long", attribute: attribute_name, count: Sector::MAXIMUM_NAME_LENGTH)
+            )
         end
       end
     end
