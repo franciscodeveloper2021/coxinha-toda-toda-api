@@ -1,7 +1,6 @@
 source "https://rubygems.org"
 
 gem "awesome_print"
-gem "bcrypt", "~> 3.1.7"
 gem "bootsnap", require: false
 gem "devise", "~> 4.8"
 gem "devise-jwt"

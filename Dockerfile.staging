@@ -1,4 +1,4 @@
-FROM ruby:latest as base
+FROM ruby:3.3-slim
 
 RUN apt-get update -qq && \
     apt-get install -y build-essential apt-utils libpq-dev nodejs && \
@@ -10,7 +10,7 @@ RUN gem install bundler
 
 COPY Gemfile* ./
 
-RUN bundle install --without development test
+RUN bundle install --full-index --jobs=$(nproc) --without development test
 
 COPY . .
 
