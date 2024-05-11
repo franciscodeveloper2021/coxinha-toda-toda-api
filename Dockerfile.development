@@ -4,6 +4,8 @@ RUN apt-get update -qq && apt-get install -y build-essential apt-utils libpq-dev
 
 WORKDIR /coxinha-toda-toda-api
 
+ENV RAILS_ENV=development
+
 RUN gem install bundler
 
 COPY Gemfile* ./
@@ -11,8 +13,6 @@ COPY Gemfile* ./
 RUN bundle install --full-index --jobs=$(nproc)
 
 COPY . .
-
-ENV RAILS_ENV=development
 
 ENTRYPOINT ["/coxinha-toda-toda-api/bin/docker-entrypoint"]
 
