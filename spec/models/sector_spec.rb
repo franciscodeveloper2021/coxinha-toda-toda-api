@@ -89,5 +89,15 @@ RSpec.describe Sector, type: :model do
         end
       end
     end
+
+    context "when name attribute is valid" do
+      it "is allowed to be persisted on the database" do
+        expect(sector.valid?).to be(true)
+      end
+
+      it "is persisted on the database" do
+        expect(sector.save!).to be(true)
+      end
+    end
   end
 end
