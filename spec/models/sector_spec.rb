@@ -6,17 +6,21 @@ RSpec.describe Sector, type: :model do
 
   describe "validates" do
     context "when name attribute is not valid" do
+
       context "when sector's name is blank" do
-        it "raises an ActiveRecord blank error" do
+        it "raises an ActiveModel blank error" do
           sector.name = nil
           sector.valid?
 
           expect(sector.errors.full_messages)
-            .to include(I18n.t("activerecord.errors.full_messages.blank", attribute: attribute_name))
+            .to include(
+              I18n.t("activerecord.errors.full_messages.blank", attribute: attribute_name)
+            )
         end
       end
+
       context "when sectors's name is too short" do
-        it "raises an ActiveRecord too short error" do
+        it "raises an ActiveModel too short error" do
           below_minimum_length_name = Sector::MINIMUM_NAME_LENGTH - 1
 
           sector.name = sector.name.slice!(below_minimum_length_name..)
@@ -28,8 +32,9 @@ RSpec.describe Sector, type: :model do
             )
         end
       end
+
       context "when sector's name is too long" do
-        it "raises an ActiveRecord too long error" do
+        it "raises an ActiveModel too long error" do
           name_above_maximum_length = sector.name.slice!(1..) * (Sector::MAXIMUM_NAME_LENGTH + 1)
 
           sector.name = name_above_maximum_length
@@ -39,6 +44,37 @@ RSpec.describe Sector, type: :model do
             .to include(
               I18n.t("activerecord.errors.full_messages.too_long", attribute: attribute_name, count: Sector::MAXIMUM_NAME_LENGTH)
             )
+        end
+      end
+
+      context "when sector's name has been already taken" do
+
+        context "with the same string case" do
+          let(:valid_sector) { create(:sector, name: "Bebidas") }
+          let(:invalid_sector) { build(:sector, name: "Bebidas") }
+
+          it "raises an ActiveModel taken error" do
+            invalid_sector.valid?
+
+            expect(invalid_sector.errors.full_messages)
+              .to include(
+                I18n.t("activerecord.errors.full_messages.taken", attribute: attribute_name)
+              )
+          end
+        end
+
+        context "with different string case" do
+          let(:valid_sector) { create(:sector, name: "Bebidas") }
+          let(:invalid_sector) { build(:sector, name: "bebidas") }
+
+          it "raises an ActiveModel taken error" do
+            invalid_sector.valid?
+
+            expect(invalid_sector.errors.full_messages)
+              .to include(
+                I18n.t("activerecord.errors.full_messages.taken", attribute: attribute_name)
+              )
+          end
         end
       end
     end
