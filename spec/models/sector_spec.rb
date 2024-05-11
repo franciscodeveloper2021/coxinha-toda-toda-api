@@ -6,7 +6,6 @@ RSpec.describe Sector, type: :model do
 
   describe "validates" do
     context "when name attribute is not valid" do
-
       context "when sector's name is not present" do
         context "with nil string value" do
           it "raises an ActiveModel blank error" do
