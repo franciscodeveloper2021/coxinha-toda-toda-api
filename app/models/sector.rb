@@ -1,6 +1,5 @@
 class Sector < ApplicationRecord
-  MINIMUM_NAME_LENGTH = 5
-  MAXIMUM_NAME_LENGTH = 50
+  include ValidationConstants
 
   validates :name,
             presence: true,
