@@ -1,5 +1,11 @@
+# typed: strict
 class Sector < ApplicationRecord
   include ValidationConstants
+
+  extend T::Sig
+
+  sig { returns(String) }
+  attr_accessor :name
 
   validates :name,
             presence: true,
