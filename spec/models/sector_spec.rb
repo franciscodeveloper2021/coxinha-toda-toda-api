@@ -64,7 +64,7 @@ RSpec.describe Sector, type: :model do
       context "when sector's name has been already taken" do
         context "with the same string case" do
           let(:valid_sector) { create(:sector, name: "Bebidas") }
-          let(:invalid_sector) { build(:sector, name: "Bebidas") }
+          let(:invalid_sector) { described_class.new(name: "Bebidas") }
 
           it "raises an ActiveModel taken error" do
             invalid_sector.valid?
@@ -77,7 +77,7 @@ RSpec.describe Sector, type: :model do
         end
         context "with different string case" do
           let(:valid_sector) { create(:sector, name: "Bebidas") }
-          let(:invalid_sector) { build(:sector, name: "bebidas") }
+          let(:invalid_sector) { described_class.new(name: "bebidas") }
 
           it "raises an ActiveModel taken error" do
             invalid_sector.valid?
@@ -92,12 +92,17 @@ RSpec.describe Sector, type: :model do
     end
 
     context "when name attribute is valid" do
-      it "is allowed to be persisted on the database" do
-        expect(sector.valid?).to be(true)
+
+      context "with no errors before being saved" do
+        it "is allowed to be persisted on the database" do
+          expect(sector.valid?).to be(true)
+        end
       end
 
-      it "is persisted on the database" do
-        expect(sector.save!).to be(true)
+      context "with no errors after it has been saved" do
+        it "is persisted on the database" do
+          expect(sector.save!).to be(true)
+        end
       end
     end
   end
