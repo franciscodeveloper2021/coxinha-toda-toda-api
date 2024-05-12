@@ -64,7 +64,7 @@ RSpec.describe Sector, type: :model do
       context "when sector's name has been already taken" do
         context "with the same string case" do
           let(:valid_sector) { create(:sector, name: "Bebidas") }
-          let(:invalid_sector) { described_class.new(name: "Bebidas") }
+          let(:invalid_sector) {  build(:sector, name: "Bebidas") }
 
           it "raises an ActiveModel taken error" do
             invalid_sector.valid?
@@ -77,7 +77,7 @@ RSpec.describe Sector, type: :model do
         end
         context "with different string case" do
           let(:valid_sector) { create(:sector, name: "Bebidas") }
-          let(:invalid_sector) { described_class.new(name: "bebidas") }
+          let(:invalid_sector) { build(:sector, name: "bebidas") }
 
           it "raises an ActiveModel taken error" do
             invalid_sector.valid?
