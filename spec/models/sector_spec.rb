@@ -90,11 +90,25 @@ RSpec.describe Sector, type: :model do
     end
   end
 
-  describe "sorbet" do
-    context "when validating attribute types" do
-      context "when name attribute is expected to be a String" do
+  describe "sorbet type checking" do
+    context "with invalid type" do
+      context "when name attribute is not a String" do
+        it "raises a TypeError" do
+          sector.name = 123
+
+          expect { T.assert_type!(sector.name, String) }.to raise_error(TypeError)
+        end
+      end
+    end
+
+    context "with valid type" do
+      context "when name attribute is a String" do
         it "ensures type checking for the name attribute" do
           T.assert_type!(sector.name, String)
+        end
+
+        it "does not raise a type error" do
+          expect { T.assert_type!(sector.name, String) }.not_to raise_error
         end
       end
     end
