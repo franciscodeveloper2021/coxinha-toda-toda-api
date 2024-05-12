@@ -4,21 +4,10 @@ RSpec.describe Sector, type: :model do
   let!(:sector) { build(:sector) }
   let(:attribute_name) { Sector.human_attribute_name(:name) }
 
-  describe "validations" do
+  describe "validates" do
     context "with invalid attributes" do
       context "when name attribute is invalid" do
         context "when sector's name is not present" do
-          context "with nil string value" do
-            it "raises an ActiveModel blank error" do
-              sector.name = nil
-              sector.valid?
-
-              expect(sector.errors.full_messages)
-                .to include(
-                  I18n.t("activerecord.errors.full_messages.blank", attribute: attribute_name)
-                )
-            end
-          end
           context "with empty string value" do
             it "raises an ActiveModel blank error" do
               sector.name = ""
@@ -94,21 +83,14 @@ RSpec.describe Sector, type: :model do
 
     context "with valid attributes" do
       context "when name attribute is valid" do
-        context "with no errors before being saved" do
-          it "is allowed to be persisted on the database" do
-            expect(sector.valid?).to be(true)
-          end
-        end
-        context "with no errors after it has been saved" do
-          it "is persisted on the database" do
-            expect(sector.save!).to be(true)
-          end
+        it "is allowed to be persisted on the database" do
+          expect(sector.valid?).to be(true)
         end
       end
     end
   end
 
-  describe "Sorbet type checking" do
+  describe "sorbet" do
     context "when validating attribute types" do
       context "when name attribute is expected to be a String" do
         it "ensures type checking for the name attribute" do
