@@ -55,27 +55,27 @@ RSpec.describe Sector, type: :model do
         context "when sector's name length is not valid" do
           context "with too short name" do
             it "receives an ActiveModel too short error" do
-              below_minimum_length_name = MINIMUM_NAME_LENGTH - 1
+              below_minimum_length_name = ValidationConstants::MINIMUM_NAME_LENGTH - 1
 
               sector.name = sector.name.slice!(below_minimum_length_name..)
               sector.valid?
 
               expect(sector.errors.full_messages)
                 .to include(
-                  I18n.t("activerecord.errors.full_messages.too_short", attribute: attribute_name, count: MINIMUM_NAME_LENGTH)
+                  I18n.t("activerecord.errors.full_messages.too_short", attribute: attribute_name, count: ValidationConstants::MINIMUM_NAME_LENGTH)
                 )
             end
           end
           context "with too long name" do
             it "receives an ActiveModel too long error" do
-              name_above_maximum_length = sector.name.slice!(1..) * (MAXIMUM_NAME_LENGTH + 1)
+              name_above_maximum_length = sector.name.slice!(1..) * (ValidationConstants::MAXIMUM_NAME_LENGTH + 1)
 
               sector.name = name_above_maximum_length
               sector.valid?
 
               expect(sector.errors.full_messages)
                 .to include(
-                  I18n.t("activerecord.errors.full_messages.too_long", attribute: attribute_name, count: MAXIMUM_NAME_LENGTH)
+                  I18n.t("activerecord.errors.full_messages.too_long", attribute: attribute_name, count: ValidationConstants::MAXIMUM_NAME_LENGTH)
                 )
             end
           end
