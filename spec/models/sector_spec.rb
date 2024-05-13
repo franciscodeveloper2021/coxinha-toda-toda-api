@@ -4,7 +4,7 @@ RSpec.describe Sector, type: :model do
   let!(:sector) { build(:sector) }
   let(:attribute_name) { Sector.human_attribute_name(:name) }
 
-  describe "sorbet type checking" do
+  describe "type checking" do
     context "with invalid attributes type" do
       context "when name attribute is not a String" do
         it "raises a TypeError" do
@@ -17,8 +17,12 @@ RSpec.describe Sector, type: :model do
 
     context "with valid attributes type" do
       context "when name attribute is a String" do
-        it "ensures type checking for the name attribute" do
+        it "ensures sorbet type checking for the name attribute" do
           T.assert_type!(sector.name, String)
+        end
+
+        it "ensures ruby dynamic type checking for the name attribute" do
+          expect(sector.name).to be_a(String)
         end
 
         it "does not raise a type error" do
