@@ -4,9 +4,6 @@ RSpec.describe Sector, type: :model do
   let!(:sector) { build(:sector) }
   let(:attribute_name) { Sector.human_attribute_name(:name) }
 
-  MIN_NAME_LENGTH = ValidationConstants::MINIMUM_NAME_LENGTH
-  MAX_NAME_LENGTH = ValidationConstants::MAXIMUM_NAME_LENGTH
-
   describe "type checking" do
     context "with invalid attributes type" do
       context "when name attribute is not a String" do
@@ -62,7 +59,9 @@ RSpec.describe Sector, type: :model do
 
               expect(sector.errors.full_messages)
                 .to include(
-                  I18n.t("activerecord.errors.full_messages.too_short", attribute: attribute_name, count: ValidationConstants::MINIMUM_NAME_LENGTH)
+                  I18n.t("activerecord.errors.full_messages.too_short",
+                    attribute: attribute_name, count: ValidationConstants::MINIMUM_NAME_LENGTH
+                  )
                 )
             end
           end
@@ -75,7 +74,10 @@ RSpec.describe Sector, type: :model do
 
               expect(sector.errors.full_messages)
                 .to include(
-                  I18n.t("activerecord.errors.full_messages.too_long", attribute: attribute_name, count: ValidationConstants::MAXIMUM_NAME_LENGTH)
+                  I18n.t("activerecord.errors.full_messages.too_long",
+                    attribute: attribute_name,
+                    count: ValidationConstants::MAXIMUM_NAME_LENGTH
+                  )
                 )
             end
           end
