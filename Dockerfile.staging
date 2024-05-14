@@ -6,15 +6,16 @@ RUN apt-get update -qq && \
 
 WORKDIR /coxinha-toda-toda-api
 
+ENV RAILS_ENV="staging" \
+    BUNDLE_WITHOUT="development test"
+
 RUN gem install bundler
 
 COPY Gemfile* ./
 
-RUN bundle install --full-index --jobs=$(nproc) --without development test
+RUN bundle install --full-index --jobs=$(nproc)
 
 COPY . .
-
-ENV RAILS_ENV=staging
 
 ENTRYPOINT ["/coxinha-toda-toda-api/bin/docker-entrypoint"]
 

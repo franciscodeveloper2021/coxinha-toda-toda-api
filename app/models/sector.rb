@@ -1,6 +1,11 @@
+# typed: true
 class Sector < ApplicationRecord
-  MINIMUM_NAME_LENGTH = 5
-  MAXIMUM_NAME_LENGTH = 50
+  include ValidationConstants
+
+  extend T::Sig
+
+  sig { returns(String) }
+  attr_accessor :name
 
   validates :name,
             presence: true,
