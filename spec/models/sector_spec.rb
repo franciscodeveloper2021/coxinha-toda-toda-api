@@ -60,7 +60,8 @@ RSpec.describe Sector, type: :model do
               expect(sector.errors.full_messages)
                 .to include(
                   I18n.t("activerecord.errors.full_messages.too_short",
-                    attribute: attribute_name, count: ValidationConstants::MINIMUM_NAME_LENGTH
+                    attribute: attribute_name,
+                    count: ValidationConstants::MINIMUM_NAME_LENGTH
                   )
                 )
             end
