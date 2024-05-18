@@ -18,7 +18,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_09_195526) do
     t.string "name", limit: 50, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index "lower((name)::text)", name: "index_sectors_on_lower_name", unique: true
     t.index ["name"], name: "index_sectors_on_name", unique: true
     t.check_constraint "length(name::text) >= 5", name: "min_length_name"
   end
