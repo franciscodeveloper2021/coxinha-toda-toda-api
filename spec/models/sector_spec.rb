@@ -8,9 +8,7 @@ RSpec.describe Sector, type: :model do
     context "with invalid attributes type" do
       context "when name attribute is not a String" do
         it "raises a TypeError" do
-          sector.name = 123
-
-          expect { T.assert_type!(sector.name, String) }.to raise_error(TypeError)
+          expect { sector.name = 123 }.to raise_error(TypeError)
         end
       end
     end
@@ -68,7 +66,7 @@ RSpec.describe Sector, type: :model do
           end
           context "with too long name" do
             it "receives an ActiveModel too long error" do
-              name_above_maximum_length = sector.name.slice!(1..) * (ValidationConstants::MAXIMUM_NAME_LENGTH + 1)
+              name_above_maximum_length = "a" * (ValidationConstants::MAXIMUM_NAME_LENGTH + 1)
 
               sector.name = name_above_maximum_length
               sector.valid?
@@ -85,11 +83,13 @@ RSpec.describe Sector, type: :model do
         end
 
         context "when sector's name has been already taken" do
-          context "with the same string case" do
-            let(:valid_sector) { create(:sector, name: "Bebidas") }
-            let(:invalid_sector) {  build(:sector, name: "Bebidas") }
+          before do
+            create(:sector, name: "Bebidas")
+          end
 
+          context "with the same string case" do
             it "receives an ActiveModel taken error" do
+              invalid_sector = build(:sector, name: "Bebidas")
               invalid_sector.valid?
 
               expect(invalid_sector.errors.full_messages)
@@ -98,11 +98,10 @@ RSpec.describe Sector, type: :model do
                 )
             end
           end
-          context "with different string case" do
-            let(:valid_sector) { create(:sector, name: "Bebidas") }
-            let(:invalid_sector) { build(:sector, name: "bebidas") }
 
+          context "with different string case" do
             it "receives an ActiveModel taken error" do
+              invalid_sector = build(:sector, name: "bebidas")
               invalid_sector.valid?
 
               expect(invalid_sector.errors.full_messages)
