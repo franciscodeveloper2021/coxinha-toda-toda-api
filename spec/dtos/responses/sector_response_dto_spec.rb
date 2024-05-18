@@ -1,7 +1,6 @@
 require 'rails_helper'
-require_relative '../../../app/dtos/responses/sector_response_dto'
 
-RSpec.describe SectorResponseDTO do
+RSpec.describe Responses::SectorResponseDto do
   let(:id) { 1 }
   let(:name) { 'Bebidas' }
   subject { described_class.new(id, name) }
