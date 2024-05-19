@@ -66,7 +66,7 @@ RSpec.describe Sector, type: :model do
           end
           context "with too long name" do
             it "receives an ActiveModel too long error" do
-              name_above_maximum_length = "a" * (ValidationConstants::MAXIMUM_NAME_LENGTH + 1)
+              name_above_maximum_length = sector.name.slice!(1..) * (ValidationConstants::MAXIMUM_NAME_LENGTH + 1)
 
               sector.name = name_above_maximum_length
               sector.valid?
