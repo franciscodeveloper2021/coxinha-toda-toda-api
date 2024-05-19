@@ -6,12 +6,12 @@ class Sector < ApplicationRecord
 
   sig { returns(String) }
   def name
-    super
+    T.unsafe(self).read_attribute(:name)
   end
 
   sig { params(value: String).returns(String) }
   def name=(value)
-    super(value)
+    T.unsafe(self).write_attribute(:name, value)
   end
 
   validates :name,

@@ -1746,8 +1746,6 @@ class ActionController::Base < ::ActionController::Metal
   include ::ActionController::RespondWith
   include ::Devise::Controllers::SignInOut
   include ::Devise::Controllers::StoreLocation
-  include ::Devise::Controllers::Helpers
-  include ::Devise::Controllers::UrlHelpers
   extend ::ActionView::ViewPaths::ClassMethods
   extend ::AbstractController::Helpers::Resolution
   extend ::AbstractController::Helpers::ClassMethods
@@ -1777,7 +1775,6 @@ class ActionController::Base < ::ActionController::Metal
   extend ::ActionController::ParamsWrapper::ClassMethods
   extend ::Responders::ControllerMethod
   extend ::ActionController::RespondWith::ClassMethods
-  extend ::Devise::Controllers::Helpers::ClassMethods
 
   # source://activesupport/7.1.3.2/lib/active_support/callbacks.rb#70
   def __callbacks; end
@@ -2363,9 +2360,6 @@ end
 
 # source://actionpack//lib/action_controller/base.rb#0
 module ActionController::Base::HelperMethods
-  include ::ActionText::ContentHelper
-  include ::ActionText::TagHelper
-
   # source://actionpack//lib/action_controller/metal/flash.rb#39
   def alert(*args, **_arg1, &block); end
 
@@ -4289,17 +4283,17 @@ ActionController::Live::SSE::PERMITTED_OPTIONS = T.let(T.unsafe(nil), Array)
 class ActionController::LiveTestResponse < ::ActionController::Live::Response
   # Was there a server-side error?
   #
-  # source://rack/3.0.10/lib/rack/response.rb#186
+  # source://rack/3.0.11/lib/rack/response.rb#186
   def error?; end
 
   # Was the URL not found?
   #
-  # source://rack/3.0.10/lib/rack/response.rb#196
+  # source://rack/3.0.11/lib/rack/response.rb#196
   def missing?; end
 
   # Was the response successful?
   #
-  # source://rack/3.0.10/lib/rack/response.rb#183
+  # source://rack/3.0.11/lib/rack/response.rb#183
   def success?; end
 end
 
@@ -14628,7 +14622,7 @@ class ActionDispatch::Request
   # source://actionpack//lib/action_dispatch/http/request.rb#339
   def raw_post; end
 
-  # source://rack/3.0.10/lib/rack/request.rb#197
+  # source://rack/3.0.11/lib/rack/request.rb#197
   def raw_request_method; end
 
   # source://actionpack//lib/action_dispatch/http/request.rb#50
@@ -15379,10 +15373,10 @@ class ActionDispatch::Response
 
   # Aliasing these off because AD::Http::Cache::Response defines them.
   #
-  # source://rack/3.0.10/lib/rack/response.rb#289
+  # source://rack/3.0.11/lib/rack/response.rb#289
   def _cache_control; end
 
-  # source://rack/3.0.10/lib/rack/response.rb#293
+  # source://rack/3.0.11/lib/rack/response.rb#293
   def _cache_control=(value); end
 
   # source://actionpack//lib/action_dispatch/http/response.rb#382
@@ -15549,7 +15543,7 @@ class ActionDispatch::Response
 
   # The location header we'll be responding with.
   #
-  # source://rack/3.0.10/lib/rack/response.rb#261
+  # source://rack/3.0.11/lib/rack/response.rb#261
   def redirect_url; end
 
   # The request that the response is responding to.
@@ -19891,11 +19885,6 @@ ActionPack::VERSION::STRING = T.let(T.unsafe(nil), String)
 # source://actionpack//lib/action_pack/gem_version.rb#12
 ActionPack::VERSION::TINY = T.let(T.unsafe(nil), Integer)
 
-module ActionView::RoutingUrlFor
-  include ::ActionDispatch::Routing::PolymorphicRoutes
-  include ::ActionDispatch::Routing::UrlFor
-end
-
 # source://actionpack//lib/action_dispatch/http/mime_type.rb#5
 module Mime
   class << self
@@ -20232,10 +20221,10 @@ Mime::Type::MIME_REGEXP = T.let(T.unsafe(nil), Regexp)
 # source://actionpack//lib/action_dispatch.rb#34
 module Rack
   class << self
-    # source://rack/3.0.10/lib/rack/version.rb#31
+    # source://rack/3.0.11/lib/rack/version.rb#31
     def release; end
 
-    # source://rack/3.0.10/lib/rack/version.rb#23
+    # source://rack/3.0.11/lib/rack/version.rb#23
     def version; end
   end
 end

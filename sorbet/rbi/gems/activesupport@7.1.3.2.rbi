@@ -12135,43 +12135,43 @@ class ActiveSupport::TestCase < ::Minitest::Test
   # source://activesupport//lib/active_support/callbacks.rb#963
   def _teardown_callbacks; end
 
-  # source://minitest/5.22.3/lib/minitest/assertions.rb#736
+  # source://minitest/5.23.0/lib/minitest/assertions.rb#736
   def assert_no_match(matcher, obj, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.22.3/lib/minitest/assertions.rb#665
+  # source://minitest/5.23.0/lib/minitest/assertions.rb#665
   def assert_not_empty(obj, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.22.3/lib/minitest/assertions.rb#676
+  # source://minitest/5.23.0/lib/minitest/assertions.rb#676
   def assert_not_equal(exp, act, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.22.3/lib/minitest/assertions.rb#688
+  # source://minitest/5.23.0/lib/minitest/assertions.rb#688
   def assert_not_in_delta(exp, act, delta = T.unsafe(nil), msg = T.unsafe(nil)); end
 
-  # source://minitest/5.22.3/lib/minitest/assertions.rb#700
+  # source://minitest/5.23.0/lib/minitest/assertions.rb#700
   def assert_not_in_epsilon(a, b, epsilon = T.unsafe(nil), msg = T.unsafe(nil)); end
 
-  # source://minitest/5.22.3/lib/minitest/assertions.rb#707
+  # source://minitest/5.23.0/lib/minitest/assertions.rb#707
   def assert_not_includes(collection, obj, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.22.3/lib/minitest/assertions.rb#718
+  # source://minitest/5.23.0/lib/minitest/assertions.rb#718
   def assert_not_instance_of(cls, obj, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.22.3/lib/minitest/assertions.rb#728
+  # source://minitest/5.23.0/lib/minitest/assertions.rb#728
   def assert_not_kind_of(cls, obj, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.22.3/lib/minitest/assertions.rb#746
+  # source://minitest/5.23.0/lib/minitest/assertions.rb#746
   def assert_not_nil(obj, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.22.3/lib/minitest/assertions.rb#781
+  # source://minitest/5.23.0/lib/minitest/assertions.rb#781
   def assert_not_operator(o1, op, o2 = T.unsafe(nil), msg = T.unsafe(nil)); end
 
-  # source://minitest/5.22.3/lib/minitest/assertions.rb#804
+  # source://minitest/5.23.0/lib/minitest/assertions.rb#804
   def assert_not_predicate(o1, op, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.22.3/lib/minitest/assertions.rb#813
+  # source://minitest/5.23.0/lib/minitest/assertions.rb#813
   def assert_not_respond_to(obj, meth, msg = T.unsafe(nil), include_all: T.unsafe(nil)); end
 
-  # source://minitest/5.22.3/lib/minitest/assertions.rb#822
+  # source://minitest/5.23.0/lib/minitest/assertions.rb#822
   def assert_not_same(exp, act, msg = T.unsafe(nil)); end
 
   # source://activesupport//lib/active_support/testing/file_fixtures.rb#20
@@ -12183,7 +12183,7 @@ class ActiveSupport::TestCase < ::Minitest::Test
   # source://activesupport//lib/active_support/test_case.rb#298
   def inspect; end
 
-  # source://minitest/5.22.3/lib/minitest.rb#332
+  # source://minitest/5.23.0/lib/minitest.rb#346
   def method_name; end
 
   class << self
@@ -12316,7 +12316,7 @@ end
 # source://activesupport//lib/active_support/test_case.rb#21
 ActiveSupport::TestCase::Assertion = Minitest::Assertion
 
-# source://activesupport//lib/active_support/testing/tagged_logging.rb#4
+# source://activesupport//lib/active_support/testing/file_fixtures.rb#6
 module ActiveSupport::Testing; end
 
 # source://activesupport//lib/active_support/testing/assertions.rb#7
@@ -13149,6 +13149,20 @@ class ActiveSupport::Testing::SimpleStubs::Stub < ::Struct
     def members; end
     def new(*_arg0); end
   end
+end
+
+# source://activesupport//lib/active_support/testing/stream.rb#5
+module ActiveSupport::Testing::Stream
+  private
+
+  # source://activesupport//lib/active_support/testing/stream.rb#23
+  def capture(stream); end
+
+  # source://activesupport//lib/active_support/testing/stream.rb#17
+  def quietly(&block); end
+
+  # source://activesupport//lib/active_support/testing/stream.rb#7
+  def silence_stream(stream); end
 end
 
 # Logs a "PostsControllerTest: test name" heading before each test to
@@ -19790,6 +19804,18 @@ class String
   # source://activesupport//lib/active_support/core_ext/string/inflections.rb#284
   def downcase_first; end
 
+  # The inverse of <tt>String#include?</tt>. Returns true if the string
+  # does not include the other string.
+  #
+  #   "hello".exclude? "lo" # => false
+  #   "hello".exclude? "ol" # => true
+  #   "hello".exclude? ?h   # => false
+  #
+  # @return [Boolean]
+  #
+  # source://activesupport//lib/active_support/core_ext/string/exclude.rb#10
+  def exclude?(string); end
+
   # Returns the first character. If a limit is supplied, returns a substring
   # from the beginning of the string until it reaches the limit value. If the
   # given limit is greater than or equal to the string length, returns a copy of self.
@@ -19871,6 +19897,45 @@ class String
   #
   # source://activesupport//lib/active_support/core_ext/string/zones.rb#9
   def in_time_zone(zone = T.unsafe(nil)); end
+
+  # Indents the lines in the receiver:
+  #
+  #   <<EOS.indent(2)
+  #   def some_method
+  #     some_code
+  #   end
+  #   EOS
+  #   # =>
+  #     def some_method
+  #       some_code
+  #     end
+  #
+  # The second argument, +indent_string+, specifies which indent string to
+  # use. The default is +nil+, which tells the method to make a guess by
+  # peeking at the first indented line, and fall back to a space if there is
+  # none.
+  #
+  #   "  foo".indent(2)        # => "    foo"
+  #   "foo\n\t\tbar".indent(2) # => "\t\tfoo\n\t\t\t\tbar"
+  #   "foo".indent(2, "\t")    # => "\t\tfoo"
+  #
+  # While +indent_string+ is typically one space or tab, it may be any string.
+  #
+  # The third argument, +indent_empty_lines+, is a flag that says whether
+  # empty lines should be indented. Default is false.
+  #
+  #   "foo\n\nbar".indent(2)            # => "  foo\n\n  bar"
+  #   "foo\n\nbar".indent(2, nil, true) # => "  foo\n  \n  bar"
+  #
+  # source://activesupport//lib/active_support/core_ext/string/indent.rb#42
+  def indent(amount, indent_string = T.unsafe(nil), indent_empty_lines = T.unsafe(nil)); end
+
+  # Same as +indent+, except it indents the receiver in-place.
+  #
+  # Returns the indented string, or +nil+ if there was nothing to indent.
+  #
+  # source://activesupport//lib/active_support/core_ext/string/indent.rb#7
+  def indent!(amount, indent_string = T.unsafe(nil), indent_empty_lines = T.unsafe(nil)); end
 
   # Wraps the current string in the ActiveSupport::StringInquirer class,
   # which gives you a prettier way to test for equality.
@@ -20079,6 +20144,28 @@ class String
   #
   # source://activesupport//lib/active_support/core_ext/string/filters.rb#21
   def squish!; end
+
+  # Strips indentation in heredocs.
+  #
+  # For example in
+  #
+  #   if options[:usage]
+  #     puts <<-USAGE.strip_heredoc
+  #       This command does such and such.
+  #
+  #       Supported options are:
+  #         -h         This message
+  #         ...
+  #     USAGE
+  #   end
+  #
+  # the user would see the usage message aligned against the left margin.
+  #
+  # Technically, it looks for the least indented non-empty line
+  # in the whole string, and removes that amount of leading whitespace.
+  #
+  # source://activesupport//lib/active_support/core_ext/string/strip.rb#22
+  def strip_heredoc; end
 
   # Creates the name of a table like \Rails does for models to table names. This method
   # uses the +pluralize+ method on the last word in the string.
