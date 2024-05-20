@@ -10,7 +10,7 @@ class SectorRepository
     )
   end
 
-  sig { returns(T::Array[Responses::SectorResponseDto])}
+  sig { returns(T::Array[Responses::SectorResponseDto]) }
   def index
     @sectors
   end

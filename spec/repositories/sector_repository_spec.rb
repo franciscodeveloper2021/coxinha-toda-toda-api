@@ -6,11 +6,14 @@ RSpec.describe SectorRepository, type: :repository do
 
   describe "#index" do
     let(:retrieved_sectors) { subject.index }
+    context "when there are no sectors" do
+      it "returns an empty array" do
+        allow(Sector).to receive(:all).and_return([])
 
-    context "when there is no sector" do
-      it "" do
+        expect(retrieved_sectors).to eq([])
       end
     end
+
     context "when there are registered sectors" do
       it "retrieves all registerd sectors with correct IDs" do
         sectors_ids = sectors.pluck(:id)
