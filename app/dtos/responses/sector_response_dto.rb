@@ -10,7 +10,7 @@ module Responses
     attr_reader :name
 
     sig { params(id: Integer, name: String).void }
-    def initialize(id, name)
+    def initialize(id:, name:)
       @id = T.let(id, Integer)
       @name = T.let(name, String)
     end

@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Responses::SectorResponseDto do
   let(:id) { 1 }
   let(:name) { 'Bebidas' }
-  subject { described_class.new(id, name) }
+  subject { described_class.new(id: id, name: name) }
 
   describe "type checking" do
     context "with sorbet static type checking" do
