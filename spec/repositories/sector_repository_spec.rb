@@ -8,7 +8,7 @@ RSpec.describe SectorRepository, type: :repository do
     let(:retrieved_sectors) { subject.index }
 
     context "when there is no sector" do
-      it "returns" do
+      it "" do
       end
     end
     context "when there are registered sectors" do
