@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "/sectors", type: :request do
-  let(:index_service_class) { UseCases::Sector::IndexSectorsService }
   let(:subject)  { SectorsController.new }
+  let(:index_service_class) { UseCases::Sector::IndexSectorsService }
 
   describe "initialize" do
     it "initializes the IndexSectorsService" do
