@@ -10,7 +10,7 @@ module UseCases
       end
 
       sig { returns(T::Array[Responses::SectorResponseDto]) }
-      def index
+      def call
         @repository.index
       end
     end
