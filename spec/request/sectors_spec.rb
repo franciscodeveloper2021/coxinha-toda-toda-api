@@ -1,4 +1,3 @@
-# spec/requests/sectors_spec.rb
 require "rails_helper"
 
 RSpec.describe "/sectors", type: :request do
