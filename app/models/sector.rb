@@ -5,7 +5,14 @@ class Sector < ApplicationRecord
   extend T::Sig
 
   sig { returns(String) }
-  attr_accessor :name
+  def name
+    T.unsafe(self).read_attribute(:name)
+  end
+
+  sig { params(value: String).returns(String) }
+  def name=(value)
+    T.unsafe(self).write_attribute(:name, value)
+  end
 
   validates :name,
             presence: true,

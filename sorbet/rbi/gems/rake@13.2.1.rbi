@@ -1159,6 +1159,9 @@ class Rake::FileList
   def ext(newext = T.unsafe(nil)); end
 
   # source://rake//lib/rake/file_list.rb#77
+  def extract!(*args, &block); end
+
+  # source://rake//lib/rake/file_list.rb#77
   def extract_options!(*args, &block); end
 
   # source://rake//lib/rake/file_list.rb#77

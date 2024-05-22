@@ -1426,8 +1426,6 @@ end
 # source://actionmailer//lib/action_mailer/base.rb#0
 module ActionMailer::Base::HelperMethods
   include ::ActionMailer::MailHelper
-  include ::ActionText::ContentHelper
-  include ::ActionText::TagHelper
 
   # source://actionpack/7.1.3.2/lib/abstract_controller/caching/fragments.rb#33
   def combined_fragment_cache_key(*args, **_arg1, &block); end
