@@ -14,4 +14,16 @@ class SectorRepository
   def index
     @sectors
   end
+
+  sig { params(id: Integer).returns(Responses::SectorResponseDto) }
+  def show(id:)
+    sector_dto = @sectors.find { |sector| sector.id == id }
+
+    raise ActiveRecord::RecordNotFound, I18n.t(
+      "activerecord.errors.messages.record_not_found",
+      attribute: "Sector", key: "id", value: id
+    ) if sector_dto.nil?
+
+    sector_dto
+  end
 end
