@@ -19,7 +19,7 @@ class SectorsController < ApplicationController
 
   sig { void }
   def show
-    sector = T.let(@show_service.call(id: params[:id]), Responses::SectorResponseDto)
+    sector = T.let(@show_service.call(id: params[:id].to_i), Responses::SectorResponseDto)
 
     render json: sector, status: :ok
   end
