@@ -5,6 +5,14 @@ RSpec.describe UseCases::Sector::ShowSectorService do
   let(:subject) { described_class.new(repository) }
   let(:sector_id) { 1 }
   let(:sector) { Responses::SectorResponseDto.new(id: sector_id, name: 'Bebidas') }
+  let(:record_not_found_message) {
+    I18n.t(
+      "activerecord.errors.messages.record_not_found",
+      attribute: "Sector",
+      key: "id",
+      value: sector_id
+    )
+  }
 
   describe "#initialize" do
     it "receives a repository as a dependency" do
@@ -17,22 +25,12 @@ RSpec.describe UseCases::Sector::ShowSectorService do
       it "raises a ActiveRecord::RecordNotFound error" do
         allow(repository).to receive(:show).with(id: sector_id).and_raise(
           ActiveRecord::RecordNotFound,
-          I18n.t(
-            "activerecord.errors.messages.record_not_found",
-            attribute: "Sector",
-            key: "id",
-            value: sector_id
-          )
+          record_not_found_message
         )
 
         expect { subject.call(id: sector_id) }.to raise_error(
           ActiveRecord::RecordNotFound,
-          I18n.t(
-            "activerecord.errors.messages.record_not_found",
-            attribute: "Sector",
-            key: "id",
-            value: sector_id
-          )
+          record_not_found_message
         )
       end
     end
