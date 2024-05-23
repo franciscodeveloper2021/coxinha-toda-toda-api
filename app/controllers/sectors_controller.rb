@@ -12,15 +12,15 @@ class SectorsController < ApplicationController
 
   sig { void }
   def index
-    sectors = T.let(@index_service.call, T::Array[Responses::SectorResponseDto])
+    sectors_dtos = T.let(@index_service.call, T::Array[Responses::SectorResponseDto])
 
-    render json: sectors, status: :ok
+    render json: sectors_dtos, status: :ok
   end
 
   sig { void }
   def show
-    sector = T.let(@show_service.call(id: params[:id].to_i), Responses::SectorResponseDto)
+    sector_dto = T.let(@show_service.call(id: params[:id].to_i), Responses::SectorResponseDto)
 
-    render json: sector, status: :ok
+    render json: sector_dto, status: :ok
   end
 end
