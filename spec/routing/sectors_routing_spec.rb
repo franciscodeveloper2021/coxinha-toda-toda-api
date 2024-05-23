@@ -5,5 +5,9 @@ RSpec.describe SectorsController, type: :routing do
     it "routes to #index" do
       expect(get: "/sectors").to route_to("sectors#index")
     end
+
+    it "routes to #show" do
+      expect(get: "/sectors/1").to route_to("sectors#show", id: "1")
+    end
   end
 end
