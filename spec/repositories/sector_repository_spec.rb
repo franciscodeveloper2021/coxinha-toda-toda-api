@@ -73,6 +73,7 @@ RSpec.describe SectorRepository, type: :repository do
           .to raise_error(ActiveRecord::RecordInvalid)
       end
     end
+
     context "with valid params" do
       it "saves sector on database" do
         valid_params = Requests::SectorRequestDto.new(name: "Salgados")
