@@ -29,5 +29,10 @@ class SectorRepository
 
   sig { params(sector_params: T::Hash[Symbol, String]).returns(Responses::SectorResponseDto) }
   def create(sector_params:)
+    sector = Sector.new(sector_params)
+
+    sector.save!
+
+    Responses::SectorResponseDto.new(id: sector.id, name: sector.name)
   end
 end
