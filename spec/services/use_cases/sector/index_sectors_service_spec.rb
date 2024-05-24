@@ -20,16 +20,16 @@ RSpec.describe UseCases::Sector::IndexSectorsService do
     end
 
     context "when there are sectors" do
-      let(:sectors) do
+      let(:sectors_dtos) do
         [
           Responses::SectorResponseDto.new(id: 1, name: 'Bebidas'),
           Responses::SectorResponseDto.new(id: 2, name: 'Coxinhas')
         ]
       end
-      it "returns an array of sectors" do
-        allow(repository).to receive(:index).and_return(sectors)
+      it "returns an array of sectors dtos" do
+        allow(repository).to receive(:index).and_return(sectors_dtos)
 
-        expect(subject.call).to eq(sectors)
+        expect(subject.call).to eq(sectors_dtos)
       end
     end
   end

@@ -2,11 +2,16 @@ require "rails_helper"
 
 RSpec.describe "/sectors", type: :request do
   let(:subject)  { SectorsController.new }
-  let(:index_service_class) { UseCases::Sector::IndexSectorsService }
+  let(:index_sectors_service) { UseCases::Sector::IndexSectorsService }
+  let(:show_sector_service) { UseCases::Sector::ShowSectorService }
 
   describe "initialize" do
     it "initializes the IndexSectorsService" do
-      expect(subject.instance_variable_get(:@index_service)).to be_a(index_service_class)
+      expect(subject.instance_variable_get(:@index_service)).to be_a(index_sectors_service)
+    end
+
+    it "initializes the ShowSectorService" do
+      expect(subject.instance_variable_get(:@show_service)).to be_a(show_sector_service)
     end
   end
 end
