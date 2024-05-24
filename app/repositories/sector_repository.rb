@@ -26,4 +26,8 @@ class SectorRepository
 
     sector_dto
   end
+
+  sig { params(sector_params: T::Hash[Symbol, String]).returns(Responses::SectorResponseDto) }
+  def create(sector_params:)
+  end
 end

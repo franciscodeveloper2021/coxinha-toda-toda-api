@@ -63,4 +63,8 @@ RSpec.describe SectorRepository, type: :repository do
       end
     end
   end
+
+  describe "#create" do
+    
+  end
 end
