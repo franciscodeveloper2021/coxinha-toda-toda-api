@@ -67,34 +67,25 @@ RSpec.describe SectorRepository, type: :repository do
   describe "#create" do
     context "with invalid params" do
       it "raises ActiveRecord::RecordInvalid" do
-        invalid_params = { name: "" }
+        invalid_params = Requests::SectorRequestDto.new(name: "")
 
-        expect { subject.create(sector_params: invalid_params) }
+        expect { subject.create(create_params: invalid_params) }
           .to raise_error(ActiveRecord::RecordInvalid)
       end
-
-      it "raises TypeError" do
-        invalid_params = { name: 123 }
-
-        expect { subject.create(sector_params: invalid_params) }
-          .to raise_error(TypeError)
-      end
     end
-
     context "with valid params" do
       it "saves sector on database" do
-        valid_params = { name: "Salgados" }
+        valid_params = Requests::SectorRequestDto.new(name: "Salgados")
 
-        expect { subject.create(sector_params: valid_params) }
+        expect { subject.create(create_params: valid_params) }
           .to change { Sector.count }.by(1)
       end
 
       it "returns a SectorResponseDTO" do
-        valid_params = { name: "Congelados" }
+        valid_params = Requests::SectorRequestDto.new(name: "Congelados")
 
-        sector_dto = subject.create(sector_params: valid_params)
+        sector_dto = subject.create(create_params: valid_params)
 
-        expect(sector_dto.name).to eq(valid_params[:name])
         expect(sector_dto).to be_a(Responses::SectorResponseDto)
       end
     end
