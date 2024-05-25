@@ -5,7 +5,7 @@ class SectorRepository
   sig { void }
   def initialize
     @sectors_dtos = T.let(
-      Sector.all.map { |sector| Responses::SectorResponseDto.new(id: T.must(sector.id), name: T.must(sector.name)) },
+      Sector.all.map { |sector| Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name) },
       T::Array[Responses::SectorResponseDto]
     )
   end
@@ -25,5 +25,14 @@ class SectorRepository
     ) if sector_dto.nil?
 
     sector_dto
+  end
+
+  sig { params(create_params: Requests::SectorRequestDto).returns(Responses::SectorResponseDto) }
+  def create(create_params:)
+    sector = Sector.new(name: create_params.name)
+
+    sector.save!
+
+    Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
   end
 end

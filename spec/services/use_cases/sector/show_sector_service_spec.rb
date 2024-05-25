@@ -4,7 +4,7 @@ RSpec.describe UseCases::Sector::ShowSectorService do
   let(:repository) { SectorRepository.new }
   let(:subject) { described_class.new(repository) }
   let(:sector_id) { 1 }
-  let(:sector) { Responses::SectorResponseDto.new(id: sector_id, name: 'Bebidas') }
+  let(:sector_response_dto) { Responses::SectorResponseDto.new(id: sector_id, name: 'Bebidas') }
   let(:record_not_found_message) {
     I18n.t(
       "activerecord.errors.messages.record_not_found",
@@ -37,11 +37,11 @@ RSpec.describe UseCases::Sector::ShowSectorService do
 
     context "when sector exists" do
       it "returns the sector as a SectorResponseDto" do
-        allow(repository).to receive(:show).with(id: sector_id).and_return(sector)
+        allow(repository).to receive(:show).with(id: sector_id).and_return(sector_response_dto)
 
         result = subject.call(id: sector_id)
 
-        expect(result).to eq(sector)
+        expect(result).to eq(sector_response_dto)
       end
     end
   end
