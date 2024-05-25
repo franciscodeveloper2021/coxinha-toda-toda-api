@@ -5,7 +5,7 @@ class SectorRepository
   sig { void }
   def initialize
     @sectors_dtos = T.let(
-      Sector.all.map { |sector| Responses::SectorResponseDto.new(id: T.must(sector.id), name: T.must(sector.name)) },
+      Sector.all.map { |sector| Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name) },
       T::Array[Responses::SectorResponseDto]
     )
   end
@@ -33,6 +33,6 @@ class SectorRepository
 
     sector.save!
 
-    Responses::SectorResponseDto.new(id: sector.id, name: sector.name)
+    Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
   end
 end
