@@ -8,6 +8,7 @@ class SectorsController < ApplicationController
 
     @index_service = T.let(UseCases::Sector::IndexSectorsService.new, UseCases::Sector::IndexSectorsService)
     @show_service = T.let(UseCases::Sector::ShowSectorService.new, UseCases::Sector::ShowSectorService)
+    @create_service = T.let(UseCases::Sector::CreateSectorService.new, UseCases::Sector::CreateSectorService)
   end
 
   sig { void }
@@ -22,5 +23,22 @@ class SectorsController < ApplicationController
     sector_dto = T.let(@show_service.call(id: params[:id].to_i), Responses::SectorResponseDto)
 
     render json: sector_dto, status: :ok
+  end
+
+  sig { void }
+  def create
+    sector_dto = T.let(@create_service.call(create_params: sector_params), Responses::SectorResponseDto)
+
+    render json: sector_dto, status: :created
+  end
+
+  private
+
+  sig { returns(Requests::SectorRequestDto) }
+  def sector_params
+    T.let(
+      Requests::SectorRequestDto.new(name: params.require(:name).to_s),
+      Requests::SectorRequestDto
+    )
   end
 end
