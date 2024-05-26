@@ -26,16 +26,16 @@ RSpec.describe SectorRepository, type: :repository do
   end
 
   describe "#index" do
-    let(:retrieved_sectors) { subject.index }
     context "when there are no sectors" do
       it "returns an empty array" do
         allow(Sector).to receive(:all).and_return([])
 
-        expect(retrieved_sectors).to eq([])
+        expect(subject.index).to eq([])
       end
     end
 
     context "when there are registered sectors" do
+      let(:retrieved_sectors) { subject.index }
       it "retrieves all registerd sectors with correct IDs" do
         sectors_ids = sectors.pluck(:id)
         retrieved_sectors_ids = retrieved_sectors.map(&:id)
@@ -53,8 +53,8 @@ RSpec.describe SectorRepository, type: :repository do
   end
 
   describe "#show" do
-    context "when the id is not an Integer" do
-      it "raises an ArgumentError" do
+    context "when id is not an Integer" do
+      it "raises a TypeError" do
         invalid_id = "id"
 
         expect { subject.show(id: invalid_id) }.to raise_error(TypeError)
@@ -62,7 +62,7 @@ RSpec.describe SectorRepository, type: :repository do
     end
 
     context "when sector does not exist" do
-      it "raises a ActiveRecord::RecordNotFound error" do
+      it "raises an ActiveRecord::RecordNotFound error" do
         invalid_id = -1
 
         expect {
