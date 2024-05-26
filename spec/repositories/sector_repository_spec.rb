@@ -5,6 +5,26 @@ RSpec.describe SectorRepository, type: :repository do
   let(:first_sector) { sectors.first }
   let(:subject) { described_class.new }
 
+  describe "#initialize" do
+    context "with sorbet static type checking" do
+      it "has @sectors_dtos as instance variable of type SectorResponseDto Array" do
+        T.assert_type!(subject.instance_variable_get(:@sectors_dtos), T::Array[Responses::SectorResponseDto])
+      end
+    end
+
+    context "with ruby dynamic type checking" do
+      it "has @sectors_dtos as instance variable of type Array" do
+        expect(subject.instance_variable_get(:@sectors_dtos)).to be_a(Array)
+      end
+
+      it "has @sectors_dtos with elements of type SectorResponseDto" do
+        subject.instance_variable_get(:@sectors_dtos).each do |sector_dto|
+          expect(sector_dto).to be_a(Responses::SectorResponseDto)
+        end
+      end
+    end
+  end
+
   describe "#index" do
     let(:retrieved_sectors) { subject.index }
     context "when there are no sectors" do
