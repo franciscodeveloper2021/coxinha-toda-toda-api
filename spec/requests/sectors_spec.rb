@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "/sectors", type: :request do
+RSpec.describe "Sectors", type: :request do
   let(:subject)  { SectorsController.new }
   let(:index_sectors_service) { UseCases::Sector::IndexSectorsService }
   let(:show_sector_service) { UseCases::Sector::ShowSectorService }
