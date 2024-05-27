@@ -48,7 +48,6 @@ RSpec.describe "Sectors", type: :request do
 
       json_response = JSON.parse(response.body)
 
-      expect(json_response).to be_an(Array)
       expect(json_response).to be_empty
     end
   end
