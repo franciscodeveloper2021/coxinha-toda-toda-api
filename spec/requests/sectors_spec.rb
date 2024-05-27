@@ -51,4 +51,35 @@ RSpec.describe "Sectors", type: :request do
       expect(json_response).to be_empty
     end
   end
+
+  describe "#show" do
+    let(:sector) { create(:sector) }
+
+    it "returns a success response" do
+      get sector_path(sector.id)
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "returns in JSON format" do
+      get sector_path(sector.id)
+
+      expect(response.content_type).to eq "application/json; charset=utf-8"
+    end
+
+    it "returns the requested sector" do
+      get sector_path(sector.id)
+
+      json_response = JSON.parse(response.body)
+
+      expect(json_response["id"]).to eq(sector.id)
+      expect(json_response["name"]).to eq(sector.name)
+    end
+
+    it "returns a not found response if sector is not found" do
+      get sector_path(-1)
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
 end
