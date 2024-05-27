@@ -10,6 +10,6 @@ class CreateSectors < ActiveRecord::Migration[7.1]
       ALTER TABLE sectors ADD CONSTRAINT min_length_name CHECK (LENGTH(name) >= 5);
     SQL
 
-    add_index :sectors, :name, unique: true
+    add_index :sectors, 'LOWER(name)', unique: true, name: 'index_sectors_on_lower_name'
   end
 end
