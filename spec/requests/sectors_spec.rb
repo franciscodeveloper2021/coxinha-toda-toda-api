@@ -42,7 +42,7 @@ RSpec.describe "Sectors", type: :request do
     end
 
     it "returns an empty array when sectors are not present" do
-      Sector.destroy_all
+      Sector.delete_all
 
       get sectors_path
 
