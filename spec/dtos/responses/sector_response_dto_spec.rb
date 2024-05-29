@@ -16,7 +16,7 @@ RSpec.describe Responses::SectorResponseDto do
       end
     end
 
-    context "when name is in the rightly formatted" do
+    context "when name is in rightly formatted" do
       it 'assigns the id correctly' do
         expect(subject.id).to eq(id)
       end
