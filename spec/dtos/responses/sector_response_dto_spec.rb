@@ -44,6 +44,7 @@ RSpec.describe Responses::SectorResponseDto do
         end
       end
     end
+
     context "with ruby dynamic type checking" do
       it "ensures ruby dynamic type checking for id" do
         expect(id).to be_a(Integer)
