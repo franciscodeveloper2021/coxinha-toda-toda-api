@@ -19,15 +19,16 @@ RSpec.describe "Sectors", type: :request do
   end
 
   describe "#index" do
-    it "returns a success response" do
-      get sectors_path
 
+    before do
+      get sectors_path
+    end
+
+    it "returns a success response" do
       expect(response).to have_http_status(:ok)
     end
 
     it "returns in JSON format" do
-      get sectors_path
-
       expect(response.content_type).to eq "application/json; charset=utf-8"
     end
 
@@ -53,23 +54,22 @@ RSpec.describe "Sectors", type: :request do
   end
 
   describe "#show" do
+
     let(:sector) { create(:sector) }
 
-    it "returns a success response" do
+    before do
       get sector_path(sector.id)
+    end
 
+    it "returns a success response" do
       expect(response).to have_http_status(:ok)
     end
 
     it "returns in JSON format" do
-      get sector_path(sector.id)
-
       expect(response.content_type).to eq "application/json; charset=utf-8"
     end
 
     it "returns the requested sector" do
-      get sector_path(sector.id)
-
       json_response = JSON.parse(response.body)
 
       expect(json_response["id"]).to eq(sector.id)
@@ -84,6 +84,7 @@ RSpec.describe "Sectors", type: :request do
   end
 
   describe "#create" do
+
     let(:attributes) { { sector: { name: "Combos" } } }
 
     before do
