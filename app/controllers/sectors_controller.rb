@@ -36,10 +36,10 @@ class SectorsController < ApplicationController
 
   sig { returns(Requests::SectorRequestDto) }
   def sector_params
-    sector_params = params.require(:sector).permit(:name)
+    permitted_params = params.require(:sector).permit(:name)
 
     Requests::SectorRequestDto.new(
-      name: sector_params[:name]
+      name: permitted_params[:name]
     )
   end
 end
