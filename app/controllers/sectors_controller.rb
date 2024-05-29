@@ -36,9 +36,10 @@ class SectorsController < ApplicationController
 
   sig { returns(Requests::SectorRequestDto) }
   def sector_params
-    T.let(
-      Requests::SectorRequestDto.new(name: params.require(:name).to_s),
-      Requests::SectorRequestDto
+    sector_params = params.require(:sector).permit(:name, :title)
+
+    Requests::SectorRequestDto.new(
+      name: sector_params[:name]
     )
   end
 end
