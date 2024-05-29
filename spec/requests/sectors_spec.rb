@@ -86,21 +86,19 @@ RSpec.describe "Sectors", type: :request do
   describe "#create" do
     let(:attributes) { { sector: { name: "Combos" } } }
 
-    it "returns a created response" do
+    before do
       post sectors_path, params: attributes
+    end
 
+    it "returns a created response" do
       expect(response).to have_http_status(:created)
     end
 
     it "returns in JSON format" do
-      post sectors_path, params: attributes
-
       expect(response.content_type).to eq "application/json; charset=utf-8"
     end
 
     it "returns the created sector" do
-      post sectors_path, params: attributes
-
       json_response = JSON.parse(response.body)
 
       expect(json_response["name"]).to eq(attributes[:sector][:name])
