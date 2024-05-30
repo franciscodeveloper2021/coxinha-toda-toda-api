@@ -125,7 +125,7 @@ RSpec.describe SectorRepository, type: :repository do
 
   describe "#update" do
     context "with invalid params" do
-      it "raises an ActiveRecord::RecordNotFound error if id is not present" do
+      it "raises an ActiveRecord::RecordNotFound error" do
         invalid_id = -1
         valid_params = Requests::SectorRequestDto.new(name: "Combos")
 
