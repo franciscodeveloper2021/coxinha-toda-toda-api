@@ -30,6 +30,26 @@ RSpec.describe Sector, type: :model do
     end
   end
 
+  describe "before_validation" do
+    context "when name has leading or trailing spaces" do
+      it "removes leading and trailing spaces from the name attribute" do
+        sector.name = "  Combos  "
+        sector.valid?
+
+        expect(sector.name).to eq("Combos")
+      end
+    end
+
+    context "when name doesn't have leading or trailing spaces" do
+      it "does not modify the name attribute" do
+        sector.name = "Combos"
+        sector.valid?
+
+        expect(sector.name).to eq("Combos")
+      end
+    end
+  end
+
   describe "validates" do
     context "with invalid attributes" do
       context "when name attribute is invalid" do

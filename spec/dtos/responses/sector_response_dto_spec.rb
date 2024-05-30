@@ -5,6 +5,28 @@ RSpec.describe Responses::SectorResponseDto do
   let(:name) { 'Bebidas' }
   subject { described_class.new(id: id, name: name) }
 
+  describe '#initialize' do
+    context "when name has leading or trailing spaces" do
+      it 'removes leading and trailing spaces from the name' do
+        name_with_spaces = '  Bebidas  '
+
+        subject = described_class.new(id: id, name: name_with_spaces)
+
+        expect(subject.name).to eq('Bebidas')
+      end
+    end
+
+    context "when name is in rightly formatted" do
+      it 'assigns the id correctly' do
+        expect(subject.id).to eq(id)
+      end
+
+      it 'assigns the name correctly' do
+        expect(subject.name).to eq(name)
+      end
+    end
+  end
+
   describe "type checking" do
     context "with sorbet static type checking" do
       context "when id is not an Integer" do
@@ -22,6 +44,7 @@ RSpec.describe Responses::SectorResponseDto do
         end
       end
     end
+
     context "with ruby dynamic type checking" do
       it "ensures ruby dynamic type checking for id" do
         expect(id).to be_a(Integer)
@@ -30,16 +53,6 @@ RSpec.describe Responses::SectorResponseDto do
       it "ensures ruby dynamic type checking for name" do
         expect(name).to be_a(String)
       end
-    end
-  end
-
-  describe '#initialize' do
-    it 'assigns the id correctly' do
-      expect(subject.id).to eq(id)
-    end
-
-    it 'assigns the name correctly' do
-      expect(subject.name).to eq(name)
     end
   end
 end

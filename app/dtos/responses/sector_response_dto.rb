@@ -12,7 +12,7 @@ module Responses
     sig { params(id: Integer, name: String).void }
     def initialize(id:, name:)
       @id = T.let(id, Integer)
-      @name = T.let(name, String)
+      @name = T.let(name.strip, String)
     end
   end
 end

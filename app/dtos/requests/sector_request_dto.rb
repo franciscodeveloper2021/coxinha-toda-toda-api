@@ -8,7 +8,7 @@ module Requests
 
     sig { params(name: String).void }
     def initialize(name:)
-      @name = T.let(name, String)
+      @name = T.let(name.strip, String)
     end
   end
 end
