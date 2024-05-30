@@ -86,25 +86,23 @@ RSpec.describe SectorRepository, type: :repository do
 
   describe "#create" do
     context "with invalid params" do
-      it "raises ActiveRecord::RecordInvalid" do
-        invalid_params = Requests::SectorRequestDto.new(name: "")
+      let(:invalid_params) { Requests::SectorRequestDto.new(name: "") }
 
+      it "raises ActiveRecord::RecordInvalid" do
         expect { subject.create(create_params: invalid_params) }
           .to raise_error(ActiveRecord::RecordInvalid)
       end
     end
 
     context "with valid params" do
-      it "saves sector on database" do
-        valid_params = Requests::SectorRequestDto.new(name: "Salgados")
+      let(:valid_params) { Requests::SectorRequestDto.new(name: "Salgados") }
 
+      it "saves sector on database" do
         expect { subject.create(create_params: valid_params) }
           .to change { Sector.count }.by(1)
       end
 
-      it "saves sector DTO in memory" do
-        valid_params = Requests::SectorRequestDto.new(name: "Salgados")
-
+      it "creates sector DTO in memory" do
         sector_dto = subject.create(create_params: valid_params)
         found_sector_dto = subject.show(id: sector_dto.id)
 
@@ -112,23 +110,20 @@ RSpec.describe SectorRepository, type: :repository do
         expect(sector_dto.name).to eq(found_sector_dto.name)
       end
 
-
       it "returns a SectorResponseDTO" do
-        valid_params = Requests::SectorRequestDto.new(name: "Congelados")
-
         sector_dto = subject.create(create_params: valid_params)
-
         expect(sector_dto).to be_a(Responses::SectorResponseDto)
       end
     end
   end
 
   describe "#update" do
-    context "with invalid params" do
-      it "raises an ActiveRecord::RecordNotFound error" do
-        invalid_id = -1
-        valid_params = Requests::SectorRequestDto.new(name: "Combos")
+    let(:valid_params) { Requests::SectorRequestDto.new(name: "Combos") }
 
+    context "with invalid params" do
+      let(:invalid_id) { -1 }
+
+      it "raises an ActiveRecord::RecordNotFound error" do
         expect {
           subject.update(id: invalid_id, update_params: valid_params)
         }.to raise_error(
@@ -147,17 +142,13 @@ RSpec.describe SectorRepository, type: :repository do
 
     context "with valid params" do
       it "updates the sector in the database" do
-        valid_params = Requests::SectorRequestDto.new(name: "Brioco")
-
         subject.update(id: first_sector.id, update_params: valid_params)
         first_sector.reload
 
         expect(first_sector.name).to eq(valid_params.name)
       end
 
-      it "updates the sector DTO in memory" do
-        valid_params = Requests::SectorRequestDto.new(name: "Brioco")
-
+      it "updates sector DTO in memory" do
         subject.update(id: first_sector.id, update_params: valid_params)
         sector_dto = subject.show(id: first_sector.id)
 
@@ -165,8 +156,6 @@ RSpec.describe SectorRepository, type: :repository do
       end
 
       it "returns a SectorResponseDto" do
-        valid_params = Requests::SectorRequestDto.new(name: "Brioco")
-
         sector_dto = subject.update(id: first_sector.id, update_params: valid_params)
 
         expect(sector_dto).to be_a(Responses::SectorResponseDto)
