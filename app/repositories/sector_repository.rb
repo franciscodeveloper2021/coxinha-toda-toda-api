@@ -31,7 +31,7 @@ class SectorRepository
     sector.save!
 
     sector_dto = Responses::SectorResponseDto.new(id: sector.id, name: sector.name)
-    create_sector_dto_in_memory(sector_dto: sector_dto)
+    add_sector_dto_in_memory(sector_dto: sector_dto)
 
     sector_dto
   end
@@ -57,7 +57,7 @@ class SectorRepository
   end
 
   sig { params(sector_dto: Responses::SectorResponseDto).void }
-  def create_sector_dto_in_memory(sector_dto:)
+  def add_sector_dto_in_memory(sector_dto:)
     @sectors_dtos << sector_dto
   end
 
