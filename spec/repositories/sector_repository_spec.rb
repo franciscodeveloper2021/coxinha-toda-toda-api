@@ -102,10 +102,72 @@ RSpec.describe SectorRepository, type: :repository do
           .to change { Sector.count }.by(1)
       end
 
+      it "saves sector DTO in memory" do
+        valid_params = Requests::SectorRequestDto.new(name: "Salgados")
+
+        sector_dto = subject.create(create_params: valid_params)
+        found_sector_dto = subject.show(id: sector_dto.id)
+
+        expect(sector_dto.id).to eq(found_sector_dto.id)
+        expect(sector_dto.name).to eq(found_sector_dto.name)
+      end
+
+
       it "returns a SectorResponseDTO" do
         valid_params = Requests::SectorRequestDto.new(name: "Congelados")
 
         sector_dto = subject.create(create_params: valid_params)
+
+        expect(sector_dto).to be_a(Responses::SectorResponseDto)
+      end
+    end
+  end
+
+  describe "#update" do
+    context "with invalid params" do
+      it "raises an ActiveRecord::RecordNotFound error if id is not present" do
+        invalid_id = -1
+        valid_params = Requests::SectorRequestDto.new(name: "Combos")
+
+        expect {
+          subject.update(id: invalid_id, update_params: valid_params)
+        }.to raise_error(
+            ActiveRecord::RecordNotFound,
+            I18n.t("activerecord.errors.messages.record_not_found", attribute: "Sector", key: "id", value: invalid_id)
+          )
+      end
+
+      it "raises ActiveRecord::RecordInvalid" do
+        invalid_params = Requests::SectorRequestDto.new(name: "")
+
+        expect { subject.update(id: first_sector.id, update_params: invalid_params) }
+          .to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+
+    context "with valid params" do
+      it "updates the sector in the database" do
+        valid_params = Requests::SectorRequestDto.new(name: "Brioco")
+
+        subject.update(id: first_sector.id, update_params: valid_params)
+        first_sector.reload
+
+        expect(first_sector.name).to eq(valid_params.name)
+      end
+
+      it "updates the sector DTO in memory" do
+        valid_params = Requests::SectorRequestDto.new(name: "Brioco")
+
+        subject.update(id: first_sector.id, update_params: valid_params)
+        sector_dto = subject.show(id: first_sector.id)
+
+        expect(sector_dto.name).to eq(valid_params.name)
+      end
+
+      it "returns a SectorResponseDto" do
+        valid_params = Requests::SectorRequestDto.new(name: "Brioco")
+
+        sector_dto = subject.update(id: first_sector.id, update_params: valid_params)
 
         expect(sector_dto).to be_a(Responses::SectorResponseDto)
       end

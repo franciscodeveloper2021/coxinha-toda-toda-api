@@ -33,6 +33,23 @@ class SectorRepository
 
     sector.save!
 
-    Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
+    sector_dto = Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
+    @sectors_dtos << sector_dto
+
+    sector_dto
+  end
+
+  sig { params(id: Integer, update_params: Requests::SectorRequestDto).returns(Responses::SectorResponseDto) }
+  def update(id:, update_params:)
+    sector_dto = show(id: id)
+
+    sector = Sector.find(id)
+    sector.update!(name: update_params.name)
+
+    updated_sector_dto = Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
+
+    @sectors_dtos.map! { |sector_dto| sector_dto.id == id ? updated_sector_dto : sector_dto }
+
+    updated_sector_dto
   end
 end
