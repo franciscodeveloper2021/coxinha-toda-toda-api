@@ -30,7 +30,7 @@ class SectorRepository
     sector = Sector.new(name: create_params.name)
     sector.save!
 
-    sector_dto = Responses::SectorResponseDto.new(id: sector.id, name: sector.name)
+    sector_dto = Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
     add_sector_dto_in_memory(sector_dto: sector_dto)
 
     sector_dto
@@ -43,7 +43,7 @@ class SectorRepository
     sector = Sector.find(id)
     sector.update!(name: update_params.name)
 
-    sector_dto = Responses::SectorResponseDto.new(id: sector.id, name: sector.name)
+    sector_dto = Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
     update_sector_dto_in_memory(dto_id: id, updated_sector_dto: sector_dto)
 
     sector_dto
