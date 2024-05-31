@@ -6,20 +6,66 @@ RSpec.describe SectorRepository, type: :repository do
   let(:subject) { described_class.new }
 
   describe "#initialize" do
-    context "with sorbet static type checking" do
-      it "has @sectors_dtos as instance variable of type SectorResponseDto Array" do
-        T.assert_type!(subject.instance_variable_get(:@sectors_dtos), T::Array[Responses::SectorResponseDto])
+    context "type checking" do
+      context "with sorbet static type checking" do
+        it "has @sectors_dtos as instance variable of type SectorResponseDto Array" do
+          T.assert_type!(subject.instance_variable_get(:@sectors_dtos), T::Array[Responses::SectorResponseDto])
+        end
+      end
+
+      context "with ruby dynamic type checking" do
+        it "has @sectors_dtos as instance variable of type Array" do
+          expect(subject.instance_variable_get(:@sectors_dtos)).to be_a(Array)
+        end
+
+        it "has @sectors_dtos with elements of type SectorResponseDto" do
+          expect(subject.instance_variable_get(:@sectors_dtos)).to all(be_a(Responses::SectorResponseDto))
+        end
       end
     end
 
-    context "with ruby dynamic type checking" do
-      it "has @sectors_dtos as instance variable of type Array" do
-        expect(subject.instance_variable_get(:@sectors_dtos)).to be_a(Array)
+    describe "#private" do
+      context "initialize_sectors_dtos" do
+        before do
+          subject.send(:initialize_sectors_dtos)
+        end
+
+        it "fills @sectors_dtos with correct objects" do
+          expect(subject.instance_variable_get(:@sectors_dtos)).to all(be_a(Responses::SectorResponseDto))
+        end
+
+        it "fills @sectors_dtos with correct data" do
+          sectors_from_database = Sector.all
+          sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
+
+          expect(sectors_dtos.map(&:id)).to match_array(sectors_from_database.pluck(:id))
+          expect(sectors_dtos.map(&:name)).to match_array(sectors_from_database.pluck(:name))
+        end
       end
 
-      it "has @sectors_dtos with elements of type SectorResponseDto" do
-        subject.instance_variable_get(:@sectors_dtos).each do |sector_dto|
-          expect(sector_dto).to be_a(Responses::SectorResponseDto)
+      context "add_sector_dto_in_memory" do
+        let(:new_sector_dto) { Responses::SectorResponseDto.new(id: 999, name: "New Sector") }
+
+        it "adds the new sector DTO to @sectors_dtos" do
+          subject.send(:add_sector_dto_in_memory, sector_dto: new_sector_dto)
+          sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
+
+          expect(sectors_dtos).to include(new_sector_dto)
+        end
+      end
+
+      context "updates_sector_dto_in_memory" do
+        let(:existing_sector_dto) { subject.instance_variable_get(:@sectors_dtos).first }
+        let(:updated_sector_dto) { Responses::SectorResponseDto.new(id: existing_sector_dto.id, name: "Updated Name") }
+
+        it "updates the existing sector DTO in @sectors_dtos" do
+          subject.send(:update_sector_dto_in_memory, dto_id: existing_sector_dto.id, updated_sector_dto: updated_sector_dto)
+
+          sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
+          updated_dto = sectors_dtos.find { |dto| dto.id == updated_sector_dto.id }
+
+          expect(updated_dto.id).to eq(updated_sector_dto.id)
+          expect(updated_dto.name).to eq(updated_sector_dto.name)
         end
       end
     end
