@@ -6,20 +6,66 @@ RSpec.describe SectorRepository, type: :repository do
   let(:subject) { described_class.new }
 
   describe "#initialize" do
-    context "with sorbet static type checking" do
-      it "has @sectors_dtos as instance variable of type SectorResponseDto Array" do
-        T.assert_type!(subject.instance_variable_get(:@sectors_dtos), T::Array[Responses::SectorResponseDto])
+    context "type checking" do
+      context "with sorbet static type checking" do
+        it "has @sectors_dtos as instance variable of type SectorResponseDto Array" do
+          T.assert_type!(subject.instance_variable_get(:@sectors_dtos), T::Array[Responses::SectorResponseDto])
+        end
+      end
+
+      context "with ruby dynamic type checking" do
+        it "has @sectors_dtos as instance variable of type Array" do
+          expect(subject.instance_variable_get(:@sectors_dtos)).to be_a(Array)
+        end
+
+        it "has @sectors_dtos with elements of type SectorResponseDto" do
+          expect(subject.instance_variable_get(:@sectors_dtos)).to all(be_a(Responses::SectorResponseDto))
+        end
       end
     end
 
-    context "with ruby dynamic type checking" do
-      it "has @sectors_dtos as instance variable of type Array" do
-        expect(subject.instance_variable_get(:@sectors_dtos)).to be_a(Array)
+    describe "#private" do
+      context "initialize_sectors_dtos" do
+        before do
+          subject.send(:initialize_sectors_dtos)
+        end
+
+        it "fills @sectors_dtos with correct objects" do
+          expect(subject.instance_variable_get(:@sectors_dtos)).to all(be_a(Responses::SectorResponseDto))
+        end
+
+        it "fills @sectors_dtos with correct data" do
+          sectors_from_database = Sector.all
+          sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
+
+          expect(sectors_dtos.map(&:id)).to match_array(sectors_from_database.pluck(:id))
+          expect(sectors_dtos.map(&:name)).to match_array(sectors_from_database.pluck(:name))
+        end
       end
 
-      it "has @sectors_dtos with elements of type SectorResponseDto" do
-        subject.instance_variable_get(:@sectors_dtos).each do |sector_dto|
-          expect(sector_dto).to be_a(Responses::SectorResponseDto)
+      context "add_sector_dto_in_memory" do
+        let(:new_sector_dto) { Responses::SectorResponseDto.new(id: 999, name: "New Sector") }
+
+        it "adds the new sector DTO to @sectors_dtos" do
+          subject.send(:add_sector_dto_in_memory, sector_dto: new_sector_dto)
+          sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
+
+          expect(sectors_dtos).to include(new_sector_dto)
+        end
+      end
+
+      context "updates_sector_dto_in_memory" do
+        let(:existing_sector_dto) { subject.instance_variable_get(:@sectors_dtos).first }
+        let(:updated_sector_dto) { Responses::SectorResponseDto.new(id: existing_sector_dto.id, name: "Updated Name") }
+
+        it "updates the existing sector DTO in @sectors_dtos" do
+          subject.send(:update_sector_dto_in_memory, dto_id: existing_sector_dto.id, updated_sector_dto: updated_sector_dto)
+
+          sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
+          updated_dto = sectors_dtos.find { |dto| dto.id == updated_sector_dto.id }
+
+          expect(updated_dto.id).to eq(updated_sector_dto.id)
+          expect(updated_dto.name).to eq(updated_sector_dto.name)
         end
       end
     end
@@ -86,26 +132,77 @@ RSpec.describe SectorRepository, type: :repository do
 
   describe "#create" do
     context "with invalid params" do
-      it "raises ActiveRecord::RecordInvalid" do
-        invalid_params = Requests::SectorRequestDto.new(name: "")
+      let(:invalid_params) { Requests::SectorRequestDto.new(name: "") }
 
+      it "raises ActiveRecord::RecordInvalid" do
         expect { subject.create(create_params: invalid_params) }
           .to raise_error(ActiveRecord::RecordInvalid)
       end
     end
 
     context "with valid params" do
-      it "saves sector on database" do
-        valid_params = Requests::SectorRequestDto.new(name: "Salgados")
+      let(:valid_params) { Requests::SectorRequestDto.new(name: "Salgados") }
 
+      it "saves sector on database" do
         expect { subject.create(create_params: valid_params) }
           .to change { Sector.count }.by(1)
       end
 
-      it "returns a SectorResponseDTO" do
-        valid_params = Requests::SectorRequestDto.new(name: "Congelados")
-
+      it "creates sector DTO in memory" do
         sector_dto = subject.create(create_params: valid_params)
+        found_sector_dto = subject.show(id: sector_dto.id)
+
+        expect(sector_dto.id).to eq(found_sector_dto.id)
+        expect(sector_dto.name).to eq(found_sector_dto.name)
+      end
+
+      it "returns a SectorResponseDTO" do
+        sector_dto = subject.create(create_params: valid_params)
+        expect(sector_dto).to be_a(Responses::SectorResponseDto)
+      end
+    end
+  end
+
+  describe "#update" do
+    let(:valid_params) { Requests::SectorRequestDto.new(name: "Combos") }
+
+    context "with invalid params" do
+      let(:invalid_id) { -1 }
+
+      it "raises an ActiveRecord::RecordNotFound error" do
+        expect {
+          subject.update(id: invalid_id, update_params: valid_params)
+        }.to raise_error(
+            ActiveRecord::RecordNotFound,
+            I18n.t("activerecord.errors.messages.record_not_found", attribute: "Sector", key: "id", value: invalid_id)
+          )
+      end
+
+      it "raises ActiveRecord::RecordInvalid" do
+        invalid_params = Requests::SectorRequestDto.new(name: "")
+
+        expect { subject.update(id: first_sector.id, update_params: invalid_params) }
+          .to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+
+    context "with valid params" do
+      it "updates the sector in the database" do
+        subject.update(id: first_sector.id, update_params: valid_params)
+        first_sector.reload
+
+        expect(first_sector.name).to eq(valid_params.name)
+      end
+
+      it "updates sector DTO in memory" do
+        subject.update(id: first_sector.id, update_params: valid_params)
+        sector_dto = subject.show(id: first_sector.id)
+
+        expect(sector_dto.name).to eq(valid_params.name)
+      end
+
+      it "returns a SectorResponseDto" do
+        sector_dto = subject.update(id: first_sector.id, update_params: valid_params)
 
         expect(sector_dto).to be_a(Responses::SectorResponseDto)
       end
