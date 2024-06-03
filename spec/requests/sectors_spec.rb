@@ -5,18 +5,23 @@ RSpec.describe "Sectors", type: :request do
   let(:index_sectors_service) { UseCases::Sector::IndexSectorsService }
   let(:show_sector_service) { UseCases::Sector::ShowSectorService }
   let(:create_sector_service) { UseCases::Sector::CreateSectorService }
+  let(:update_sector_service) { UseCases::Sector::UpdateSectorService }
 
   describe "#initialize" do
-    it "initializes the IndexSectorsService" do
+    it "initializes IndexSectorsService" do
       expect(subject.instance_variable_get(:@index_service)).to be_a(index_sectors_service)
     end
 
-    it "initializes the ShowSectorService" do
+    it "initializes ShowSectorService" do
       expect(subject.instance_variable_get(:@show_service)).to be_a(show_sector_service)
     end
 
-    it "initializes the CreateSectorService" do
+    it "initializes CreateSectorService" do
       expect(subject.instance_variable_get(:@create_service)).to be_a(create_sector_service)
+    end
+
+    it "initializes UpdateSectorService" do
+      expect(subject.instance_variable_get(:@update_service)).to be_a(update_sector_service)
     end
   end
 
@@ -119,6 +124,54 @@ RSpec.describe "Sectors", type: :request do
         post sectors_path, params: { sector: { name: "" } }
 
         expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
+  describe "#update" do
+    let(:sector) { create(:sector, name: "Old Name") }
+    let(:valid_attributes) { { sector: { name: "Updated Name" } } }
+    let(:invalid_attributes) { { sector: { name: "" } } }
+
+    context "with invalid attributes" do
+      before do
+        patch sector_path(sector.id), params: invalid_attributes
+      end
+
+      it "returns an unprocessable entity response" do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "does not update the sector" do
+        sector.reload
+
+        expect(sector.name).to eq("Old Name")
+      end
+    end
+
+    context "with valid attributes" do
+      before do
+        patch sector_path(sector.id), params: valid_attributes
+      end
+
+      it "returns a success response" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns in JSON format" do
+        expect(response.content_type).to eq "application/json; charset=utf-8"
+      end
+
+      it "updates the sector" do
+        sector.reload
+
+        expect(sector.name).to eq("Updated Name")
+      end
+
+      it "returns the updated sector" do
+        json_response = JSON.parse(response.body)
+
+        expect(json_response["name"]).to eq("Updated Name")
       end
     end
   end
