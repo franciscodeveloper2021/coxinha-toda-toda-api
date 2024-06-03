@@ -171,6 +171,7 @@ RSpec.describe "Sectors", type: :request do
       it "returns the updated sector" do
         json_response = JSON.parse(response.body)
 
+        expect(json_response["id"]).to eq(sector.id)
         expect(json_response["name"]).to eq("Updated Name")
       end
     end
