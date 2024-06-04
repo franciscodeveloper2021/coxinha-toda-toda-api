@@ -1,11 +1,10 @@
 require "rails_helper"
 
-RSpec.describe UseCases::Sector::ShowSectorService do
+RSpec.describe UseCases::Sector::DestroySectorService do
   let(:repository) { SectorRepository.new }
   let(:subject) { described_class.new(repository) }
 
   let(:sector_id) { 1 }
-  let(:sector_response_dto) { Responses::SectorResponseDto.new(id: sector_id, name: 'Bebidas') }
 
   let(:record_not_found_message) {
     I18n.t(
@@ -23,9 +22,9 @@ RSpec.describe UseCases::Sector::ShowSectorService do
   end
 
   describe "#call" do
-    context "when sector does not exist" do
+    context "with invalid id" do
       it "raises a ActiveRecord::RecordNotFound error" do
-        allow(repository).to receive(:show).with(id: sector_id).and_raise(
+        allow(repository).to receive(:destroy).with(id: sector_id).and_raise(
           ActiveRecord::RecordNotFound,
           record_not_found_message
         )
@@ -37,13 +36,11 @@ RSpec.describe UseCases::Sector::ShowSectorService do
       end
     end
 
-    context "when sector exists" do
-      it "returns the sector as a SectorResponseDto" do
-        allow(repository).to receive(:show).with(id: sector_id).and_return(sector_response_dto)
+    context "with valid id" do
+      it "calls destroy on the repository" do
+        expect(repository).to receive(:destroy).with(id: sector_id)
 
-        result = subject.call(id: sector_id)
-
-        expect(result).to eq(sector_response_dto)
+        subject.call(id: sector_id)
       end
     end
   end
