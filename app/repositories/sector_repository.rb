@@ -38,7 +38,7 @@ class SectorRepository
 
   sig { params(id: Integer, update_params: Requests::SectorRequestDto).returns(Responses::SectorResponseDto) }
   def update(id:, update_params:)
-    sector_dto = show(id: id)
+    show(id: id)
 
     sector = Sector.find(id)
     sector.update!(name: update_params.name)
