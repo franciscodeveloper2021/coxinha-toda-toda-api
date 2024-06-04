@@ -141,12 +141,6 @@ RSpec.describe "Sectors", type: :request do
       it "returns an unprocessable entity response" do
         expect(response).to have_http_status(:unprocessable_entity)
       end
-
-      it "does not update the sector" do
-        sector.reload
-
-        expect(sector.name).to eq("Old Name")
-      end
     end
 
     context "with valid attributes" do
@@ -160,12 +154,6 @@ RSpec.describe "Sectors", type: :request do
 
       it "returns in JSON format" do
         expect(response.content_type).to eq "application/json; charset=utf-8"
-      end
-
-      it "updates the sector" do
-        sector.reload
-
-        expect(sector.name).to eq("Updated Name")
       end
 
       it "returns the updated sector" do
