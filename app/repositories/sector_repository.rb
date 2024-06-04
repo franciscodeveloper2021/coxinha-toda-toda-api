@@ -62,7 +62,7 @@ class SectorRepository
 
   sig { returns(T::Array[Responses::SectorResponseDto]) }
   def initialize_sectors_dtos
-    @sectors_dtos = Sector.all.map { |sector| Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name) }
+    @sectors_dtos = Sector.order(:id).map { |sector| Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name) }
   end
 
   sig { params(sector_dto: Responses::SectorResponseDto).void }

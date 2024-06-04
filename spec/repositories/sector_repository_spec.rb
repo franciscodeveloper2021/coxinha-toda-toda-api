@@ -42,7 +42,7 @@ RSpec.describe SectorRepository, type: :repository do
         end
 
         it "fills @sectors_dtos com os dados corretos" do
-          sectors_from_database = Sector.all
+          sectors_from_database = Sector.order(:id)
           sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
 
           expect(sectors_dtos.map(&:id)).to match_array(sectors_from_database.pluck(:id))
@@ -97,7 +97,7 @@ RSpec.describe SectorRepository, type: :repository do
   describe "#index" do
     context "when there are no sectors" do
       it "returns an empty array" do
-        allow(Sector).to receive(:all).and_return([])
+        allow(Sector).to receive(:all).and_return(Sector.none)
 
         expect(subject.index).to eq([])
       end
