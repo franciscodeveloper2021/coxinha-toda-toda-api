@@ -51,7 +51,7 @@ class SectorRepository
 
   sig { params(id: Integer).void }
   def destroy(id:)
-    sector_dto = show(id: id)
+    show(id: id)
 
     Sector.delete(id)
 
