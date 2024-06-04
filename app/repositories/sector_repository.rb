@@ -49,6 +49,15 @@ class SectorRepository
     sector_dto
   end
 
+  sig { params(id: Integer).void }
+  def destroy(id:)
+    sector_dto = show(id: id)
+
+    Sector.delete(id)
+
+    destroy_sector_dto_in_memory(dto_id: id)
+  end
+
   private
 
   sig { returns(T::Array[Responses::SectorResponseDto]) }

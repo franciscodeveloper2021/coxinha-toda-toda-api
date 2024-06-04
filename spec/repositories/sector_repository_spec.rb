@@ -1,9 +1,16 @@
 require "rails_helper"
 
 RSpec.describe SectorRepository, type: :repository do
+  let(:subject) { described_class.new }
+
   let!(:sectors) { create_list(:sector, 5) }
   let(:first_sector) { sectors.first }
-  let(:subject) { described_class.new }
+
+  let(:invalid_id) { -1 }
+
+  let(:record_not_found_message) do
+    I18n.t("activerecord.errors.messages.record_not_found", attribute: "Sector", key: "id", value: invalid_id)
+  end
 
   describe "#initialize" do
     context "type checking" do
@@ -34,7 +41,7 @@ RSpec.describe SectorRepository, type: :repository do
           expect(subject.instance_variable_get(:@sectors_dtos)).to all(be_a(Responses::SectorResponseDto))
         end
 
-        it "fills @sectors_dtos with correct data" do
+        it "fills @sectors_dtos com os dados corretos" do
           sectors_from_database = Sector.all
           sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
 
@@ -98,14 +105,14 @@ RSpec.describe SectorRepository, type: :repository do
 
     context "when there are registered sectors" do
       let(:retrieved_sectors) { subject.index }
-      it "retrieves all registerd sectors with correct IDs" do
+      it "retrieves all registered sectors with correct IDs" do
         sectors_ids = sectors.pluck(:id)
         retrieved_sectors_ids = retrieved_sectors.map(&:id)
 
         expect(retrieved_sectors_ids).to match_array(sectors_ids)
       end
 
-      it "retrieves all registerd sectors with correct names" do
+      it "retrieves all registered sectors with correct names" do
         sectors_names = sectors.pluck(:name)
         retrieved_sectors_names = retrieved_sectors.map(&:name)
 
@@ -125,13 +132,11 @@ RSpec.describe SectorRepository, type: :repository do
 
     context "when sector does not exist" do
       it "raises an ActiveRecord::RecordNotFound error" do
-        invalid_id = -1
-
         expect {
           subject.show(id: invalid_id)
         }.to raise_error(
             ActiveRecord::RecordNotFound,
-            I18n.t("activerecord.errors.messages.record_not_found", attribute: "Sector", key: "id", value: invalid_id)
+            record_not_found_message
           )
       end
     end
@@ -174,6 +179,7 @@ RSpec.describe SectorRepository, type: :repository do
 
       it "returns a SectorResponseDTO" do
         sector_dto = subject.create(create_params: valid_params)
+
         expect(sector_dto).to be_a(Responses::SectorResponseDto)
       end
     end
@@ -183,14 +189,12 @@ RSpec.describe SectorRepository, type: :repository do
     let(:valid_params) { Requests::SectorRequestDto.new(name: "Combos") }
 
     context "with invalid params" do
-      let(:invalid_id) { -1 }
-
       it "raises an ActiveRecord::RecordNotFound error" do
         expect {
           subject.update(id: invalid_id, update_params: valid_params)
         }.to raise_error(
             ActiveRecord::RecordNotFound,
-            I18n.t("activerecord.errors.messages.record_not_found", attribute: "Sector", key: "id", value: invalid_id)
+            record_not_found_message
           )
       end
 
@@ -203,7 +207,7 @@ RSpec.describe SectorRepository, type: :repository do
     end
 
     context "with valid params" do
-      it "updates the sector in the database" do
+      it "updates the sector on database" do
         subject.update(id: first_sector.id, update_params: valid_params)
         first_sector.reload
 
@@ -221,6 +225,41 @@ RSpec.describe SectorRepository, type: :repository do
         sector_dto = subject.update(id: first_sector.id, update_params: valid_params)
 
         expect(sector_dto).to be_a(Responses::SectorResponseDto)
+      end
+    end
+  end
+
+  describe "#destroy" do
+    context "with invalid params" do
+      it "raises an ActiveRecord::RecordNotFound error" do
+        expect {
+          subject.destroy(id: invalid_id)
+        }.to raise_error(
+            ActiveRecord::RecordNotFound,
+            record_not_found_message
+          )
+      end
+    end
+
+    context "with valid params" do
+      let(:last_sector) { sectors.last }
+
+      before do
+        subject.destroy(id: last_sector.id)
+      end
+
+      it "deletes sector on database" do
+        sectors = Sector.all
+
+        expect(sectors).not_to include(last_sector)
+      end
+
+      it "deletes sector DTO in memory" do
+        subject.send(:initialize_sectors_dtos)
+
+        sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
+
+        expect(sectors_dtos.map(&:id)).not_to include(last_sector.id)
       end
     end
   end
