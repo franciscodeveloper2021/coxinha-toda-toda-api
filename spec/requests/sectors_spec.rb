@@ -30,6 +30,18 @@ RSpec.describe "Sectors", type: :request do
       get sectors_path
     end
 
+    context "when sectors are not present" do
+      it "returns an empty array" do
+        Sector.delete_all
+
+        get sectors_path
+
+        json_response = JSON.parse(response.body)
+
+        expect(json_response).to be_empty
+      end
+    end
+
     context "when sectors are present" do
       it "returns a success response" do
         expect(response).to have_http_status(:ok)
@@ -49,21 +61,17 @@ RSpec.describe "Sectors", type: :request do
         expect(json_response.count).to eq(sectors.count)
       end
     end
-
-    context "when sectors are not present" do
-      it "returns an empty array" do
-        Sector.delete_all
-
-        get sectors_path
-
-        json_response = JSON.parse(response.body)
-
-        expect(json_response).to be_empty
-      end
-    end
   end
 
   describe "#show" do
+    context "when sector does not exist" do
+      it "returns a not found response" do
+        get sector_path(-1)
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
     context "when sector exists" do
       let(:sector) { create(:sector) }
 
@@ -86,17 +94,17 @@ RSpec.describe "Sectors", type: :request do
         expect(json_response["name"]).to eq(sector.name)
       end
     end
-
-    context "when sector does not exist" do
-      it "returns a not found response" do
-        get sector_path(-1)
-
-        expect(response).to have_http_status(:not_found)
-      end
-    end
   end
 
   describe "#create" do
+    context "with invalid attributes" do
+      it "returns an unprocessable entity response" do
+        post sectors_path, params: { sector: { name: "" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+
     context "with valid attributes" do
       let(:attributes) { { sector: { name: "Combos" } } }
 
@@ -116,14 +124,6 @@ RSpec.describe "Sectors", type: :request do
         json_response = JSON.parse(response.body)
 
         expect(json_response["name"]).to eq(attributes[:sector][:name])
-      end
-    end
-
-    context "with invalid attributes" do
-      it "returns an unprocessable entity response" do
-        post sectors_path, params: { sector: { name: "" } }
-
-        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
