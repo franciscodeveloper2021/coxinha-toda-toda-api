@@ -65,4 +65,9 @@ class SectorRepository
   def update_sector_dto_in_memory(dto_id:, updated_sector_dto:)
     @sectors_dtos.map! { |dto| dto.id == dto_id ? updated_sector_dto : dto }
   end
+
+  sig { params(dto_id: Integer).void }
+  def destroy_sector_dto_in_memory(dto_id:)
+    @sectors_dtos.reject! { |dto| dto.id == dto_id }
+  end
 end

@@ -46,7 +46,7 @@ RSpec.describe SectorRepository, type: :repository do
       context "add_sector_dto_in_memory" do
         let(:new_sector_dto) { Responses::SectorResponseDto.new(id: 999, name: "New Sector") }
 
-        it "adds the new sector DTO to @sectors_dtos" do
+        it "adds new sector DTO to @sectors_dtos" do
           subject.send(:add_sector_dto_in_memory, sector_dto: new_sector_dto)
           sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
 
@@ -54,11 +54,11 @@ RSpec.describe SectorRepository, type: :repository do
         end
       end
 
-      context "updates_sector_dto_in_memory" do
+      context "update_sector_dto_in_memory" do
         let(:existing_sector_dto) { subject.instance_variable_get(:@sectors_dtos).first }
         let(:updated_sector_dto) { Responses::SectorResponseDto.new(id: existing_sector_dto.id, name: "Updated Name") }
 
-        it "updates the existing sector DTO in @sectors_dtos" do
+        it "updates existing sector DTO in @sectors_dtos" do
           subject.send(:update_sector_dto_in_memory, dto_id: existing_sector_dto.id, updated_sector_dto: updated_sector_dto)
 
           sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
@@ -66,6 +66,22 @@ RSpec.describe SectorRepository, type: :repository do
 
           expect(updated_dto.id).to eq(updated_sector_dto.id)
           expect(updated_dto.name).to eq(updated_sector_dto.name)
+        end
+      end
+
+      context "destroy_sector_dto_in_memory" do
+        before do
+          subject.send(:initialize_sectors_dtos)
+        end
+
+        let(:existing_sector_dto) { subject.instance_variable_get(:@sectors_dtos).last }
+
+        it "destroys existing sector DTO in @sectors_dtos" do
+          subject.send(:destroy_sector_dto_in_memory, dto_id: existing_sector_dto.id)
+
+          sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
+
+          expect(sectors_dtos).not_to include(existing_sector_dto)
         end
       end
     end
