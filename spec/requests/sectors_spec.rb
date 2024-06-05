@@ -6,6 +6,7 @@ RSpec.describe "Sectors", type: :request do
   let(:show_sector_service) { UseCases::Sector::ShowSectorService }
   let(:create_sector_service) { UseCases::Sector::CreateSectorService }
   let(:update_sector_service) { UseCases::Sector::UpdateSectorService }
+  let(:destroy_sector_service) { UseCases::Sector::DestroySectorService }
 
   describe "#initialize" do
     it "initializes IndexSectorsService" do
@@ -22,6 +23,10 @@ RSpec.describe "Sectors", type: :request do
 
     it "initializes UpdateSectorService" do
       expect(subject.instance_variable_get(:@update_service)).to be_a(update_sector_service)
+    end
+
+    it "initializes UpdateSectorService" do
+      expect(subject.instance_variable_get(:@destroy_service)).to be_a(destroy_sector_service)
     end
   end
 
@@ -161,6 +166,34 @@ RSpec.describe "Sectors", type: :request do
 
         expect(json_response["id"]).to eq(sector.id)
         expect(json_response["name"]).to eq("Updated Name")
+      end
+    end
+  end
+
+  describe "#destroy" do
+    let!(:sector) { create(:sector) }
+
+    context "when the sector does not exist" do
+      it "returns a not found response" do
+        delete sector_path(-1)
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context "when the sector exists" do
+      it "returns a success response" do
+        delete sector_path(sector.id)
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns a descriptive JSON message" do
+        delete sector_path(sector.id)
+
+        json_response = JSON.parse(response.body)
+
+        expect(json_response["message"]).to eq(I18n.t('messages.record_deleted', record: 'Sector'))
       end
     end
   end
