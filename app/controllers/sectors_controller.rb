@@ -5,7 +5,12 @@ class SectorsController < ApplicationController
   sig { void }
   def initialize
     super()
-    initialize_services
+
+    @index_service = T.let(UseCases::Sector::IndexSectorsService.new, UseCases::Sector::IndexSectorsService)
+    @show_service = T.let(UseCases::Sector::ShowSectorService.new, UseCases::Sector::ShowSectorService)
+    @create_service = T.let(UseCases::Sector::CreateSectorService.new, UseCases::Sector::CreateSectorService)
+    @update_service = T.let(UseCases::Sector::UpdateSectorService.new, UseCases::Sector::UpdateSectorService)
+    @destroy_service = T.let(UseCases::Sector::DestroySectorService.new, UseCases::Sector::DestroySectorService)
   end
 
   sig { void }
@@ -44,15 +49,6 @@ class SectorsController < ApplicationController
   end
 
   private
-
-  sig { void }
-  def initialize_services
-    @index_service = T.let(UseCases::Sector::IndexSectorsService.new, UseCases::Sector::IndexSectorsService)
-    @show_service = T.let(UseCases::Sector::ShowSectorService.new, UseCases::Sector::ShowSectorService)
-    @create_service = T.let(UseCases::Sector::CreateSectorService.new, UseCases::Sector::CreateSectorService)
-    @update_service = T.let(UseCases::Sector::UpdateSectorService.new, UseCases::Sector::UpdateSectorService)
-    @destroy_service = T.let(UseCases::Sector::DestroySectorService.new, UseCases::Sector::DestroySectorService)
-  end
 
   sig { returns(Requests::SectorRequestDto) }
   def sector_params

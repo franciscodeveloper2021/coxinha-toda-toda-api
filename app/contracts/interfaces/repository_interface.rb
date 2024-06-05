@@ -2,6 +2,9 @@
 module Interfaces
   class RepositoryInterface
     extend T::Sig
+    extend T::Helpers
+
+    abstract!
 
     sig { abstract.returns(T::Array[T.untyped]) }
     def index; end
