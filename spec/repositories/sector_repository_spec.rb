@@ -41,7 +41,7 @@ RSpec.describe SectorRepository, type: :repository do
           expect(subject.instance_variable_get(:@sectors_dtos)).to all(be_a(Responses::SectorResponseDto))
         end
 
-        it "fills @sectors_dtos com os dados corretos" do
+        it "fills @sectors_dtos with right data" do
           sectors_from_database = Sector.order(:id)
           sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
 

@@ -1,5 +1,5 @@
 # typed: strict
-class SectorRepository
+class SectorRepository < Interfaces::RepositoryInterface
   extend T::Sig
 
   sig { void }
@@ -8,12 +8,12 @@ class SectorRepository
     initialize_sectors_dtos
   end
 
-  sig { returns(T::Array[Responses::SectorResponseDto]) }
+  sig { override.returns(T::Array[Responses::SectorResponseDto]) }
   def index
     @sectors_dtos
   end
 
-  sig { params(id: Integer).returns(Responses::SectorResponseDto) }
+  sig { override.params(id: Integer).returns(Responses::SectorResponseDto) }
   def show(id:)
     sector_dto = @sectors_dtos.find { |dto| dto.id == id }
 
@@ -25,7 +25,7 @@ class SectorRepository
     sector_dto
   end
 
-  sig { params(create_params: Requests::SectorRequestDto).returns(Responses::SectorResponseDto) }
+  sig { override.params(create_params: Requests::SectorRequestDto).returns(Responses::SectorResponseDto) }
   def create(create_params:)
     sector = Sector.new(name: create_params.name)
     sector.save!
@@ -36,7 +36,7 @@ class SectorRepository
     sector_dto
   end
 
-  sig { params(id: Integer, update_params: Requests::SectorRequestDto).returns(Responses::SectorResponseDto) }
+  sig { override.params(id: Integer, update_params: Requests::SectorRequestDto).returns(Responses::SectorResponseDto) }
   def update(id:, update_params:)
     show(id: id)
 
@@ -49,7 +49,7 @@ class SectorRepository
     sector_dto
   end
 
-  sig { params(id: Integer).void }
+  sig { override.params(id: Integer).void }
   def destroy(id:)
     show(id: id)
 
