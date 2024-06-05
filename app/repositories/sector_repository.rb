@@ -38,7 +38,7 @@ class SectorRepository
 
   sig { params(id: Integer, update_params: Requests::SectorRequestDto).returns(Responses::SectorResponseDto) }
   def update(id:, update_params:)
-    sector_dto = show(id: id)
+    show(id: id)
 
     sector = Sector.find(id)
     sector.update!(name: update_params.name)
@@ -49,11 +49,20 @@ class SectorRepository
     sector_dto
   end
 
+  sig { params(id: Integer).void }
+  def destroy(id:)
+    show(id: id)
+
+    Sector.delete(id)
+
+    destroy_sector_dto_in_memory(dto_id: id)
+  end
+
   private
 
   sig { returns(T::Array[Responses::SectorResponseDto]) }
   def initialize_sectors_dtos
-    @sectors_dtos = Sector.all.map { |sector| Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name) }
+    @sectors_dtos = Sector.order(:id).map { |sector| Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name) }
   end
 
   sig { params(sector_dto: Responses::SectorResponseDto).void }
@@ -64,5 +73,10 @@ class SectorRepository
   sig { params(dto_id: Integer, updated_sector_dto: Responses::SectorResponseDto).void }
   def update_sector_dto_in_memory(dto_id:, updated_sector_dto:)
     @sectors_dtos.map! { |dto| dto.id == dto_id ? updated_sector_dto : dto }
+  end
+
+  sig { params(dto_id: Integer).void }
+  def destroy_sector_dto_in_memory(dto_id:)
+    @sectors_dtos.reject! { |dto| dto.id == dto_id }
   end
 end

@@ -13,4 +13,7 @@ pt:
         too_short: "%{attribute} é muito curto (mínimo de %{count} caracteres)"
         too_long: "%{attribute} é muito longo (máximo de %{count} caracteres)"
         taken: "%{attribute} já existe"
+  messages:
+    record_deleted: "%{record} excluído com sucesso"
+
 

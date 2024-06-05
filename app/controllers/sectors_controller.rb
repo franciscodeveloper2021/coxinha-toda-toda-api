@@ -5,11 +5,7 @@ class SectorsController < ApplicationController
   sig { void }
   def initialize
     super()
-
-    @index_service = T.let(UseCases::Sector::IndexSectorsService.new, UseCases::Sector::IndexSectorsService)
-    @show_service = T.let(UseCases::Sector::ShowSectorService.new, UseCases::Sector::ShowSectorService)
-    @create_service = T.let(UseCases::Sector::CreateSectorService.new, UseCases::Sector::CreateSectorService)
-    @update_service = T.let(UseCases::Sector::UpdateSectorService.new, UseCases::Sector::UpdateSectorService)
+    initialize_services
   end
 
   sig { void }
@@ -40,7 +36,23 @@ class SectorsController < ApplicationController
     render json: sector_dto, status: :ok
   end
 
+  sig { void }
+  def destroy
+    @destroy_service.call(id: params[:id].to_i)
+
+    render json: { message: I18n.t('messages.record_deleted', record: 'Sector') }, status: :ok
+  end
+
   private
+
+  sig { void }
+  def initialize_services
+    @index_service = T.let(UseCases::Sector::IndexSectorsService.new, UseCases::Sector::IndexSectorsService)
+    @show_service = T.let(UseCases::Sector::ShowSectorService.new, UseCases::Sector::ShowSectorService)
+    @create_service = T.let(UseCases::Sector::CreateSectorService.new, UseCases::Sector::CreateSectorService)
+    @update_service = T.let(UseCases::Sector::UpdateSectorService.new, UseCases::Sector::UpdateSectorService)
+    @destroy_service = T.let(UseCases::Sector::DestroySectorService.new, UseCases::Sector::DestroySectorService)
+  end
 
   sig { returns(Requests::SectorRequestDto) }
   def sector_params

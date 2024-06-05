@@ -13,5 +13,13 @@ RSpec.describe SectorsController, type: :routing do
     it "routes to #create" do
       expect(post: "/sectors").to route_to("sectors#create")
     end
+
+    it "routes to #update" do
+      expect(patch: "/sectors/1").to route_to("sectors#update", id: "1")
+    end
+
+    it "routes to #destroy" do
+      expect(delete: "/sectors/1").to route_to("sectors#destroy", id: "1")
+    end
   end
 end
