@@ -30,7 +30,7 @@ class SectorRepository < Interfaces::RepositoryInterface
     sector = Sector.new(name: create_params.name)
     sector.save!
 
-    sector_dto = Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
+    sector_dto = generate_sector_dto(sector: sector)
     add_sector_dto_in_memory(sector_dto: sector_dto)
 
     sector_dto
@@ -43,7 +43,7 @@ class SectorRepository < Interfaces::RepositoryInterface
     sector = Sector.find(id)
     sector.update!(name: update_params.name)
 
-    sector_dto = Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
+    sector_dto = generate_sector_dto(sector: sector)
     update_sector_dto_in_memory(sector_dto_id: id, updated_sector_dto: sector_dto)
 
     sector_dto
@@ -63,6 +63,11 @@ class SectorRepository < Interfaces::RepositoryInterface
   sig { returns(T::Array[Responses::SectorResponseDto]) }
   def initialize_sectors_dtos
     @sectors_dtos = Sector.order(:id).map { |sector| Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name) }
+  end
+
+  sig { params(sector: Sector).returns(Responses::SectorResponseDto) }
+  def generate_sector_dto(sector:)
+    Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
   end
 
   sig { params(sector_dto: Responses::SectorResponseDto).void }

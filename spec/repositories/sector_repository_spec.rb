@@ -31,69 +31,6 @@ RSpec.describe SectorRepository, type: :repository do
       end
     end
 
-    describe "#private" do
-      context "initialize_sectors_dtos" do
-        before do
-          subject.send(:initialize_sectors_dtos)
-        end
-
-        it "fills @sectors_dtos with correct objects" do
-          expect(subject.instance_variable_get(:@sectors_dtos)).to all(be_a(Responses::SectorResponseDto))
-        end
-
-        it "fills @sectors_dtos with right data" do
-          sectors_from_database = Sector.order(:id)
-          sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
-
-          expect(sectors_dtos.map(&:id)).to match_array(sectors_from_database.pluck(:id))
-          expect(sectors_dtos.map(&:name)).to match_array(sectors_from_database.pluck(:name))
-        end
-      end
-
-      context "add_sector_dto_in_memory" do
-        let(:new_sector_dto) { Responses::SectorResponseDto.new(id: 999, name: "New Sector") }
-
-        it "adds new sector DTO to @sectors_dtos" do
-          subject.send(:add_sector_dto_in_memory, sector_dto: new_sector_dto)
-          sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
-
-          expect(sectors_dtos).to include(new_sector_dto)
-        end
-      end
-
-      context "update_sector_dto_in_memory" do
-        let(:existing_sector_dto) { subject.instance_variable_get(:@sectors_dtos).first }
-        let(:updated_sector_dto) { Responses::SectorResponseDto.new(id: existing_sector_dto.id, name: "Updated Name") }
-
-        it "updates existing sector DTO in @sectors_dtos" do
-          subject.send(:update_sector_dto_in_memory, sector_dto_id: existing_sector_dto.id, updated_sector_dto: updated_sector_dto)
-
-          sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
-          updated_dto = sectors_dtos.find { |dto| dto.id == updated_sector_dto.id }
-
-          expect(updated_dto.id).to eq(updated_sector_dto.id)
-          expect(updated_dto.name).to eq(updated_sector_dto.name)
-        end
-      end
-
-      context "destroy_sector_dto_in_memory" do
-        before do
-          subject.send(:initialize_sectors_dtos)
-        end
-
-        let(:existing_sector_dto) { subject.instance_variable_get(:@sectors_dtos).last }
-
-        it "destroys existing sector DTO in @sectors_dtos" do
-          subject.send(:destroy_sector_dto_in_memory, sector_dto_id: existing_sector_dto.id)
-
-          sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
-
-          expect(sectors_dtos).not_to include(existing_sector_dto)
-        end
-      end
-    end
-  end
-
   describe "#index" do
     context "when there are no sectors" do
       it "returns an empty array" do
@@ -142,7 +79,7 @@ RSpec.describe SectorRepository, type: :repository do
     end
 
     context "when sector exists" do
-      it "returns the sector as a SectorResponseDto" do
+      it "returns a SectorResponseDto" do
         valid_id = first_sector.id
         sector_dto = subject.show(id: valid_id)
 
@@ -169,7 +106,7 @@ RSpec.describe SectorRepository, type: :repository do
           .to change { Sector.count }.by(1)
       end
 
-      it "creates sector DTO in memory" do
+      it "adds sector DTO in memory" do
         sector_dto = subject.create(create_params: valid_params)
         found_sector_dto = subject.show(id: sector_dto.id)
 
@@ -177,7 +114,7 @@ RSpec.describe SectorRepository, type: :repository do
         expect(sector_dto.name).to eq(found_sector_dto.name)
       end
 
-      it "returns a SectorResponseDTO" do
+      it "returns a SectorResponseDto" do
         sector_dto = subject.create(create_params: valid_params)
 
         expect(sector_dto).to be_a(Responses::SectorResponseDto)
@@ -207,7 +144,7 @@ RSpec.describe SectorRepository, type: :repository do
     end
 
     context "with valid params" do
-      it "updates the sector on database" do
+      it "updates sector on database" do
         subject.update(id: first_sector.id, update_params: valid_params)
         first_sector.reload
 
