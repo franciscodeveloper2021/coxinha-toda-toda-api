@@ -11,7 +11,9 @@ module UseCases
 
       sig { returns(T::Array[Responses::SectorResponseDto]) }
       def call
-        @repository.index
+        sectors_dtos = @repository.index
+
+        sectors_dtos ||= []
       end
     end
   end
