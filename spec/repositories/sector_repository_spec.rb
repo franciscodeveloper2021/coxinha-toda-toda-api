@@ -66,7 +66,7 @@ RSpec.describe SectorRepository, type: :repository do
         let(:updated_sector_dto) { Responses::SectorResponseDto.new(id: existing_sector_dto.id, name: "Updated Name") }
 
         it "updates existing sector DTO in @sectors_dtos" do
-          subject.send(:update_sector_dto_in_memory, dto_id: existing_sector_dto.id, updated_sector_dto: updated_sector_dto)
+          subject.send(:update_sector_dto_in_memory, sector_dto_id: existing_sector_dto.id, updated_sector_dto: updated_sector_dto)
 
           sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
           updated_dto = sectors_dtos.find { |dto| dto.id == updated_sector_dto.id }
@@ -84,7 +84,7 @@ RSpec.describe SectorRepository, type: :repository do
         let(:existing_sector_dto) { subject.instance_variable_get(:@sectors_dtos).last }
 
         it "destroys existing sector DTO in @sectors_dtos" do
-          subject.send(:destroy_sector_dto_in_memory, dto_id: existing_sector_dto.id)
+          subject.send(:destroy_sector_dto_in_memory, sector_dto_id: existing_sector_dto.id)
 
           sectors_dtos = subject.instance_variable_get(:@sectors_dtos)
 
