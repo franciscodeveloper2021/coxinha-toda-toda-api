@@ -11,12 +11,26 @@ RSpec.describe UseCases::Sector::IndexSectorsService do
   end
 
   describe "#call" do
-    it "calls the index method on the repository" do
-      allow(repository).to receive(:index)
+    context "when there are no sectors" do
+      it "returns an empty array" do
+        allow(repository).to receive(:index).and_return([])
 
-      subject.call
+        expect(subject.call).to eq([])
+      end
+    end
 
-      expect(repository).to have_received(:index)
+    context "when there are sectors" do
+      let(:sectors_dtos) do
+        [
+          Responses::SectorResponseDto.new(id: 1, name: 'Bebidas'),
+          Responses::SectorResponseDto.new(id: 2, name: 'Coxinhas')
+        ]
+      end
+      it "returns an array of sectors dtos" do
+        allow(repository).to receive(:index).and_return(sectors_dtos)
+
+        expect(subject.call).to eq(sectors_dtos)
+      end
     end
   end
 end
