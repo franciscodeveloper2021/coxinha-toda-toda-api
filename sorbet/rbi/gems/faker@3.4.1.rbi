@@ -1382,7 +1382,7 @@ class Faker::Books::Lovecraft < ::Faker::Base
     # @param random_sentences_to_add [Integer]
     # @return [String]
     #
-    # source://faker//lib/faker/books/lovecraft.rb#192
+    # source://faker//lib/faker/books/lovecraft.rb#191
     def paragraph(sentence_count: T.unsafe(nil), random_sentences_to_add: T.unsafe(nil)); end
 
     # @example
@@ -1394,7 +1394,7 @@ class Faker::Books::Lovecraft < ::Faker::Base
     # @param characters [Integer] Number of characters to generate in the paragraph
     # @return [String]
     #
-    # source://faker//lib/faker/books/lovecraft.rb#239
+    # source://faker//lib/faker/books/lovecraft.rb#238
     def paragraph_by_chars(characters: T.unsafe(nil)); end
 
     # Produces a array of random paragraphs
@@ -1415,7 +1415,7 @@ class Faker::Books::Lovecraft < ::Faker::Base
     # @param number [Integer] Number of paragraphs to generate
     # @return [Array<String>]
     #
-    # source://faker//lib/faker/books/lovecraft.rb#218
+    # source://faker//lib/faker/books/lovecraft.rb#217
     def paragraphs(number: T.unsafe(nil)); end
 
     # Produces a random sentence
@@ -1458,7 +1458,7 @@ class Faker::Books::Lovecraft < ::Faker::Base
     # @param number [Integer] Number of sentences to generate
     # @return [Array<String>]
     #
-    # source://faker//lib/faker/books/lovecraft.rb#165
+    # source://faker//lib/faker/books/lovecraft.rb#164
     def sentences(number: T.unsafe(nil)); end
 
     # Produces the name of a tome
@@ -3216,7 +3216,7 @@ class Faker::Crypto < ::Faker::Base
     #   Faker::Crypto.md5 #=> "6b5ed240042e8a65c55ddb826c3408e6"
     # @return [String]
     #
-    # source://faker//lib/faker/default/crypto.rb#17
+    # source://faker//lib/faker/default/crypto.rb#26
     def md5; end
 
     # Produces a SHA1 hash.
@@ -3225,7 +3225,7 @@ class Faker::Crypto < ::Faker::Base
     #   Faker::Crypto.sha1 #=> "4e99e31c51eef8b2d290e709f757f92e558a503f"
     # @return [String]
     #
-    # source://faker//lib/faker/default/crypto.rb#30
+    # source://faker//lib/faker/default/crypto.rb#39
     def sha1; end
 
     # Produces a SHA256 hash.
@@ -3234,7 +3234,7 @@ class Faker::Crypto < ::Faker::Base
     #   Faker::Crypto.sha256 #=> "51e4dbb424cd9db1ec5fb989514f2a35652ececef33f21c8dd1fd61bb8e3929d"
     # @return [String]
     #
-    # source://faker//lib/faker/default/crypto.rb#43
+    # source://faker//lib/faker/default/crypto.rb#52
     def sha256; end
 
     # Produces a SHA512 hash.
@@ -3243,7 +3243,7 @@ class Faker::Crypto < ::Faker::Base
     #   Faker::Crypto.sha512 #=> "7b9fc82a6642874833d01b74a7b4fae3d15373193b55cfba47327f8f0afdc8d0ea155b58639a03a887009ef997dab8dd8d36767620d430f6e787e5996e26da80"
     # @return [String]
     #
-    # source://faker//lib/faker/default/crypto.rb#56
+    # source://faker//lib/faker/default/crypto.rb#65
     def sha512; end
   end
 end
@@ -6152,7 +6152,7 @@ class Faker::Hipster < ::Faker::Base
     # @param random_sentences_to_add [Boolean] Specifies the number of random sentences to add
     # @return [String]
     #
-    # source://faker//lib/faker/default/hipster.rb#109
+    # source://faker//lib/faker/default/hipster.rb#108
     def paragraph(sentence_count: T.unsafe(nil), supplemental: T.unsafe(nil), random_sentences_to_add: T.unsafe(nil)); end
 
     # Produces a random hipster paragraph by characters.
@@ -6164,7 +6164,7 @@ class Faker::Hipster < ::Faker::Base
     # @param supplemental [Boolean] Specifies if the words are supplemental
     # @return [String]
     #
-    # source://faker//lib/faker/default/hipster.rb#146
+    # source://faker//lib/faker/default/hipster.rb#145
     def paragraph_by_chars(characters: T.unsafe(nil), supplemental: T.unsafe(nil)); end
 
     # Produces random hipster paragraphs.
@@ -6177,7 +6177,7 @@ class Faker::Hipster < ::Faker::Base
     # @param supplemental [Boolean] Specifies if the words are supplemental
     # @return [Array<String>]
     #
-    # source://faker//lib/faker/default/hipster.rb#126
+    # source://faker//lib/faker/default/hipster.rb#125
     def paragraphs(number: T.unsafe(nil), supplemental: T.unsafe(nil)); end
 
     # Produces a random hipster sentence.
@@ -6196,7 +6196,7 @@ class Faker::Hipster < ::Faker::Base
     # @param open_compounds_allowed [Boolean] Specifies if the generated sentence can contain words having additional spaces
     # @return [String]
     #
-    # source://faker//lib/faker/default/hipster.rb#68
+    # source://faker//lib/faker/default/hipster.rb#67
     def sentence(word_count: T.unsafe(nil), supplemental: T.unsafe(nil), random_words_to_add: T.unsafe(nil), open_compounds_allowed: T.unsafe(nil)); end
 
     # Produces random hipster sentences.
@@ -6209,7 +6209,7 @@ class Faker::Hipster < ::Faker::Base
     # @param supplemental [Boolean] Specifies if the words are supplemental
     # @return [Array<String>]
     #
-    # source://faker//lib/faker/default/hipster.rb#85
+    # source://faker//lib/faker/default/hipster.rb#84
     def sentences(number: T.unsafe(nil), supplemental: T.unsafe(nil)); end
 
     # Produces a random hipster word.
@@ -6556,7 +6556,7 @@ class Faker::Internet < ::Faker::Base
     # @param urlsafe [Boolean] Toggles charset to '-' and '_' instead of '+' and '/'.
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#523
+    # source://faker//lib/faker/default/internet.rb#526
     def base64(length: T.unsafe(nil), padding: T.unsafe(nil), urlsafe: T.unsafe(nil)); end
 
     # Generate Web Crawler's user agents
@@ -6568,7 +6568,7 @@ class Faker::Internet < ::Faker::Base
     # @param vendor [String] Name of vendor, supported vendors are googlebot, bingbot, duckduckbot, baiduspider, yandexbot
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#485
+    # source://faker//lib/faker/default/internet.rb#488
     def bot_user_agent(vendor: T.unsafe(nil)); end
 
     # Generates random token
@@ -6578,7 +6578,7 @@ class Faker::Internet < ::Faker::Base
     # @example
     #   Faker::Internet.device_token  #=> "749f535671cf6b34d8e794d212d00c703b96274e07161b18b082d0d70ef1052f"
     #
-    # source://faker//lib/faker/default/internet.rb#452
+    # source://faker//lib/faker/default/internet.rb#455
     def device_token; end
 
     # Returns the domain name
@@ -6594,7 +6594,7 @@ class Faker::Internet < ::Faker::Base
     # @param domain [String]
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#188
+    # source://faker//lib/faker/default/internet.rb#191
     def domain_name(subdomain: T.unsafe(nil), domain: T.unsafe(nil)); end
 
     # Returns the domain suffix e.g. com, org, co, biz, info etc.
@@ -6606,7 +6606,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.domain_suffix(safe: true)  #=> "test"
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#247
+    # source://faker//lib/faker/default/internet.rb#250
     def domain_suffix(safe: T.unsafe(nil)); end
 
     # Returns the domain word for internet
@@ -6615,7 +6615,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.domain_word   #=> "senger"
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#234
+    # source://faker//lib/faker/default/internet.rb#237
     def domain_word; end
 
     # Returns the email address
@@ -6643,7 +6643,7 @@ class Faker::Internet < ::Faker::Base
     # @param string [String]
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#223
+    # source://faker//lib/faker/default/internet.rb#226
     def fix_umlauts(string: T.unsafe(nil)); end
 
     # Returns the IPv4 address
@@ -6652,7 +6652,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.ip_v4_address   #=> "97.117.128.93"
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#278
+    # source://faker//lib/faker/default/internet.rb#281
     def ip_v4_address; end
 
     # Returns Ipv4 address with CIDR, range from 1 to 31
@@ -6662,7 +6662,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.ip_v4_cidr  #=> "129.162.99.74/24"
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#381
+    # source://faker//lib/faker/default/internet.rb#384
     def ip_v4_cidr; end
 
     # Returns Ipv6 address
@@ -6671,7 +6671,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.ip_v6_address   #=> "7754:76d4:c7aa:7646:ea68:1abb:4055:4343"
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#392
+    # source://faker//lib/faker/default/internet.rb#395
     def ip_v6_address; end
 
     # Returns Ipv6 address with CIDR, range between 1 to 127
@@ -6680,7 +6680,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.ip_v6_cidr  #=> "beca:9b99:4bb6:9712:af2f:516f:8507:96e1/99"
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#403
+    # source://faker//lib/faker/default/internet.rb#406
     def ip_v6_cidr; end
 
     # Returns the MAC address
@@ -6692,7 +6692,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.mac_address(prefix: 'aa:44')  #=> "aa:44:30:88:6e:95"
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#265
+    # source://faker//lib/faker/default/internet.rb#268
     def mac_address(prefix: T.unsafe(nil)); end
 
     # Produces a randomized string of characters suitable for passwords
@@ -6714,7 +6714,7 @@ class Faker::Internet < ::Faker::Base
     # @raise [ArgumentError]
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#123
+    # source://faker//lib/faker/default/internet.rb#126
     def password(min_length: T.unsafe(nil), max_length: T.unsafe(nil), mix_case: T.unsafe(nil), special_characters: T.unsafe(nil)); end
 
     # Returns the private IPv4 address
@@ -6723,7 +6723,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.private_ip_v4_address   #=> "127.120.80.42"
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#290
+    # source://faker//lib/faker/default/internet.rb#293
     def private_ip_v4_address; end
 
     # Returns lambda to check if address passed is private or not
@@ -6733,7 +6733,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.private_net_checker.call("148.120.80.42")   #=> false
     # @return [Lambda]
     #
-    # source://faker//lib/faker/default/internet.rb#338
+    # source://faker//lib/faker/default/internet.rb#341
     def private_net_checker; end
 
     # Returns the private network regular expressions
@@ -6742,7 +6742,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.private_nets_regex  #=> [/^10\./, /^100\.(6[4-9]|[7-9]\d|1[0-1]\d|12[0-7])\./, /^127\./, /^169\.254\./, /^172\.(1[6-9]|2\d|3[0-1])\./, /^192\.0\.0\./, /^192\.168\./, /^198\.(1[8-9])\./]
     # @return [Array]
     #
-    # source://faker//lib/faker/default/internet.rb#317
+    # source://faker//lib/faker/default/internet.rb#320
     def private_nets_regex; end
 
     # Returns the public IPv4 address
@@ -6751,7 +6751,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.public_ip_v4_address   #=> "127.120.80.42"
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#301
+    # source://faker//lib/faker/default/internet.rb#304
     def public_ip_v4_address; end
 
     # Returns lambda function to check address passed is reserved or not
@@ -6761,7 +6761,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.reserved_net_checker.call('192.88.199.255')  #=> false
     # @return [Lambda]
     #
-    # source://faker//lib/faker/default/internet.rb#369
+    # source://faker//lib/faker/default/internet.rb#372
     def reserved_net_checker; end
 
     # Returns the reserved network regular expressions
@@ -6770,7 +6770,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.reserved_nets_regex   #=> [/^0\./, /^192\.0\.2\./, /^192\.88\.99\./, /^198\.51\.100\./, /^203\.0\.113\./, /^(22[4-9]|23\d)\./, /^(24\d|25[0-5])\./]
     # @return [Array]
     #
-    # source://faker//lib/faker/default/internet.rb#349
+    # source://faker//lib/faker/default/internet.rb#352
     def reserved_nets_regex; end
 
     # Returns unique string in URL
@@ -6784,7 +6784,7 @@ class Faker::Internet < ::Faker::Base
     # @param glue [String] Separator to add between words passed, default used are '-' or '_'
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#438
+    # source://faker//lib/faker/default/internet.rb#441
     def slug(words: T.unsafe(nil), glue: T.unsafe(nil)); end
 
     # Returns URL
@@ -6799,7 +6799,7 @@ class Faker::Internet < ::Faker::Base
     # @param scheme [String]
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#421
+    # source://faker//lib/faker/default/internet.rb#424
     def url(host: T.unsafe(nil), path: T.unsafe(nil), scheme: T.unsafe(nil)); end
 
     # Produces a randomized hash of internet user details
@@ -6810,7 +6810,7 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.user('username', 'email', 'password') #=> { username: 'alexie', email: 'gayle@kohler.test', password: 'DtEf9P8wS31iMyC' }
     # @return [hash]
     #
-    # source://faker//lib/faker/default/internet.rb#546
+    # source://faker//lib/faker/default/internet.rb#549
     def user(*args); end
 
     # Generates the random browser identifier
@@ -6823,7 +6823,7 @@ class Faker::Internet < ::Faker::Base
     # @param vendor [String] Name of vendor, supported vendors are aol, chrome, firefox, internet_explorer, netscape, opera, safari
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#468
+    # source://faker//lib/faker/default/internet.rb#471
     def user_agent(vendor: T.unsafe(nil)); end
 
     # Returns the username
@@ -6860,15 +6860,15 @@ class Faker::Internet < ::Faker::Base
     #   Faker::Internet.uuid  #=> "8a6cdd40-6d78-4fdb-912b-190e3057197f"
     # @return [String]
     #
-    # source://faker//lib/faker/default/internet.rb#498
+    # source://faker//lib/faker/default/internet.rb#501
     def uuid; end
 
     private
 
-    # source://faker//lib/faker/default/internet.rb#570
+    # source://faker//lib/faker/default/internet.rb#573
     def construct_email(local_part, domain_name); end
 
-    # source://faker//lib/faker/default/internet.rb#557
+    # source://faker//lib/faker/default/internet.rb#560
     def sanitize_email_local_part(local_part); end
   end
 end
@@ -13347,7 +13347,7 @@ class Faker::Types < ::Faker::Base
     #   Faker::Types.character #=> "n"
     # @return [String]
     #
-    # source://faker//lib/faker/default/types.rb#37
+    # source://faker//lib/faker/default/types.rb#35
     def character; end
 
     # Produces a random complex hash with random keys and values where the values may include other hashes and arrays.
@@ -13359,7 +13359,7 @@ class Faker::Types < ::Faker::Base
     # @param number [Integer] Specifies the number of key-value pairs.
     # @return [Hash]
     #
-    # source://faker//lib/faker/default/types.rb#87
+    # source://faker//lib/faker/default/types.rb#85
     def complex_rb_hash(number: T.unsafe(nil)); end
 
     # Produces a random complex type that's either a String, an Integer, an array or a hash.
@@ -13368,7 +13368,7 @@ class Faker::Types < ::Faker::Base
     #   Faker::Types.random_complex_type #=> 1 or "a" or "bob" or {foo: "bar"}
     # @return [String, Integer]
     #
-    # source://faker//lib/faker/default/types.rb#139
+    # source://faker//lib/faker/default/types.rb#137
     def random_complex_type; end
 
     # Produces a random type that's either a String or an Integer.
@@ -13377,7 +13377,7 @@ class Faker::Types < ::Faker::Base
     #   Faker::Types.random_type #=> 1 or "a" or "bob"
     # @return [String, Integer]
     #
-    # source://faker//lib/faker/default/types.rb#120
+    # source://faker//lib/faker/default/types.rb#118
     def random_type; end
 
     # Produces a random array.
@@ -13389,7 +13389,7 @@ class Faker::Types < ::Faker::Base
     # @param len [Integer] Specifies the number of elements in the array.
     # @return [Array]
     #
-    # source://faker//lib/faker/default/types.rb#103
+    # source://faker//lib/faker/default/types.rb#101
     def rb_array(len: T.unsafe(nil), type: T.unsafe(nil)); end
 
     # Produces a random hash with random keys and values.
@@ -13401,7 +13401,7 @@ class Faker::Types < ::Faker::Base
     # @param number [Integer] Specifies the number of key-value pairs.
     # @return [Hash]
     #
-    # source://faker//lib/faker/default/types.rb#66
+    # source://faker//lib/faker/default/types.rb#64
     def rb_hash(number: T.unsafe(nil), type: T.unsafe(nil)); end
 
     # Produces a random integer.
@@ -13410,7 +13410,7 @@ class Faker::Types < ::Faker::Base
     #   Faker::Types.rb_integer #=> 1
     # @return [Integer]
     #
-    # source://faker//lib/faker/default/types.rb#50
+    # source://faker//lib/faker/default/types.rb#48
     def rb_integer(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     # Produces a random String created from word (Faker::Lorem.word)
@@ -13424,7 +13424,7 @@ class Faker::Types < ::Faker::Base
 
     private
 
-    # source://faker//lib/faker/default/types.rb#156
+    # source://faker//lib/faker/default/types.rb#154
     def titleize(word); end
   end
 end

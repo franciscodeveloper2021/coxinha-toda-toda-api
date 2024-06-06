@@ -15,7 +15,7 @@ class SectorRepository < Interfaces::RepositoryInterface
 
   sig { override.params(id: Integer).returns(Responses::SectorResponseDto) }
   def show(id:)
-    sector_dto = @sectors_dtos.find { |dto| dto.id == id }
+    sector_dto = @sectors_dtos.find { |sector_dto| sector_dto.id == id }
 
     raise ActiveRecord::RecordNotFound, I18n.t(
       "activerecord.errors.messages.record_not_found",
@@ -30,7 +30,7 @@ class SectorRepository < Interfaces::RepositoryInterface
     sector = Sector.new(name: create_params.name)
     sector.save!
 
-    sector_dto = Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
+    sector_dto = generate_sector_dto(sector: sector)
     add_sector_dto_in_memory(sector_dto: sector_dto)
 
     sector_dto
@@ -43,8 +43,8 @@ class SectorRepository < Interfaces::RepositoryInterface
     sector = Sector.find(id)
     sector.update!(name: update_params.name)
 
-    sector_dto = Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
-    update_sector_dto_in_memory(dto_id: id, updated_sector_dto: sector_dto)
+    sector_dto = generate_sector_dto(sector: sector)
+    update_sector_dto_in_memory(sector_dto_id: id, updated_sector_dto: sector_dto)
 
     sector_dto
   end
@@ -55,7 +55,7 @@ class SectorRepository < Interfaces::RepositoryInterface
 
     Sector.delete(id)
 
-    destroy_sector_dto_in_memory(dto_id: id)
+    destroy_sector_dto_in_memory(sector_dto_id: id)
   end
 
   private
@@ -65,18 +65,23 @@ class SectorRepository < Interfaces::RepositoryInterface
     @sectors_dtos = Sector.order(:id).map { |sector| Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name) }
   end
 
+  sig { params(sector: Sector).returns(Responses::SectorResponseDto) }
+  def generate_sector_dto(sector:)
+    Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
+  end
+
   sig { params(sector_dto: Responses::SectorResponseDto).void }
   def add_sector_dto_in_memory(sector_dto:)
     @sectors_dtos << sector_dto
   end
 
-  sig { params(dto_id: Integer, updated_sector_dto: Responses::SectorResponseDto).void }
-  def update_sector_dto_in_memory(dto_id:, updated_sector_dto:)
-    @sectors_dtos.map! { |dto| dto.id == dto_id ? updated_sector_dto : dto }
+  sig { params(sector_dto_id: Integer, updated_sector_dto: Responses::SectorResponseDto).void }
+  def update_sector_dto_in_memory(sector_dto_id:, updated_sector_dto:)
+    @sectors_dtos.map! { |sector_dto| sector_dto.id == sector_dto_id ? updated_sector_dto : sector_dto }
   end
 
-  sig { params(dto_id: Integer).void }
-  def destroy_sector_dto_in_memory(dto_id:)
-    @sectors_dtos.reject! { |dto| dto.id == dto_id }
+  sig { params(sector_dto_id: Integer).void }
+  def destroy_sector_dto_in_memory(sector_dto_id:)
+    @sectors_dtos.reject! { |sector_dto| sector_dto.id == sector_dto_id }
   end
 end

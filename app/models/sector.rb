@@ -1,10 +1,13 @@
 # typed: true
 class Sector < ApplicationRecord
   include ValidationConstants
+  include ValidationMethods
 
   extend T::Sig
 
-  before_validation :strip_whitespace
+  before_validation do
+    strip_whitespace_for_attributes
+  end
 
   sig { returns(String) }
   def name
@@ -23,7 +26,7 @@ class Sector < ApplicationRecord
 
   private
 
-  def strip_whitespace
-    self.name = name.strip if name.present?
+  def strip_whitespace_for_attributes
+    strip_whitespace(:name)
   end
 end
