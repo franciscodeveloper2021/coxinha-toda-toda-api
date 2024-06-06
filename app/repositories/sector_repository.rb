@@ -15,7 +15,7 @@ class SectorRepository < Interfaces::RepositoryInterface
 
   sig { override.params(id: Integer).returns(Responses::SectorResponseDto) }
   def show(id:)
-    sector_dto = @sectors_dtos.find { |dto| dto.id == id }
+    sector_dto = @sectors_dtos.find { |sector_dto| sector_dto.id == id }
 
     raise ActiveRecord::RecordNotFound, I18n.t(
       "activerecord.errors.messages.record_not_found",
