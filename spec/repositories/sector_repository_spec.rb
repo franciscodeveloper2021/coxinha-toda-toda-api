@@ -30,6 +30,7 @@ RSpec.describe SectorRepository, type: :repository do
         end
       end
     end
+  end
 
   describe "#index" do
     context "when there are no sectors" do
