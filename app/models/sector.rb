@@ -5,18 +5,18 @@ class Sector < ApplicationRecord
 
   extend T::Sig
 
-  before_validation do
-    strip_whitespace_for_attributes
-  end
-
   sig { returns(String) }
   def name
-    T.unsafe(self).read_attribute(:name)
+    read_attribute(:name)
   end
 
-  sig { params(value: String).returns(String) }
+  sig { params(value: String).void }
   def name=(value)
-    T.unsafe(self).write_attribute(:name, value)
+    write_attribute(:name, value)
+  end
+
+  before_validation do
+    strip_whitespace_for_attributes
   end
 
   validates :name,
