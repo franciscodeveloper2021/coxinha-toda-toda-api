@@ -26,6 +26,7 @@ class Sector < ApplicationRecord
 
   private
 
+  sig { void }
   def strip_whitespace_for_attributes
     strip_whitespace(:name)
   end
