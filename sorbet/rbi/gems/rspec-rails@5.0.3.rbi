@@ -792,20 +792,20 @@ class RSpec::Rails::FixtureFileUploadSupport::RailsFixtureFileWrapper
   include ::ActionDispatch::TestProcess
   include ::ActiveSupport::Testing::FileFixtures
 
-  # source://activesupport/7.1.3.2/lib/active_support/testing/file_fixtures.rb#20
+  # source://activesupport/7.1.3.4/lib/active_support/testing/file_fixtures.rb#20
   def file_fixture_path; end
 
-  # source://activesupport/7.1.3.2/lib/active_support/testing/file_fixtures.rb#20
+  # source://activesupport/7.1.3.4/lib/active_support/testing/file_fixtures.rb#20
   def file_fixture_path?; end
 
   class << self
-    # source://activesupport/7.1.3.2/lib/active_support/testing/file_fixtures.rb#20
+    # source://activesupport/7.1.3.4/lib/active_support/testing/file_fixtures.rb#20
     def file_fixture_path; end
 
-    # source://activesupport/7.1.3.2/lib/active_support/testing/file_fixtures.rb#20
+    # source://activesupport/7.1.3.4/lib/active_support/testing/file_fixtures.rb#20
     def file_fixture_path=(value); end
 
-    # source://activesupport/7.1.3.2/lib/active_support/testing/file_fixtures.rb#20
+    # source://activesupport/7.1.3.4/lib/active_support/testing/file_fixtures.rb#20
     def file_fixture_path?; end
 
     # Returns the value of attribute fixture_path.
