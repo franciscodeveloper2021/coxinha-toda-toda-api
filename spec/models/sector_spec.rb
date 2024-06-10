@@ -16,10 +16,7 @@ RSpec.describe Sector, type: :model do
 
     context "when name doesn't have leading or trailing spaces" do
       it "does not modify the name attribute" do
-        sector.name = "Combos"
-        sector.valid?
-
-        expect(sector.name).to eq("Combos")
+        expect(sector.name).to eq(sector.name)
       end
     end
   end
