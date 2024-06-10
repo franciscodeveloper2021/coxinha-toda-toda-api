@@ -4,9 +4,9 @@ RSpec.describe Requests::SectorRequestDto do
   let(:name) { 'Bebidas' }
   subject { described_class.new(name: name) }
 
-  describe '#initialize' do
+  describe "#initialize" do
     context "when name has leading or trailing spaces" do
-      it 'removes leading and trailing spaces from the name' do
+      it "removes leading and trailing spaces from the name" do
         name_with_spaces = '  Bebidas  '
 
         subject = described_class.new(name: name_with_spaces)
@@ -16,7 +16,7 @@ RSpec.describe Requests::SectorRequestDto do
     end
 
     context "when name is in the rightly formatted" do
-      it 'assigns the name correctly' do
+      it "assigns the name correctly" do
         expect(subject.name).to eq(name)
       end
     end

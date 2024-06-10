@@ -7,19 +7,7 @@ class Sector < ApplicationRecord
 
   has_many :products
 
-  sig { returns(String) }
-  def name
-    read_attribute(:name)
-  end
-
-  sig { params(value: String).void }
-  def name=(value)
-    write_attribute(:name, value)
-  end
-
-
   before_validation :strip_whitespace_for_attributes
-
 
   validates :name,
             presence: true,

@@ -4,32 +4,6 @@ RSpec.describe Sector, type: :model do
   let!(:sector) { build(:sector) }
   let(:attribute_name) { Sector.human_attribute_name(:name) }
 
-  describe "#type checking" do
-    context "with invalid attributes type" do
-      context "when name attribute is not a String" do
-        it "raises a TypeError" do
-          expect { sector.name = 123 }.to raise_error(TypeError)
-        end
-      end
-    end
-
-    context "with valid attributes type" do
-      context "when name attribute is a String" do
-        it "ensures sorbet type checking for the name attribute" do
-          T.assert_type!(sector.name, String)
-        end
-
-        it "ensures ruby dynamic type checking for the name attribute" do
-          expect(sector.name).to be_a(String)
-        end
-
-        it "does not raise a type error" do
-          expect { T.assert_type!(sector.name, String) }.not_to raise_error
-        end
-      end
-    end
-  end
-
   describe "#before_validation" do
     context "when name has leading or trailing spaces" do
       it "removes leading and trailing spaces from the name attribute" do
