@@ -15,8 +15,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_08_031305) do
   enable_extension "plpgsql"
 
   create_table "products", force: :cascade do |t|
-    t.string "photo_url", null: false
-    t.string "name", null: false
+    t.string "name", limit: 50, null: false
     t.text "description"
     t.float "price", null: false
     t.boolean "available", default: true, null: false

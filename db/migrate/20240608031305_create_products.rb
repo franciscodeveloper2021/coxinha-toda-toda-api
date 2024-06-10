@@ -1,9 +1,8 @@
 class CreateProducts < ActiveRecord::Migration[7.1]
   def change
     create_table :products do |t|
-      t.string :photo_url, null: false
-      t.string :name, null: false
-      t.text :description
+      t.string :name, null: false, limit: 50
+      t.text :description, limit: 500
       t.float :price, null: false
       t.boolean :available, null: false, default: true
       t.references :sector, null: false, foreign_key: true
