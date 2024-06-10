@@ -4,7 +4,7 @@ RSpec.describe Sector, type: :model do
   let!(:sector) { build(:sector) }
   let(:attribute_name) { Sector.human_attribute_name(:name) }
 
-  describe "type checking" do
+  describe "#type checking" do
     context "with invalid attributes type" do
       context "when name attribute is not a String" do
         it "raises a TypeError" do
@@ -30,7 +30,7 @@ RSpec.describe Sector, type: :model do
     end
   end
 
-  describe "before_validation" do
+  describe "#before_validation" do
     context "when name has leading or trailing spaces" do
       it "removes leading and trailing spaces from the name attribute" do
         sector.name = "  Combos  "
@@ -50,7 +50,7 @@ RSpec.describe Sector, type: :model do
     end
   end
 
-  describe "validates" do
+  describe "#validates" do
     context "with invalid attributes" do
       context "when name attribute is invalid" do
         context "when sector's name is not present" do
