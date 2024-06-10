@@ -14,6 +14,9 @@ class Product < ApplicationRecord
             length: { maximum: MAXIMUM_NAME_LENGTH },
             uniqueness: { case_sensitive: false }
 
+  validates :description,
+            length: { maximum: MAXIMUM_DESCRIPTION_LENGTH }
+
   private
 
   sig { void }

@@ -4,6 +4,7 @@ RSpec.describe ValidationConstants do
 
   MIN_NAME_LENGTH = ValidationConstants::MINIMUM_NAME_LENGTH
   MAX_NAME_LENGTH = ValidationConstants::MAXIMUM_NAME_LENGTH
+  MAX_DESCRIPTION_LENGTH = ValidationConstants::MAXIMUM_DESCRIPTION_LENGTH
 
   describe "constants" do
     context "with sorbet static type checking" do
@@ -14,6 +15,10 @@ RSpec.describe ValidationConstants do
       it "ensures sorbet type checking for MAXIMUM_NAME_LENGTH" do
         T.assert_type!(MAX_NAME_LENGTH, Integer)
       end
+
+      it "ensures sorbet type checking for MAXIMUM_DESCRIPTION_LENGTH" do
+        T.assert_type!(MAX_DESCRIPTION_LENGTH, Integer)
+      end
     end
 
     context "with ruby dynamic type checking" do
@@ -23,6 +28,10 @@ RSpec.describe ValidationConstants do
 
       it "ensures ruby dynamic type checking for MAXIMUM_NAME_LENGTH" do
         expect(MAX_NAME_LENGTH).to be_a(Integer)
+      end
+
+      it "ensures ruby dynamic type checking for MAXIMUM_DESCRIPTION_LENGTH" do
+        expect(MAX_DESCRIPTION_LENGTH).to be_a(Integer)
       end
     end
   end

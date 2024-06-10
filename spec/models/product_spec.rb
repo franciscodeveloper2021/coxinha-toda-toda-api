@@ -97,10 +97,6 @@ RSpec.describe Product, type: :model do
           end
         end
       end
-
-      context "description" do
-        let(:attribute_description) { Sector.human_attribute_name(:description) }
-      end
     end
   end
 end
