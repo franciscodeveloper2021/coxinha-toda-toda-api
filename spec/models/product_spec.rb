@@ -47,6 +47,59 @@ RSpec.describe Product, type: :model do
             )
           end
         end
+
+        context "when product's name length is not valid" do
+          context "with too long name" do
+            it "receives an ActiveModel too long error" do
+              name_above_maximum_length = product.name.slice!(1..) * (ValidationConstants::MAXIMUM_NAME_LENGTH + 1)
+
+              product.name = name_above_maximum_length
+              product.valid?
+
+              expect(product.errors.full_messages)
+                .to include(
+                  I18n.t("activerecord.errors.full_messages.too_long",
+                    attribute: attribute_name,
+                    count: ValidationConstants::MAXIMUM_NAME_LENGTH
+                  )
+                )
+            end
+          end
+        end
+
+        context "when name has been already taken" do
+          before do
+            create(:product, name: "Coxinha")
+          end
+
+          context "with the same string case" do
+            it "receives an ActiveModel taken error" do
+              invalid_product = build(:product, name: "Coxinha")
+              invalid_product.valid?
+
+              expect(invalid_product.errors.full_messages)
+                .to include(
+                  I18n.t("activerecord.errors.full_messages.taken", attribute: attribute_name)
+                )
+            end
+          end
+
+          context "with different string case" do
+            it "receives an ActiveModel taken error" do
+              invalid_product = build(:product, name: "coxinha")
+              invalid_product.valid?
+
+              expect(invalid_product.errors.full_messages)
+                .to include(
+                  I18n.t("activerecord.errors.full_messages.taken", attribute: attribute_name)
+                )
+            end
+          end
+        end
+      end
+
+      context "description" do
+        let(:attribute_description) { Sector.human_attribute_name(:description) }
       end
     end
   end

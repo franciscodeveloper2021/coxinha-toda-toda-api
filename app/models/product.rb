@@ -1,5 +1,6 @@
 # typed: true
 class Product < ApplicationRecord
+  include ValidationConstants
   include ValidationMethods
 
   extend T::Sig
@@ -9,8 +10,9 @@ class Product < ApplicationRecord
   before_validation :strip_whitespace_for_attributes
 
   validates :name,
-            presence: true
-            
+            presence: true,
+            length: { maximum: MAXIMUM_NAME_LENGTH },
+            uniqueness: { case_sensitive: false }
 
   private
 
