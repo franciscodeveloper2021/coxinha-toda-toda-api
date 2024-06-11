@@ -151,5 +151,11 @@ RSpec.describe Product, type: :model do
         end
       end
     end
+
+    context "with valid attributes" do
+      it "allows product to be created on database" do
+        expect(product.valid?).to be(true)
+      end
+    end
   end
 end
