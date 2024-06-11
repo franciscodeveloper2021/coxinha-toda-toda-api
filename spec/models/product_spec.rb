@@ -3,6 +3,24 @@ require "rails_helper"
 RSpec.describe Product, type: :model do
   let!(:product) { build(:product) }
 
+
+  describe "#associations" do
+    context "sector" do
+      it "belongs to sector" do
+        product_with_sector = create(:product)
+
+        expect(product_with_sector.sector).to be_a(Sector)
+      end
+
+      it "allows sector to be null" do
+        product.sector = nil
+        product.valid?
+
+        expect(product.valid?).to be(true)
+      end
+    end
+  end
+
   describe "#before_validation" do
     context "when attribute has leading or trailing spaces" do
       it "removes leading and trailing spaces from name attribute" do

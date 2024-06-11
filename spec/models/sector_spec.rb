@@ -4,6 +4,21 @@ RSpec.describe Sector, type: :model do
   let!(:sector) { build(:sector) }
   let(:attribute_name) { Sector.human_attribute_name(:name) }
 
+  describe "#associations" do
+    context "products" do
+      it "has many products" do
+        product1 = create(:product, sector: sector)
+        product2 = create(:product, sector: sector)
+
+        expect(sector.products).to include(product1, product2)
+      end
+
+      it "can have no products associated" do
+        expect(sector.products).to be_empty
+      end
+    end
+  end
+
   describe "#before_validation" do
     context "when name has leading or trailing spaces" do
       it "removes leading and trailing spaces from the name attribute" do
