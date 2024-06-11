@@ -40,16 +40,14 @@ RSpec.describe Sector, type: :model do
     context "with invalid attributes" do
       context "when name attribute is invalid" do
         context "when sector's name is not present" do
-          context "with empty string value" do
-            it "receives an ActiveModel blank error" do
-              sector.name = ""
-              sector.valid?
+          it "receives an ActiveModel blank error" do
+            sector.name = ""
+            sector.valid?
 
-              expect(sector.errors.full_messages)
-                .to include(
-                  I18n.t("activerecord.errors.full_messages.blank", attribute: attribute_name)
-                )
-            end
+            expect(sector.errors.full_messages)
+              .to include(
+                I18n.t("activerecord.errors.full_messages.blank", attribute: attribute_name)
+              )
           end
         end
 
