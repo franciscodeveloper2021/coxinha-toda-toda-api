@@ -51,9 +51,9 @@ RSpec.describe Product, type: :model do
         context "when product's name length is not valid" do
           context "with too long name" do
             it "receives an ActiveModel too long error" do
-              name_above_maximum_length = product.name.slice!(1..) * (ValidationConstants::MAXIMUM_NAME_LENGTH + 1)
+              description_above_maximum_length = product.name.slice!(1..) * (ValidationConstants::MAXIMUM_NAME_LENGTH + 1)
 
-              product.name = name_above_maximum_length
+              product.name = description_above_maximum_length
               product.valid?
 
               expect(product.errors.full_messages)
@@ -94,6 +94,59 @@ RSpec.describe Product, type: :model do
                   I18n.t("activerecord.errors.full_messages.taken", attribute: attribute_name)
                 )
             end
+          end
+        end
+      end
+
+      context "description" do
+        let(:attribute_descritpion) { Sector.human_attribute_name(:description) }
+
+        context "with too long descritpion" do
+          it "receives an ActiveModel too long error" do
+            description_above_maximum_length = product.description.slice!(1..) * (ValidationConstants::MAXIMUM_DESCRIPTION_LENGTH + 1)
+
+            product.description = description_above_maximum_length
+            product.valid?
+
+            expect(product.errors.full_messages)
+              .to include(
+                I18n.t("activerecord.errors.full_messages.too_long",
+                  attribute: attribute_descritpion,
+                  count: ValidationConstants::MAXIMUM_DESCRIPTION_LENGTH
+                )
+              )
+          end
+        end
+      end
+
+      context "price" do
+        let(:attribute_price) { Sector.human_attribute_name(:price) }
+
+        context "when price is not present" do
+          it "receives an ActiveModel blank error" do
+            product.price = nil
+            product.valid?
+
+            expect(product.errors.full_messages)
+              .to include(
+                I18n.t("activerecord.errors.full_messages.blank", attribute: attribute_price)
+            )
+          end
+        end
+      end
+
+      context "available" do
+        let(:attribute_available) { Sector.human_attribute_name(:available) }
+
+        context "when available is not boolean" do
+          it "receives an ActiveModel blank error" do
+            product.available = nil
+            product.valid?
+
+            expect(product.errors.full_messages)
+              .to include(
+                I18n.t("activerecord.errors.full_messages.inclusion", attribute: attribute_available)
+            )
           end
         end
       end

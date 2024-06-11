@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_08_031305) do
     t.text "description"
     t.float "price", null: false
     t.boolean "available", default: true, null: false
-    t.bigint "sector_id", null: false
+    t.bigint "sector_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index "lower((name)::text)", name: "index_products_on_lower_name", unique: true

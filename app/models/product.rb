@@ -17,6 +17,11 @@ class Product < ApplicationRecord
   validates :description,
             length: { maximum: MAXIMUM_DESCRIPTION_LENGTH }
 
+  validates :price,
+            presence: true
+
+  validates :available,
+            inclusion: { in: [true, false] }
   private
 
   sig { void }
