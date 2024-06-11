@@ -34,5 +34,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_08_031305) do
     t.check_constraint "length(name::text) >= 5", name: "min_length_name"
   end
 
-  add_foreign_key "products", "sectors"
+  add_foreign_key "products", "sectors", on_delete: :nullify
 end

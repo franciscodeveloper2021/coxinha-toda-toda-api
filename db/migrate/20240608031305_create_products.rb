@@ -5,7 +5,7 @@ class CreateProducts < ActiveRecord::Migration[7.1]
       t.text :description, limit: 500
       t.float :price, null: false
       t.boolean :available, null: false, default: true
-      t.references :sector, null: true, foreign_key: true
+      t.references :sector, null: true, foreign_key: { on_delete: :nullify }
 
       t.timestamps
     end

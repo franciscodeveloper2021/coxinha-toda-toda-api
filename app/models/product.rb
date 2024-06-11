@@ -5,7 +5,7 @@ class Product < ApplicationRecord
 
   extend T::Sig
 
-  belongs_to :sector
+  belongs_to :sector, optional: true
 
   before_validation :strip_whitespace_for_attributes
 
