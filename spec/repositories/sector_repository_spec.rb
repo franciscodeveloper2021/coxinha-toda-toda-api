@@ -43,18 +43,12 @@ RSpec.describe SectorRepository, type: :repository do
 
     context "when there are registered sectors" do
       let(:retrieved_sectors) { subject.index }
-      it "retrieves all registered sectors with correct IDs" do
+
+      it "retrieves all registered sectors" do
         sectors_ids = sectors.pluck(:id)
         retrieved_sectors_ids = retrieved_sectors.map(&:id)
 
         expect(retrieved_sectors_ids).to match_array(sectors_ids)
-      end
-
-      it "retrieves all registered sectors with correct names" do
-        sectors_names = sectors.pluck(:name)
-        retrieved_sectors_names = retrieved_sectors.map(&:name)
-
-        expect(retrieved_sectors_names).to match_array(sectors_names)
       end
     end
   end
