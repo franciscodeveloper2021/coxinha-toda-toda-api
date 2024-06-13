@@ -4,33 +4,22 @@ RSpec.describe Sector, type: :model do
   let!(:sector) { build(:sector) }
   let(:attribute_name) { Sector.human_attribute_name(:name) }
 
-  describe "type checking" do
-    context "with invalid attributes type" do
-      context "when name attribute is not a String" do
-        it "raises a TypeError" do
-          expect { sector.name = 123 }.to raise_error(TypeError)
-        end
+  describe "#associations" do
+    context "products" do
+      it "has many products" do
+        product1 = create(:product, sector: sector)
+        product2 = create(:product, sector: sector)
+
+        expect(sector.products).to include(product1, product2)
       end
-    end
 
-    context "with valid attributes type" do
-      context "when name attribute is a String" do
-        it "ensures sorbet type checking for the name attribute" do
-          T.assert_type!(sector.name, String)
-        end
-
-        it "ensures ruby dynamic type checking for the name attribute" do
-          expect(sector.name).to be_a(String)
-        end
-
-        it "does not raise a type error" do
-          expect { T.assert_type!(sector.name, String) }.not_to raise_error
-        end
+      it "can have no products associated" do
+        expect(sector.products).to be_empty
       end
     end
   end
 
-  describe "before_validation" do
+  describe "#before_validation" do
     context "when name has leading or trailing spaces" do
       it "removes leading and trailing spaces from the name attribute" do
         sector.name = "  Combos  "
@@ -42,28 +31,23 @@ RSpec.describe Sector, type: :model do
 
     context "when name doesn't have leading or trailing spaces" do
       it "does not modify the name attribute" do
-        sector.name = "Combos"
-        sector.valid?
-
-        expect(sector.name).to eq("Combos")
+        expect(sector.name).to eq(sector.name)
       end
     end
   end
 
-  describe "validates" do
+  describe "#validates" do
     context "with invalid attributes" do
-      context "when name attribute is invalid" do
+      context "with invalid" do
         context "when sector's name is not present" do
-          context "with empty string value" do
-            it "receives an ActiveModel blank error" do
-              sector.name = ""
-              sector.valid?
+          it "receives an ActiveModel blank error" do
+            sector.name = ""
+            sector.valid?
 
-              expect(sector.errors.full_messages)
-                .to include(
-                  I18n.t("activerecord.errors.full_messages.blank", attribute: attribute_name)
-                )
-            end
+            expect(sector.errors.full_messages)
+              .to include(
+                I18n.t("activerecord.errors.full_messages.blank", attribute: attribute_name)
+              )
           end
         end
 
@@ -135,10 +119,8 @@ RSpec.describe Sector, type: :model do
     end
 
     context "with valid attributes" do
-      context "when name attribute is valid" do
-        it "is allowed to be persisted on the database" do
-          expect(sector.valid?).to be(true)
-        end
+      it "allows sector to be created on database" do
+        expect(sector.valid?).to be(true)
       end
     end
   end

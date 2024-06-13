@@ -5,19 +5,9 @@ class Sector < ApplicationRecord
 
   extend T::Sig
 
-  sig { returns(String) }
-  def name
-    read_attribute(:name)
-  end
+  has_many :products
 
-  sig { params(value: String).void }
-  def name=(value)
-    write_attribute(:name, value)
-  end
-
-  before_validation do
-    strip_whitespace_for_attributes
-  end
+  before_validation :strip_whitespace_for_attributes
 
   validates :name,
             presence: true,

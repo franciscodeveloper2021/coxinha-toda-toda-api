@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_09_195526) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_08_031305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "products", force: :cascade do |t|
+    t.string "name", limit: 50, null: false
+    t.text "description"
+    t.float "price", null: false
+    t.boolean "available", default: true, null: false
+    t.bigint "sector_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "lower((name)::text)", name: "index_products_on_lower_name", unique: true
+    t.index ["sector_id"], name: "index_products_on_sector_id"
+  end
 
   create_table "sectors", force: :cascade do |t|
     t.string "name", limit: 50, null: false
@@ -22,4 +34,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_09_195526) do
     t.check_constraint "length(name::text) >= 5", name: "min_length_name"
   end
 
+  add_foreign_key "products", "sectors", on_delete: :nullify
 end
