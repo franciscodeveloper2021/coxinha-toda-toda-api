@@ -14,7 +14,6 @@ RSpec.describe Product, type: :model do
 
       it "allows sector to be nil" do
         product.sector = nil
-        product.valid?
 
         expect(product.valid?).to be(true)
       end
