@@ -12,7 +12,7 @@ RSpec.describe Product, type: :model do
         expect(product_with_sector.sector).to be_a(Sector)
       end
 
-      it "allows sector to be null" do
+      it "allows sector to be nil" do
         product.sector = nil
         product.valid?
 
