@@ -13,6 +13,18 @@ class ProductRepository < Interfaces::RepositoryInterface
     @products_dtos
   end
 
+  sig { override.params(id: Integer).returns(Responses::ProductResponseDto) }
+  def show(id:)
+    product_dto = @products_dtos.find { |product_dto| product_dto.id == id }
+
+    raise ActiveRecord::RecordNotFound, I18n.t(
+      "activerecord.errors.messages.record_not_found",
+      attribute: "Product", key: "id", value: id
+    ) if product_dto.nil?
+
+    product_dto
+  end
+
   private
 
   sig { returns(T::Array[Responses::ProductResponseDto]) }

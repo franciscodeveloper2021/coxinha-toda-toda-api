@@ -7,7 +7,6 @@ RSpec.describe SectorRepository, type: :repository do
   let(:first_sector) { sectors.first }
 
   let(:invalid_id) { -1 }
-
   let(:record_not_found_message) do
     I18n.t("activerecord.errors.messages.record_not_found", attribute: "Sector", key: "id", value: invalid_id)
   end
@@ -56,9 +55,9 @@ RSpec.describe SectorRepository, type: :repository do
   describe "#show" do
     context "when id is not an Integer" do
       it "raises a TypeError" do
-        invalid_id = "id"
+        invalid_id_type = "id"
 
-        expect { subject.show(id: invalid_id) }.to raise_error(TypeError)
+        expect { subject.show(id: invalid_id_type) }.to raise_error(TypeError)
       end
     end
 

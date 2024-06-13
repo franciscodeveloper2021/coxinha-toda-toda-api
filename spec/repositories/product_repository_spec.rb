@@ -4,6 +4,12 @@ RSpec.describe ProductRepository, type: :repository do
   let(:subject) { described_class.new }
 
   let!(:products) { create_list(:product, 5)}
+  let(:first_product) { products.first }
+
+  let(:invalid_id) { -1 }
+  let(:record_not_found_message) do
+    I18n.t("activerecord.errors.messages.record_not_found", attribute: "Product", key: "id", value: invalid_id)
+  end
 
   describe "#initialize" do
     context "type checking" do
@@ -42,6 +48,36 @@ RSpec.describe ProductRepository, type: :repository do
         retrieved_products_ids = retrieved_products.map(&:id)
 
         expect(retrieved_products_ids).to match_array(products_ids)
+      end
+    end
+  end
+
+  describe "#show" do
+    context "when id is not an Integer" do
+      it "raises a TypeError" do
+        invalid_id_type = "id"
+
+        expect { subject.show(id: invalid_id_type) }.to raise_error(TypeError)
+      end
+    end
+
+    context "when product does not exist" do
+      it "raises an ActiveRecord::RecordNotFound error" do
+        expect {
+          subject.show(id: invalid_id)
+        }.to raise_error(
+            ActiveRecord::RecordNotFound,
+            record_not_found_message
+          )
+      end
+    end
+
+    context "when product exists" do
+      it "returns a PoductResponseDto" do
+        valid_id = first_product.id
+        product_dto = subject.show(id: valid_id)
+
+        expect(product_dto).to be_a(Responses::ProductResponseDto)
       end
     end
   end
