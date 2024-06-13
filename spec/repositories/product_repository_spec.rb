@@ -81,4 +81,39 @@ RSpec.describe ProductRepository, type: :repository do
       end
     end
   end
+
+  describe "#destroy" do
+    context "with invalid params" do
+      it "raises an ActiveRecord::RecordNotFound error" do
+        expect {
+          subject.destroy(id: invalid_id)
+        }.to raise_error(
+            ActiveRecord::RecordNotFound,
+            record_not_found_message
+          )
+      end
+    end
+
+    context "with valid params" do
+      let(:last_product) { products.last }
+
+      before do
+        subject.destroy(id: last_product.id)
+      end
+
+      it "deletes product on database" do
+        products = Product.all
+
+        expect(products).not_to include(last_product)
+      end
+
+      it "deletes product DTO in memory" do
+        subject.send(:initialize_products_dtos)
+
+        products_dtos = subject.instance_variable_get(:@products_dtos)
+
+        expect(products_dtos.map(&:id)).not_to include(last_product.id)
+      end
+    end
+  end
 end

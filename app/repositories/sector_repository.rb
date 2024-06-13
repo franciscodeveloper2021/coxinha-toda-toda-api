@@ -62,7 +62,7 @@ class SectorRepository < Interfaces::RepositoryInterface
 
   sig { returns(T::Array[Responses::SectorResponseDto]) }
   def initialize_sectors_dtos
-    @sectors_dtos = Sector.order(:id).map { |sector| Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name) }
+    @sectors_dtos = Sector.order(:id).map { |sector| generate_sector_dto(sector: sector) }
   end
 
   sig { params(sector: Sector).returns(Responses::SectorResponseDto) }

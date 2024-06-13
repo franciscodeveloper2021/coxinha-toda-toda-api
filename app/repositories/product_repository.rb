@@ -25,12 +25,26 @@ class ProductRepository < Interfaces::RepositoryInterface
     product_dto
   end
 
+  sig { override.params(id: Integer).void }
+  def destroy(id:)
+    show(id: id)
+
+    Product.delete(id)
+
+    destroy_product_dto_in_memory(product_id: id)
+  end
   private
 
   sig { returns(T::Array[Responses::ProductResponseDto]) }
   def initialize_products_dtos
     @products_dtos = Product.order(:id).map do |product|
-      Responses::ProductResponseDto.new(
+      generate_product_dto(product: product)
+    end
+  end
+
+  sig { params(product: Product).returns(Responses::ProductResponseDto) }
+  def generate_product_dto(product:)
+    Responses::ProductResponseDto.new(
         id: T.must(product.id),
         name: product.name,
         description: product.description,
@@ -38,6 +52,10 @@ class ProductRepository < Interfaces::RepositoryInterface
         available: product.available,
         sector_id: product.sector_id
       )
-    end
+  end
+
+  sig { params(product_id: Integer).void }
+  def destroy_product_dto_in_memory(product_id:)
+    @products_dtos.reject! { |product| product.id == product_id }
   end
 end
