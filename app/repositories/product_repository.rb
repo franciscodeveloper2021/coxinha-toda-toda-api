@@ -33,6 +33,7 @@ class ProductRepository < Interfaces::RepositoryInterface
 
     destroy_product_dto_in_memory(product_id: id)
   end
+
   private
 
   sig { returns(T::Array[Responses::ProductResponseDto]) }
