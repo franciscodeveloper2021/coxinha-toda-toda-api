@@ -50,7 +50,7 @@ RSpec.describe Product, type: :model do
 
   describe "#validates" do
     context "with invalid attributes" do
-      context "name" do
+      context "with invalid name" do
         let(:attribute_name) { Sector.human_attribute_name(:name) }
 
         context "when name is not present" do
@@ -115,7 +115,7 @@ RSpec.describe Product, type: :model do
         end
       end
 
-      context "description" do
+      context "with invalid description" do
         let(:attribute_descritpion) { Sector.human_attribute_name(:description) }
 
         context "with too long descritpion" do
@@ -136,7 +136,7 @@ RSpec.describe Product, type: :model do
         end
       end
 
-      context "price" do
+      context "with invalid price" do
         let(:attribute_price) { Sector.human_attribute_name(:price) }
 
         context "when price is not present" do
@@ -152,7 +152,7 @@ RSpec.describe Product, type: :model do
         end
       end
 
-      context "available" do
+      context "with invalid available" do
         let(:attribute_available) { Sector.human_attribute_name(:available) }
 
         context "when available is not boolean" do
