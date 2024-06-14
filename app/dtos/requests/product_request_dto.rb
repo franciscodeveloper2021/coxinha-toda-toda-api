@@ -3,9 +3,6 @@ module Requests
   class ProductRequestDto
     extend T::Sig
 
-    sig { returns(Integer) }
-    attr_reader :id
-
     sig { returns(String) }
     attr_reader :name
 
