@@ -13,20 +13,8 @@ RSpec.describe ProductRepository, type: :repository do
 
   describe "#initialize" do
     context "type checking" do
-      context "with sorbet static type checking" do
-        it "has @products_dtos as instance variable of type ProductResponseDto Array" do
-          T.assert_type!(subject.instance_variable_get(:@products_dtos), T::Array[Responses::ProductResponseDto])
-        end
-      end
-
-      context "with ruby dynamic type checking" do
-        it "has @products_dtos as instance variable of type Array" do
-          expect(subject.instance_variable_get(:@products_dtos)).to be_a(Array)
-        end
-
-        it "has @products_dtos with elements of type ProductResponseDto" do
-          expect(subject.instance_variable_get(:@products_dtos)).to all(be_a(Responses::ProductResponseDto))
-        end
+      it "has @products_dtos as instance variable of type ProductResponseDto Array" do
+        T.assert_type!(subject.instance_variable_get(:@products_dtos), T::Array[Responses::ProductResponseDto])
       end
     end
   end
@@ -81,6 +69,58 @@ RSpec.describe ProductRepository, type: :repository do
       end
     end
   end
+
+  describe "#create" do
+    let(:sector) { create(:sector) }
+    context "with invalid params" do
+      let(:invalid_params) do
+        Requests::ProductRequestDto.new(
+          name: '',
+          description: '',
+          price: -1.0,
+          available: true,
+          sector_id: sector.id
+        )
+      end
+
+      it "raises ActiveRecord::RecordInvalid" do
+        expect { subject.create(create_params: invalid_params) }
+          .to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+
+    context "with valid params" do
+      let(:valid_params) do
+        Requests::ProductRequestDto.new(
+          name: 'Coca-Cola',
+          description: 'Refrigerante de cola',
+          price: 5.99,
+          available: true,
+          sector_id: sector.id
+        )
+      end
+
+      it "saves product on database" do
+        expect { subject.create(create_params: valid_params) }
+          .to change { Product.count }.by(1)
+      end
+
+      it "adds product DTO in memory" do
+        product = subject.create(create_params: valid_params)
+        found_product_dto = subject.show(id: product.id)
+
+        expect(product.id).to eq(found_product_dto.id)
+        expect(product.name).to eq(found_product_dto.name)
+      end
+
+      it "returns a ProductResponseDto" do
+        product = subject.create(create_params: valid_params)
+
+        expect(product).to be_a(Responses::ProductResponseDto)
+      end
+    end
+  end
+
 
   describe "#destroy" do
     context "with invalid params" do

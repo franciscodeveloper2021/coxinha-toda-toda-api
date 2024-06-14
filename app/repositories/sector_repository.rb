@@ -27,7 +27,7 @@ class SectorRepository < Interfaces::RepositoryInterface
 
   sig { override.params(create_params: Requests::SectorRequestDto).returns(Responses::SectorResponseDto) }
   def create(create_params:)
-    sector = Sector.new(name: create_params.name)
+    sector = build_sector(create_params: create_params)
     sector.save!
 
     sector_dto = generate_sector_dto(sector: sector)
@@ -83,5 +83,12 @@ class SectorRepository < Interfaces::RepositoryInterface
   sig { params(sector_dto_id: Integer).void }
   def destroy_sector_dto_in_memory(sector_dto_id:)
     @sectors_dtos.reject! { |sector_dto| sector_dto.id == sector_dto_id }
+  end
+
+  sig { params(create_params: Requests::SectorRequestDto).returns(Sector) }
+  def build_sector(create_params:)
+    Sector.new(
+      name: create_params.name
+    )
   end
 end

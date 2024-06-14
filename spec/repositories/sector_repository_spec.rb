@@ -13,20 +13,8 @@ RSpec.describe SectorRepository, type: :repository do
 
   describe "#initialize" do
     context "type checking" do
-      context "with sorbet static type checking" do
-        it "has @sectors_dtos as instance variable of type SectorResponseDto Array" do
-          T.assert_type!(subject.instance_variable_get(:@sectors_dtos), T::Array[Responses::SectorResponseDto])
-        end
-      end
-
-      context "with ruby dynamic type checking" do
-        it "has @sectors_dtos as instance variable of type Array" do
-          expect(subject.instance_variable_get(:@sectors_dtos)).to be_a(Array)
-        end
-
-        it "has @sectors_dtos with elements of type SectorResponseDto" do
-          expect(subject.instance_variable_get(:@sectors_dtos)).to all(be_a(Responses::SectorResponseDto))
-        end
+      it "has @sectors_dtos as instance variable of type SectorResponseDto Array" do
+        T.assert_type!(subject.instance_variable_get(:@sectors_dtos), T::Array[Responses::SectorResponseDto])
       end
     end
   end

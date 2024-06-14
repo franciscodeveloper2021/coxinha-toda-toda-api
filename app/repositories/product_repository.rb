@@ -25,6 +25,17 @@ class ProductRepository < Interfaces::RepositoryInterface
     product_dto
   end
 
+  sig { override.params(create_params: Requests::ProductRequestDto).returns(Responses::ProductResponseDto) }
+  def create(create_params:)
+    product = build_product(create_params: create_params)
+    product.save!
+
+    product_dto = generate_product_dto(product: product)
+    add_product_dto_in_memory(product_dto: product_dto)
+
+    product_dto
+  end
+
   sig { override.params(id: Integer).void }
   def destroy(id:)
     show(id: id)
@@ -55,8 +66,24 @@ class ProductRepository < Interfaces::RepositoryInterface
       )
   end
 
+  sig { params(product_dto: Responses::ProductResponseDto).void }
+  def add_product_dto_in_memory(product_dto:)
+    @products_dtos << product_dto
+  end
+
   sig { params(product_id: Integer).void }
   def destroy_product_dto_in_memory(product_id:)
     @products_dtos.reject! { |product| product.id == product_id }
+  end
+
+  sig { params(create_params: Requests::ProductRequestDto).returns(Product) }
+  def build_product(create_params:)
+    Product.new(
+      name: create_params.name,
+      description: create_params.description,
+      price: create_params.price,
+      available: create_params.available,
+      sector_id: create_params.sector_id
+    )
   end
 end
