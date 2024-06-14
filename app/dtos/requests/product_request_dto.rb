@@ -6,7 +6,7 @@ module Requests
     sig { returns(String) }
     attr_reader :name
 
-    sig { returns(String) }
+    sig { returns(T.nilable(String)) }
     attr_reader :description
 
     sig { returns(Float) }
@@ -18,10 +18,10 @@ module Requests
     sig { returns(T.nilable(Integer)) }
     attr_reader :sector_id
 
-    sig { params(name: String, description: String, price: Float, available: T::Boolean, sector_id: T.nilable(Integer)).void }
+    sig { params(name: String, description: T.nilable(String), price: Float, available: T::Boolean, sector_id: T.nilable(Integer)).void }
     def initialize(name:, description:, price:, available:, sector_id:)
       @name = T.let(name.strip, String)
-      @description = T.let(description.strip, String)
+      @description = T.let(description&.strip, T.nilable(String))
       @price = T.let(price, Float)
       @available = T.let(available, T::Boolean)
       @sector_id = T.let(sector_id, T.nilable(Integer))
