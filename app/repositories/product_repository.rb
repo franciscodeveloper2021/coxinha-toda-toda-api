@@ -36,9 +36,6 @@ class ProductRepository < Interfaces::RepositoryInterface
     product_dto
   end
 
-  sig { override.params(id: Integer, update_params: Requests::ProductRequestDto).returns(Responses::ProductResponseDto) }
-  def update(id:, update_params:); end
-
   sig { override.params(id: Integer).void }
   def destroy(id:)
     show(id: id)
