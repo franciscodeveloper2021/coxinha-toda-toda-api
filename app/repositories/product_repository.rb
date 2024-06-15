@@ -42,13 +42,7 @@ class ProductRepository < Interfaces::RepositoryInterface
 
     product = Product.find(id)
 
-    update_attributes = {
-      name: update_params.name,
-      description: update_params.description,
-      price: update_params.price,
-      available: update_params.available,
-      sector_id: update_params.sector_id
-    }.compact
+    update_attributes = build_update_attributes(update_params)
 
     product.update!(update_attributes)
 
@@ -112,5 +106,16 @@ class ProductRepository < Interfaces::RepositoryInterface
       available: create_params.available,
       sector_id: create_params.sector_id
     )
+  end
+
+  sig { params(update_params: Requests::ProductUpdateRequestDto).returns(T::Hash[T.untyped, T.untyped]) }
+  def build_update_attributes(update_params)
+    {
+      name: update_params.name,
+      description: update_params.description,
+      price: update_params.price,
+      available: update_params.available,
+      sector_id: update_params.sector_id
+    }.compact
   end
 end
