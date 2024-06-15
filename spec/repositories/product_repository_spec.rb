@@ -71,7 +71,6 @@ RSpec.describe ProductRepository, type: :repository do
   end
 
   describe "#create" do
-    let(:product) { create(:sector) }
     context "with invalid params" do
       let(:invalid_params) do
         Requests::ProductRequestDto.new(
@@ -79,7 +78,7 @@ RSpec.describe ProductRepository, type: :repository do
           description: '',
           price: -1.0,
           available: true,
-          sector_id: sector.id
+          sector_id: first_product.sector.id
         )
       end
 
@@ -96,7 +95,7 @@ RSpec.describe ProductRepository, type: :repository do
           description: 'Refrigerante de cola',
           price: 5.99,
           available: true,
-          sector_id: sector.id
+          sector_id: first_product.sector.id
         )
       end
 
