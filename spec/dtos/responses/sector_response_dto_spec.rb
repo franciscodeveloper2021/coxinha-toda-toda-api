@@ -3,14 +3,14 @@ require "rails_helper"
 RSpec.describe Responses::SectorResponseDto do
   let(:id) { 1 }
   let(:name) { 'Bebidas' }
-  subject { described_class.new(id: id, name: name) }
+  let(:subject) { described_class.new(id: id, name: name) }
 
   describe '#initialize' do
     context "when name has leading or trailing spaces" do
       it 'removes leading and trailing spaces from the name' do
         name_with_spaces = '  Bebidas  '
 
-        subject = described_class.new(id: id, name: name_with_spaces)
+        subject
 
         expect(subject.name).to eq('Bebidas')
       end

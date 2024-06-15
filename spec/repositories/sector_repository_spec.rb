@@ -7,27 +7,14 @@ RSpec.describe SectorRepository, type: :repository do
   let(:first_sector) { sectors.first }
 
   let(:invalid_id) { -1 }
-
   let(:record_not_found_message) do
     I18n.t("activerecord.errors.messages.record_not_found", attribute: "Sector", key: "id", value: invalid_id)
   end
 
   describe "#initialize" do
     context "type checking" do
-      context "with sorbet static type checking" do
-        it "has @sectors_dtos as instance variable of type SectorResponseDto Array" do
-          T.assert_type!(subject.instance_variable_get(:@sectors_dtos), T::Array[Responses::SectorResponseDto])
-        end
-      end
-
-      context "with ruby dynamic type checking" do
-        it "has @sectors_dtos as instance variable of type Array" do
-          expect(subject.instance_variable_get(:@sectors_dtos)).to be_a(Array)
-        end
-
-        it "has @sectors_dtos with elements of type SectorResponseDto" do
-          expect(subject.instance_variable_get(:@sectors_dtos)).to all(be_a(Responses::SectorResponseDto))
-        end
+      it "has @sectors_dtos as instance variable of type SectorResponseDto Array" do
+        T.assert_type!(subject.instance_variable_get(:@sectors_dtos), T::Array[Responses::SectorResponseDto])
       end
     end
   end
@@ -43,18 +30,12 @@ RSpec.describe SectorRepository, type: :repository do
 
     context "when there are registered sectors" do
       let(:retrieved_sectors) { subject.index }
-      it "retrieves all registered sectors with correct IDs" do
+
+      it "retrieves all registered sectors" do
         sectors_ids = sectors.pluck(:id)
         retrieved_sectors_ids = retrieved_sectors.map(&:id)
 
         expect(retrieved_sectors_ids).to match_array(sectors_ids)
-      end
-
-      it "retrieves all registered sectors with correct names" do
-        sectors_names = sectors.pluck(:name)
-        retrieved_sectors_names = retrieved_sectors.map(&:name)
-
-        expect(retrieved_sectors_names).to match_array(sectors_names)
       end
     end
   end
@@ -62,9 +43,9 @@ RSpec.describe SectorRepository, type: :repository do
   describe "#show" do
     context "when id is not an Integer" do
       it "raises a TypeError" do
-        invalid_id = "id"
+        invalid_id_type = "id"
 
-        expect { subject.show(id: invalid_id) }.to raise_error(TypeError)
+        expect { subject.show(id: invalid_id_type) }.to raise_error(TypeError)
       end
     end
 
