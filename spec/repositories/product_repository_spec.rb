@@ -120,6 +120,98 @@ RSpec.describe ProductRepository, type: :repository do
     end
   end
 
+  describe "#update" do
+    context "with invalid params" do
+      let(:invalid_update_params) do
+        Requests::ProductUpdateRequestDto.new(
+          name: '',
+          description: '',
+          price: -1.0,
+          available: true,
+          sector_id: first_product.sector.id
+        )
+      end
+
+      context "with invalid id" do
+        it "raises an ActiveRecord::RecordNotFound error" do
+          expect {
+            subject.update(id: invalid_id, update_params: invalid_update_params)
+          }.to raise_error(
+              ActiveRecord::RecordNotFound,
+              record_not_found_message
+            )
+        end
+      end
+
+      context "with invalid update params" do
+        it "raises ActiveRecord::RecordInvalid error" do
+          expect {
+            subject.update(id: first_product.id, update_params: invalid_update_params)
+          }.to raise_error(ActiveRecord::RecordInvalid)
+        end
+      end
+    end
+
+    context "with valid params" do
+      let(:valid_update_params) do
+        Requests::ProductUpdateRequestDto.new(
+          name: 'Pepsi',
+          description: 'Refrigerante de cola',
+          price: 6.99,
+          available: true,
+          sector_id: first_product.sector.id
+        )
+      end
+
+      it "updates the product in the database" do
+        subject.update(id: first_product.id, update_params: valid_update_params)
+        updated_product = Product.find(first_product.id)
+
+        expect(updated_product.name).to eq(valid_update_params.name)
+        expect(updated_product.description).to eq(valid_update_params.description)
+        expect(updated_product.price).to eq(valid_update_params.price)
+      end
+
+      it "updates the product DTO in memory" do
+        subject.update(id: first_product.id, update_params: valid_update_params)
+        updated_product_dto = subject.show(id: first_product.id)
+
+        expect(updated_product_dto.name).to eq(valid_update_params.name)
+        expect(updated_product_dto.description).to eq(valid_update_params.description)
+        expect(updated_product_dto.price).to eq(valid_update_params.price)
+      end
+
+      it "returns a ProductResponseDto" do
+        product_dto = subject.update(id: first_product.id, update_params: valid_update_params)
+
+        expect(product_dto).to be_a(Responses::ProductResponseDto)
+        expect(product_dto.name).to eq(valid_update_params.name)
+      end
+    end
+
+    context "with partial update params" do
+      let(:partial_update_params) do
+        Requests::ProductUpdateRequestDto.new(
+          name: nil,
+          description: 'Nova descrição',
+          price: nil,
+          available: nil,
+          sector_id: nil
+        )
+      end
+
+      it "updates only the provided attributes" do
+        subject.update(id: first_product.id, update_params: partial_update_params)
+        updated_product = Product.find(first_product.id)
+
+        expect(updated_product.description).to eq(partial_update_params.description)
+        expect(updated_product.name).to eq(first_product.name)
+        expect(updated_product.price).to eq(first_product.price)
+      end
+    end
+  end
+
+
   describe "#destroy" do
     context "with invalid params" do
       it "raises an ActiveRecord::RecordNotFound error" do

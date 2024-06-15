@@ -36,6 +36,28 @@ class ProductRepository < Interfaces::RepositoryInterface
     product_dto
   end
 
+  sig { override.params(id: Integer, update_params: Requests::ProductUpdateRequestDto).returns(Responses::ProductResponseDto) }
+  def update(id:, update_params:)
+    show(id: id)
+
+    product = Product.find(id)
+
+    update_attributes = {
+      name: update_params.name,
+      description: update_params.description,
+      price: update_params.price,
+      available: update_params.available,
+      sector_id: update_params.sector_id
+    }.compact
+
+    product.update!(update_attributes)
+
+    product_dto = generate_product_dto(product: product)
+    update_product_dto_in_memory(product_dto_id: id, updated_product_dto: product_dto)
+
+    product_dto
+  end
+
   sig { override.params(id: Integer).void }
   def destroy(id:)
     show(id: id)
@@ -69,6 +91,11 @@ class ProductRepository < Interfaces::RepositoryInterface
   sig { params(product_dto: Responses::ProductResponseDto).void }
   def add_product_dto_in_memory(product_dto:)
     @products_dtos << product_dto
+  end
+
+  sig { params(product_dto_id: Integer, updated_product_dto: Responses::ProductResponseDto).void }
+  def update_product_dto_in_memory(product_dto_id:, updated_product_dto:)
+    @products_dtos.map! { |product_dto| product_dto.id == product_dto_id ? updated_product_dto : product_dto }
   end
 
   sig { params(product_id: Integer).void }
