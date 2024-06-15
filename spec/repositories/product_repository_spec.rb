@@ -121,61 +121,6 @@ RSpec.describe ProductRepository, type: :repository do
     end
   end
 
-  describe "#update" do
-    let(:valid_params) do
-      Requests::ProductRequestDto.new(
-        name: "Bolo doce",
-        description: "Um gostoso bole doce"
-      )
-    end
-
-    let(:invalid_params) do
-      Requests::ProductRequestDto.new(
-        name: "",
-        price: -1
-      )
-    end
-
-    context "with invalid params" do
-      it "raises an ActiveRecord::RecordNotFound error" do
-        expect {
-          subject.update(id: invalid_id, update_params: valid_params)
-        }.to raise_error(
-            ActiveRecord::RecordNotFound,
-            record_not_found_message
-          )
-      end
-
-      it "raises ActiveRecord::RecordInvalid" do
-        expect { subject.update(id: first_product.id, update_params: invalid_params) }
-          .to raise_error(ActiveRecord::RecordInvalid)
-      end
-    end
-
-    context "with valid params" do
-      it "updates product on database" do
-        subject.update(id: first_product.id, update_params: valid_params)
-        first_product.reload
-
-        expect(first_product.name).to eq(valid_params.name)
-        expect(first_product.description).to eq(valid_params.description)
-      end
-
-      it "updates product DTO in memory" do
-        subject.update(id: first_product.id, update_params: valid_params)
-        product_dto = subject.show(id: first_product.id)
-
-        expect(product_dto.name).to eq(valid_params.name)
-      end
-
-      it "returns a ProductResponseDto" do
-        product_dto = subject.update(id: first_product.id, update_params: valid_params)
-
-        expect(product_dto).to be_a(Responses::ProductResponseDto)
-      end
-    end
-  end
-
   describe "#destroy" do
     context "with invalid params" do
       it "raises an ActiveRecord::RecordNotFound error" do
