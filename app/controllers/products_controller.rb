@@ -9,6 +9,8 @@ class ProductsController < ApplicationController
     @index_service = T.let(UseCases::Product::IndexProductsService.new, UseCases::Product::IndexProductsService)
     @show_service = T.let(UseCases::Product::ShowProductService.new, UseCases::Product::ShowProductService)
     @create_service = T.let(UseCases::Product::CreateProductService.new, UseCases::Product::CreateProductService)
+
+    @destroy_service = T.let(UseCases::Product::DestroyProductService.new, UseCases::Product::DestroyProductService)
   end
 
   sig { void }
@@ -38,6 +40,9 @@ class ProductsController < ApplicationController
 
   sig { void }
   def destroy
+    @destroy_service.call(id: params[:id].to_i)
+
+    render json: { message: I18n.t('messages.record_deleted', record: 'Product') }, status: :ok
   end
 
   private
