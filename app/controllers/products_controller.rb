@@ -9,7 +9,7 @@ class ProductsController < ApplicationController
     @index_service = T.let(UseCases::Product::IndexProductsService.new, UseCases::Product::IndexProductsService)
     @show_service = T.let(UseCases::Product::ShowProductService.new, UseCases::Product::ShowProductService)
     @create_service = T.let(UseCases::Product::CreateProductService.new, UseCases::Product::CreateProductService)
-
+    @update_service = T.let(UseCases::Product::UpdateProductService.new, UseCases::Product::UpdateProductService)
     @destroy_service = T.let(UseCases::Product::DestroyProductService.new, UseCases::Product::DestroyProductService)
   end
 
@@ -36,6 +36,9 @@ class ProductsController < ApplicationController
 
   sig { void }
   def update
+    product_dto = T.let(@update_service.call(id: params[:id].to_i, update_params: product_update_params), Responses::ProductResponseDto)
+
+    render json: product_dto, status: :ok
   end
 
   sig { void }
@@ -47,18 +50,36 @@ class ProductsController < ApplicationController
 
   private
 
+  sig { returns(ActionController::Parameters) }
+  def permitted_params
+    params.require(:product).permit(:name, :description, :price, :available, :sector_id)
+  end
+
   sig { returns(Requests::ProductRequestDto) }
   def product_create_params
-    permitted_params = params.require(:product).permit(:name, :description, :price, :available, :sector_id)
+    permitted = permitted_params
 
-    available_value = permitted_params[:available].nil? ? true : ActiveModel::Type::Boolean.new.cast(permitted_params[:available])
+    available_value = permitted[:available].nil? ? true : ActiveModel::Type::Boolean.new.cast(permitted[:available])
 
     Requests::ProductRequestDto.new(
-      name: permitted_params[:name],
-      description: permitted_params[:description],
-      price: permitted_params[:price].to_f,
+      name: permitted[:name],
+      description: permitted[:description],
+      price: permitted[:price].to_f,
       available: available_value,
-      sector_id: permitted_params[:sector_id]&.to_i
+      sector_id: permitted[:sector_id]&.to_i
+    )
+  end
+
+  sig { returns(Requests::ProductUpdateRequestDto) }
+  def product_update_params
+    permitted = permitted_params
+
+    Requests::ProductUpdateRequestDto.new(
+      name: permitted[:name],
+      description: permitted[:description],
+      price: permitted[:price]&.to_f,
+      available: permitted[:available].nil? ? nil : ActiveModel::Type::Boolean.new.cast(permitted[:available]),
+      sector_id: permitted[:sector_id]&.to_i
     )
   end
 end
