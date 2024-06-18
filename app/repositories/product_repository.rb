@@ -42,7 +42,7 @@ class ProductRepository < Interfaces::RepositoryInterface
 
     product = Product.find(id)
 
-    update_attributes = build_update_attributes(update_params)
+    update_attributes = build_update_attributes(update_params: update_params)
 
     product.update!(update_attributes)
 
@@ -109,7 +109,7 @@ class ProductRepository < Interfaces::RepositoryInterface
   end
 
   sig { params(update_params: Requests::ProductUpdateRequestDto).returns(T::Hash[T.untyped, T.untyped]) }
-  def build_update_attributes(update_params)
+  def build_update_attributes(update_params:)
     {
       name: update_params.name,
       description: update_params.description,
