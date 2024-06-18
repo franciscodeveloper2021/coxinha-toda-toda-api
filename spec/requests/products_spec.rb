@@ -4,6 +4,7 @@ RSpec.describe "Products", type: :request do
   let(:subject)  { ProductsController.new }
   let(:index_products_service) { UseCases::Product::IndexProductsService }
   let(:show_product_service) { UseCases::Product::ShowProductService }
+  let(:create_product_service) { UseCases::Product::CreateProductService }
 
   describe "#initialize" do
     it "initializes IndexProductsService" do
@@ -12,6 +13,10 @@ RSpec.describe "Products", type: :request do
 
     it "initializes ShowProductService" do
       expect(subject.instance_variable_get(:@show_service)).to be_a(show_product_service)
+    end
+
+    it "initializes CreateProductService" do
+      expect(subject.instance_variable_get(:@create_service)).to be_a(create_product_service)
     end
   end
 
@@ -81,6 +86,38 @@ RSpec.describe "Products", type: :request do
         json_response = JSON.parse(response.body)
 
         expect(json_response["id"]).to eq(product.id)
+      end
+    end
+  end
+
+   describe "#create" do
+    context "with invalid attributes" do
+      it "returns an unprocessable entity response" do
+        post products_path, params: { product: { name: "", description: "", price: 10, sector_id: nil } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+
+    context "with valid attributes" do
+      let(:attributes) { { product: {  name: "Banoffe", description: "A delicious bananoffe", price: 10.0, sector_id: nil } } }
+
+      before do
+        post products_path, params: attributes
+      end
+
+      it "returns a created response" do
+        expect(response).to have_http_status(:created)
+      end
+
+      it "returns in JSON format" do
+        expect(response.content_type).to eq "application/json; charset=utf-8"
+      end
+
+      it "returns the created product" do
+        json_response = JSON.parse(response.body)
+
+        expect(json_response["name"]).to eq(attributes[:product][:name])
       end
     end
   end

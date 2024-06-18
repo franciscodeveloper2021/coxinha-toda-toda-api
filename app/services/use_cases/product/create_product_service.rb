@@ -1,7 +1,7 @@
 # typed: strict
 module UseCases
   module Product
-    class ShowProductService
+    class CreateProductService
       extend T::Sig
 
       sig { params(product_repository: ProductRepository).void }
@@ -9,9 +9,9 @@ module UseCases
         @repository = product_repository
       end
 
-      sig { params(id: Integer).returns(Responses::ProductResponseDto) }
-      def call(id:)
-        @repository.show(id: id)
+      sig { params(create_params: Requests::ProductRequestDto).returns(Responses::ProductResponseDto) }
+      def call(create_params:)
+        @repository.create(create_params: create_params)
       end
     end
   end
