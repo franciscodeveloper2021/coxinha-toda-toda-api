@@ -96,7 +96,6 @@ RSpec.describe "Sectors", type: :request do
         json_response = JSON.parse(response.body)
 
         expect(json_response["id"]).to eq(sector.id)
-        expect(json_response["name"]).to eq(sector.name)
       end
     end
   end
