@@ -6,7 +6,7 @@ Rails.application.configure do
 
   # Eager load code on boot for better performance.
   config.eager_load = true
-  
+
   # Determines whether detailed error pages are displayed for local requests.
   config.consider_all_requests_local = false
 
@@ -33,4 +33,10 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Store files on Amazon S3
+  config.active_storage.service = :amazon
+
+  # Specify the default URL host for Rails routes
+  Rails.application.routes.default_url_options[:host] = 'your-domain.com'
 end
