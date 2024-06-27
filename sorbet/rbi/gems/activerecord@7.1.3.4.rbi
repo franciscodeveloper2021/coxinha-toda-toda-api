@@ -8233,6 +8233,7 @@ class ActiveRecord::Base
   include ::ActiveRecord::Suppressor
   include ::ActiveRecord::Normalization
   include ::ActiveRecord::Marshalling::Methods
+  include ::ActiveStorageValidations
   include ::ActiveStorage::Attached::Model
   include ::ActiveStorage::Reflection::ActiveRecordExtensions
   include ::ActionText::Attribute
