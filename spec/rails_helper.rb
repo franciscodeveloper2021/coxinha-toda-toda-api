@@ -76,4 +76,9 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # Configure default status code for unprocessable_entity in request specs
+  config.before(:each, type: :request) do
+    Rack::Utils::SYMBOL_TO_STATUS_CODE[:unprocessable_entity] ||= 422
+  end
 end
