@@ -22,6 +22,7 @@ group :development, :test do
   gem "shoulda-matchers"
   gem "tapioca", require: false
   gem "simplecov", require: false
+  gem "rack", "~> 2.2"
 end
 
 group :development do

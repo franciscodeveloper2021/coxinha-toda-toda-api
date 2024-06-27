@@ -67,7 +67,7 @@ class SectorRepository < Interfaces::RepositoryInterface
 
   sig { params(sector: Sector).returns(Responses::SectorResponseDto) }
   def generate_sector_dto(sector:)
-    Responses::SectorResponseDto.new(id: T.must(sector.id), name: sector.name)
+    Responses::SectorResponseDto.new(id: sector.id, name: sector.name)
   end
 
   sig { params(sector_dto: Responses::SectorResponseDto).void }

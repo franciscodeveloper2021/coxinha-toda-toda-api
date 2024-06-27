@@ -8,10 +8,10 @@
 # source://rack-test//lib/rack/test/cookie_jar.rb#6
 module Rack
   class << self
-    # source://rack/3.0.11/lib/rack/version.rb#31
+    # source://rack/2.2.9/lib/rack/version.rb#26
     def release; end
 
-    # source://rack/3.0.11/lib/rack/version.rb#23
+    # source://rack/2.2.9/lib/rack/version.rb#19
     def version; end
   end
 end

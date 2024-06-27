@@ -73,7 +73,7 @@ class ProductRepository < Interfaces::RepositoryInterface
   sig { params(product: Product).returns(Responses::ProductResponseDto) }
   def generate_product_dto(product:)
     Responses::ProductResponseDto.new(
-      id: T.must(product.id),
+      id: product.id,
       name: product.name,
       description: product.description,
       price: product.price,
