@@ -57,11 +57,26 @@ RSpec.describe Image, type: :model do
         end
 
         context "when content type is not allowed" do
+          it "receives wrong content type error" do
+            image.content.attach(
+              io: File.open(Rails.root.join('spec', 'fixtures', 'files', 'test.txt')),
+              filename: 'test.txt',
+              content_type: 'text/plain'
+            )
+            image.valid?
+
+            expect(image.errors.messages[:content]).to include(
+              I18n.t("activerecord.errors.messages.content_type_invalid")
+            )
+          end
         end
       end
     end
 
     context "with valid attributes" do
+      it "allows image to be saved" do
+        expect(image).to be_valid
+      end
     end
   end
 end
