@@ -42,26 +42,26 @@ RSpec.describe Image, type: :model do
       end
 
       context "with invalid content" do
+        context "when content is not present" do
+          let(:attribute_content) { Image.human_attribute_name(:content) }
+
+          it "receives an ActiveModel blank error" do
+            image.content = nil
+            image.valid?
+
+            expect(image.errors.full_messages)
+              .to include(
+                I18n.t("activerecord.errors.full_messages.blank", attribute: attribute_content)
+              )
+          end
+        end
+
+        context "when content type is not allowed" do
+        end
       end
     end
 
     context "with valid attributes" do
-      context "when content is not present" do
-        let(:attribute_content) { Image.human_attribute_name(:content) }
-
-        it "receives an ActiveModel blank error" do
-          image.content = nil
-          image.valid?
-
-          expect(image.errors.full_messages)
-            .to include(
-              I18n.t("activerecord.errors.full_messages.blank", attribute: attribute_content)
-            )
-        end
-      end
-
-      context "when content type is not allowed" do
-      end
     end
   end
 end
