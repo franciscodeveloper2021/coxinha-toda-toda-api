@@ -223,7 +223,7 @@ end
 # source://warden-jwt_auth//lib/warden/jwt_auth/hooks.rb#10
 Warden::JWTAuth::Hooks::PREPARED_TOKEN_ENV_KEY = T.let(T.unsafe(nil), String)
 
-# source://warden-jwt_auth//lib/warden/jwt_auth.rb#106
+# source://warden-jwt_auth//lib/warden/jwt_auth.rb#113
 Warden::JWTAuth::Import = T.let(T.unsafe(nil), Dry::AutoInject::Builder)
 
 # Interfaces expected to be implemented in applications working with this
@@ -411,13 +411,22 @@ module Warden::JWTAuth::PayloadUserHelper
     # source://warden-jwt_auth//lib/warden/jwt_auth/payload_user_helper.rb#11
     def find_user(payload); end
 
+    # Returns whether given issuer matches with the one encoded in the payload
+    #
+    # @param payload [Hash] JWT payload
+    # @param issuer [String] The issuer to match
+    # @return [Boolean]
+    #
+    # source://warden-jwt_auth//lib/warden/jwt_auth/payload_user_helper.rb#36
+    def issuer_matches?(payload, issuer); end
+
     # Returns the payload to encode for a given user in a scope
     #
     # @param user [Interfaces::User] an user, whatever it is
     # @param scope [Symbol] A Warden scope
     # @return [Hash] payload to encode
     #
-    # source://warden-jwt_auth//lib/warden/jwt_auth/payload_user_helper.rb#37
+    # source://warden-jwt_auth//lib/warden/jwt_auth/payload_user_helper.rb#45
     def payload_for_user(user, scope); end
 
     # Returns whether given scope matches with the one encoded in the payload
@@ -450,8 +459,18 @@ class Warden::JWTAuth::Strategy < ::Warden::Strategies::Base
 
   private
 
+  # @return [Boolean]
+  #
   # source://warden-jwt_auth//lib/warden/jwt_auth/strategy.rb#28
+  def issuer_claim_valid?; end
+
+  # source://warden-jwt_auth//lib/warden/jwt_auth/strategy.rb#42
   def token; end
+
+  # @return [Boolean]
+  #
+  # source://warden-jwt_auth//lib/warden/jwt_auth/strategy.rb#38
+  def token_exists?; end
 end
 
 # Decodes a JWT into a hash payload into a JWT token
