@@ -81,4 +81,12 @@ RSpec.configure do |config|
   config.before(:each, type: :request) do
     Rack::Utils::SYMBOL_TO_STATUS_CODE[:unprocessable_entity] ||= 422
   end
+
+  config.before(:suite) do
+    FileUtils.rm_rf(Dir[Rails.root.join('tmp', 'storage')])
+  end
+
+  config.after(:each) do
+    FileUtils.rm_rf(Dir[Rails.root.join('tmp', 'storage')])
+  end
 end

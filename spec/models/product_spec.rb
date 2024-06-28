@@ -18,6 +18,16 @@ RSpec.describe Product, type: :model do
         expect(product.valid?).to be(true)
       end
     end
+
+    context "image" do
+      it "has one image" do
+        product_with_image = create(:product)
+        image = create(:image, imageable: product)
+
+        expect(product.image).to eq(image)
+        expect(product.image.description).to eq(image.description)
+      end
+    end
   end
 
   describe "#before_validation" do
@@ -61,7 +71,7 @@ RSpec.describe Product, type: :model do
             expect(product.errors.full_messages)
               .to include(
                 I18n.t("activerecord.errors.full_messages.blank", attribute: attribute_name)
-            )
+              )
           end
         end
 
