@@ -20,12 +20,16 @@ RSpec.describe Product, type: :model do
     end
 
     context "image" do
-      it "has one image" do
+      it "has one image with dependent destroy" do
         product_with_image = create(:product)
-        image = create(:image, imageable: product)
+        image = create(:image, imageable: product_with_image)
 
-        expect(product.image).to eq(image)
-        expect(product.image.description).to eq(image.description)
+        expect(product_with_image.image).to eq(image)
+        expect(product_with_image.image.description).to eq(image.description)
+
+        expect {
+          product_with_image.destroy
+        }.to change(Image, :count).by(-1)
       end
     end
   end
