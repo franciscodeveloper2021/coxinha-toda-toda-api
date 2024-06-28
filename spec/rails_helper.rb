@@ -1,11 +1,10 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-# This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'simplecov'
 SimpleCov.start 'rails' do
- add_filter 'channels'
- add_filter 'mailers'
- add_filter 'jobs'
- add_filter 'views'
+  add_filter 'channels'
+  add_filter 'mailers'
+  add_filter 'jobs'
+  add_filter 'views'
 end
 require 'spec_helper'
 ENV['RAILS_ENV'] = 'test'
@@ -42,7 +41,7 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
-require 'factory_bot_rails' #This line loads factory bot
+require 'factory_bot_rails' # This line loads factory bot
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -51,9 +50,9 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
-  #This line below allows all factory methods to be called
+  # This line below allows all factory methods to be called
   config.include FactoryBot::Syntax::Methods
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
@@ -80,5 +79,21 @@ RSpec.configure do |config|
   # Configure default status code for unprocessable_entity in request specs
   config.before(:each, type: :request) do
     Rack::Utils::SYMBOL_TO_STATUS_CODE[:unprocessable_entity] ||= 422
+  end
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+    FileUtils.rm_rf(Dir[Rails.root.join('tmp', 'storage')])
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
+
+  config.after(:each) do
+    FileUtils.rm_rf(Dir[Rails.root.join('tmp', 'storage')])
   end
 end

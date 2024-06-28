@@ -12,10 +12,24 @@ RSpec.describe Product, type: :model do
         expect(product_with_sector.sector).to be_a(Sector)
       end
 
-      it "allows sector to be nil" do
+      it "allows sector to be optional" do
         product.sector = nil
 
         expect(product.valid?).to be(true)
+      end
+    end
+
+    context "image" do
+      it "has one image with dependent destroy" do
+        product_with_image = create(:product)
+        image = create(:image, imageable: product_with_image)
+
+        expect(product_with_image.image).to eq(image)
+        expect(product_with_image.image.description).to eq(image.description)
+
+        expect {
+          product_with_image.destroy
+        }.to change(Image, :count).by(-1)
       end
     end
   end
@@ -61,7 +75,7 @@ RSpec.describe Product, type: :model do
             expect(product.errors.full_messages)
               .to include(
                 I18n.t("activerecord.errors.full_messages.blank", attribute: attribute_name)
-            )
+              )
           end
         end
 

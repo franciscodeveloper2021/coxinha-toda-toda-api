@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+gem "active_storage_validations"
+gem "active_model_serializers", "~> 0.10.0"
 gem "awesome_print"
 gem "bootsnap", require: false
 gem "devise", "~> 4.8"
@@ -14,6 +16,7 @@ gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
 
 group :development, :test do
   gem "byebug"
+  gem "database_cleaner-active_record"
   gem "debug", platforms: [:mri, :mswin, :mswin64, :mingw, :x64_mingw]
   gem "factory_bot_rails"
   gem "faker"

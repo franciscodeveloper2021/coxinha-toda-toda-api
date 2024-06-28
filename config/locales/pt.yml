@@ -9,6 +9,7 @@ pt:
         inclusion: "não está incluído na lista"
         record_invalid: "A validação falhou: %{errors}"
         record_not_found: "Não foi possível encontrar %{attribute} com '%{key}'=%{value}"
+        content_type_invalid: "não é permitido. Por favor, faça upload de um arquivo de imagem."
       full_messages:
         blank: "%{attribute} não pode ficar em branco"
         too_short: "%{attribute} é muito curto (mínimo de %{count} caracteres)"
