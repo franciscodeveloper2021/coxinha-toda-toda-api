@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 gem "active_storage_validations"
+gem "active_model_serializers", "~> 0.10.0"
 gem "awesome_print"
 gem "bootsnap", require: false
 gem "devise", "~> 4.8"

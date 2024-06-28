@@ -266,8 +266,17 @@ class Product
   end
 
   module GeneratedAssociationMethods
+    sig { params(args: T.untyped, blk: T.untyped).returns(::Image) }
+    def build_image(*args, &blk); end
+
     sig { params(args: T.untyped, blk: T.untyped).returns(::Sector) }
     def build_sector(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::Image) }
+    def create_image(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::Image) }
+    def create_image!(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(::Sector) }
     def create_sector(*args, &blk); end
@@ -275,8 +284,20 @@ class Product
     sig { params(args: T.untyped, blk: T.untyped).returns(::Sector) }
     def create_sector!(*args, &blk); end
 
+    sig { returns(T.nilable(::Image)) }
+    def image; end
+
+    sig { params(value: T.nilable(::Image)).void }
+    def image=(value); end
+
+    sig { returns(T.nilable(::Image)) }
+    def reload_image; end
+
     sig { returns(T.nilable(::Sector)) }
     def reload_sector; end
+
+    sig { void }
+    def reset_image; end
 
     sig { void }
     def reset_sector; end

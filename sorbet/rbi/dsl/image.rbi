@@ -11,6 +11,12 @@ class Image
   extend CommonRelationMethods
   extend GeneratedRelationMethods
 
+  sig { returns(ActiveStorage::Attached::One) }
+  def content; end
+
+  sig { params(attachable: T.untyped).returns(T.untyped) }
+  def content=(attachable); end
+
   private
 
   sig { returns(NilClass) }
@@ -266,14 +272,56 @@ class Image
   end
 
   module GeneratedAssociationMethods
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ActiveStorage::Attachment) }
+    def build_content_attachment(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ActiveStorage::Blob) }
+    def build_content_blob(*args, &blk); end
+
+    sig { returns(T.nilable(::ActiveStorage::Attachment)) }
+    def content_attachment; end
+
+    sig { params(value: T.nilable(::ActiveStorage::Attachment)).void }
+    def content_attachment=(value); end
+
+    sig { returns(T.nilable(::ActiveStorage::Blob)) }
+    def content_blob; end
+
+    sig { params(value: T.nilable(::ActiveStorage::Blob)).void }
+    def content_blob=(value); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ActiveStorage::Attachment) }
+    def create_content_attachment(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ActiveStorage::Attachment) }
+    def create_content_attachment!(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ActiveStorage::Blob) }
+    def create_content_blob(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ActiveStorage::Blob) }
+    def create_content_blob!(*args, &blk); end
+
     sig { returns(T.untyped) }
     def imageable; end
 
     sig { params(value: T.untyped).void }
     def imageable=(value); end
 
+    sig { returns(T.nilable(::ActiveStorage::Attachment)) }
+    def reload_content_attachment; end
+
+    sig { returns(T.nilable(::ActiveStorage::Blob)) }
+    def reload_content_blob; end
+
     sig { returns(T.untyped) }
     def reload_imageable; end
+
+    sig { void }
+    def reset_content_attachment; end
+
+    sig { void }
+    def reset_content_blob; end
 
     sig { void }
     def reset_imageable; end
@@ -463,6 +511,9 @@ class Image
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def with(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
+    def with_attached_content(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def without(*args, &blk); end
@@ -1001,6 +1052,9 @@ class Image
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def with(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
+    def with_attached_content(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def without(*args, &blk); end
