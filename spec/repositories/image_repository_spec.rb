@@ -1,20 +1,24 @@
 require "rails_helper"
 
 RSpec.describe ImageRepository, type: :repository do
+  let!(:product) { create(:product) }
   let(:subject) { described_class.new }
-
-  let(:product) { create(:product) }
   let(:image_request_dto) do
     Requests::ImageRequestDto.new(
       description: "Coxinha Toda Toda logo",
-      content: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/test.png'), 'image/png')
+      imageable: product,
+      content: ActionDispatch::Http::UploadedFile.new(
+        tempfile: Rails.root.join('spec/fixtures/files/test.png'),
+        filename: 'test.png',
+        type: 'image/png'
+      )
     )
   end
 
-  describe "#attache_image_to_imageable" do
+  describe "#attach_image" do
     context "with valid params" do
       before do
-        subject.attach_image_to_imageable(image_request_dto: image_request_dto, imageable: product)
+        subject.attach_image(image_request_dto: image_request_dto)
         @image = Image.last
       end
 
@@ -36,6 +40,24 @@ RSpec.describe ImageRepository, type: :repository do
 
       it "sets the correct filename for the attached content" do
         expect(@image.content.blob.filename).to eq('test.png')
+      end
+    end
+
+    context "with invalid params" do
+      let(:invalid_image_request_dto) do
+        Requests::ImageRequestDto.new(
+          description: nil,
+          imageable: nil,
+          content: nil
+        )
+      end
+
+      it "does not create an image record" do
+        expect {
+          subject.attach_image(image_request_dto: invalid_image_request_dto)
+        }.to raise_error(TypeError)
+
+        expect(Image.count).to eq(0)
       end
     end
   end
