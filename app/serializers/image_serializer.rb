@@ -1,6 +1,6 @@
 # typed: true
 class ImageSerializer < ActiveModel::Serializer
-  attributes :id, :description, :image_url
+  attributes :id, :description, :image_url, :imageable
 
   extend T::Sig
 
