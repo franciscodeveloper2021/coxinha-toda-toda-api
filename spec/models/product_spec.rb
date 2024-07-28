@@ -3,7 +3,6 @@ require "rails_helper"
 RSpec.describe Product, type: :model do
   let!(:product) { build(:product) }
 
-
   describe "#associations" do
     context "sector" do
       it "belongs to sector" do
@@ -16,20 +15,6 @@ RSpec.describe Product, type: :model do
         product.sector = nil
 
         expect(product.valid?).to be(true)
-      end
-    end
-
-    context "image" do
-      it "has one image with dependent destroy" do
-        product_with_image = create(:product)
-        image = create(:image, imageable: product_with_image)
-
-        expect(product_with_image.image).to eq(image)
-        expect(product_with_image.image.description).to eq(image.description)
-
-        expect {
-          product_with_image.destroy
-        }.to change(Image, :count).by(-1)
       end
     end
   end

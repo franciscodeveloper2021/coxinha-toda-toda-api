@@ -6,7 +6,6 @@ class Product < ApplicationRecord
   extend T::Sig
 
   belongs_to :sector, optional: true
-  has_one :image, as: :imageable, dependent: :destroy
 
   before_validation :strip_whitespace_for_attributes
 
