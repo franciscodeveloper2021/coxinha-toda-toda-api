@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe UseCases::Image::AttachImageService do
   let(:repository) { ImageRepository.new }
-  let(:subject) { described_class.new(image_repository: repository) }
+  let(:subject) { described_class.new(repository) }
   let!(:product) { build_stubbed(:product) }
   let(:image_request_dto) do
     Requests::ImageRequestDto.new(

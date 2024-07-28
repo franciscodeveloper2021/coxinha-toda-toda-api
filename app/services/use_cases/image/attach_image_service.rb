@@ -5,7 +5,7 @@ module UseCases
       extend T::Sig
 
       sig { params(image_repository: ImageRepository).void }
-      def initialize(image_repository:)
+      def initialize(image_repository = ImageRepository.new )
         @repository = image_repository
       end
 
