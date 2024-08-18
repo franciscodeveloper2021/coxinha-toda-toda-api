@@ -13,7 +13,20 @@ module Domain
         def call(create_product_dto)
           product = Domain::Products::Entities::Product.new(create_product_dto.name, create_product_dto.description, create_product_dto.price, create_product_dto.available)
 
+          raise "Invalid params" if !valid_params?
+
+          already_existent_product = @repository.find_by_description(product.description)
+
+          raise "Product with description #{product.description} already exists" if already_existent_product.present?
+
           @repository.create(product)
+        end
+
+        private
+
+        sig { params(product: Domain::Products::Entities::Product) }
+        def valid_params?(product)
+          product.valid_name? && product.valid_description?
         end
       end
     end

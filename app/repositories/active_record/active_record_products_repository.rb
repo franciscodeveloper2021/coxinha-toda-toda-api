@@ -12,6 +12,11 @@ module Repositories
           available: product.available,
         )
       end
+
+      sig { override.params(id: Integer).returns(product: Domain::Products::Entities::Product) }
+      def find_by_id(description)
+        Product.find_by(description:)
+      end
     end
   end
 end

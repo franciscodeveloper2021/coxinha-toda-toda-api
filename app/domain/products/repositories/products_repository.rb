@@ -11,6 +11,9 @@ module Domain
 
         sig { abstract.params(product: Domain::Products::Entities::Product).void) }
         def create(product); end
+
+        sig { abstract.params(description: String).returns(product: Domain::Products::Entities::Product) }
+        def find_by_description(description); end
       end
     end
   end
