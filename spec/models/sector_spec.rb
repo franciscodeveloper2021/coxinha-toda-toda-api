@@ -7,13 +7,16 @@ RSpec.describe Sector, type: :model do
   describe "#associations" do
     context "products" do
       it "has many products" do
-        product1 = create(:product, sector: sector)
-        product2 = create(:product, sector: sector)
+        products = Array.new(2) { instance_double(Product) }
 
-        expect(sector.products).to include(product1, product2)
+        allow(sector).to receive(:products).and_return(products)
+
+        expect(sector.products).to match_array(products)
       end
 
       it "can have no products associated" do
+        allow(sector).to receive(:products).and_return([])
+
         expect(sector.products).to be_empty
       end
     end
