@@ -7545,9 +7545,97 @@ module Shoulda::Matchers::ActiveRecord
   #         without_scopes
   #     end
   #
+  # ##### with_default
+  #
+  # Use `with_default` to test that the enum is defined with a
+  # default value. A proc can also be passed, and will be called once each
+  # time a new value is needed. (If using Time or Date, it's recommended to
+  # freeze time or date to avoid flaky tests):
+  #
+  #     class Issue < ActiveRecord::Base
+  #       enum status: [:open, :closed], default: :closed
+  #     end
+  #
+  #     # RSpec
+  #     RSpec.describe Issue, type: :model do
+  #       it do
+  #         should define_enum_for(:status).
+  #           with_default(:closed)
+  #       end
+  #     end
+  #
+  #     # Minitest (Shoulda)
+  #     class ProcessTest < ActiveSupport::TestCase
+  #       should define_enum_for(:status).
+  #         with_default(:closed)
+  #     end
+  #
+  # ##### validating
+  #
+  # Use `validating` to test that the enum is being validated.
+  # Can take a boolean value and an allowing_nil keyword argument:
+  #
+  #     class Issue < ActiveRecord::Base
+  #       enum status: [:open, :closed], validate: true
+  #     end
+  #
+  #     # RSpec
+  #     RSpec.describe Issue, type: :model do
+  #       it do
+  #         should define_enum_for(:status).
+  #           validating
+  #       end
+  #     end
+  #
+  #     # Minitest (Shoulda)
+  #     class ProcessTest < ActiveSupport::TestCase
+  #       should define_enum_for(:status).
+  #         validating
+  #     end
+  #
+  #     class Issue < ActiveRecord::Base
+  #       enum status: [:open, :closed], validate: { allow_nil: true }
+  #     end
+  #
+  #     # RSpec
+  #     RSpec.describe Issue, type: :model do
+  #       it do
+  #         should define_enum_for(:status).
+  #           validating(allowing_nil: true)
+  #       end
+  #     end
+  #
+  #     # Minitest (Shoulda)
+  #     class ProcessTest < ActiveSupport::TestCase
+  #       should define_enum_for(:status).
+  #         validating(allowing_nil: true)
+  #     end
+  #
+  # ##### without_instance_methods
+  #
+  # Use `without_instance_methods` to exclude the check for instance methods.
+  #
+  #     class Issue < ActiveRecord::Base
+  #       enum status: [:open, :closed], instance_methods: false
+  #     end
+  #
+  #     # RSpec
+  #     RSpec.describe Issue, type: :model do
+  #       it do
+  #         should define_enum_for(:status).
+  #           without_instance_methods
+  #       end
+  #     end
+  #
+  #     # Minitest (Shoulda)
+  #     class ProcessTest < ActiveSupport::TestCase
+  #       should define_enum_for(:status).
+  #         without_instance_methods
+  #     end
+  #
   # @return [DefineEnumForMatcher]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#192
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#279
   def define_enum_for(attribute_name); end
 
   # The `encrypt` matcher tests usage of the
@@ -9870,43 +9958,51 @@ class Shoulda::Matchers::ActiveRecord::AssociationMatchers::CounterCacheMatcher
 
   protected
 
+  # @return [Boolean]
+  #
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#34
+  def correct_value?; end
+
   # Returns the value of attribute counter_cache.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#35
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#32
   def counter_cache; end
 
   # Sets the attribute counter_cache
   #
   # @param value the value to set the attribute counter_cache to.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#35
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#32
   def counter_cache=(_arg0); end
 
   # Returns the value of attribute name.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#35
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#32
   def name; end
 
   # Sets the attribute name
   #
   # @param value the value to set the attribute name to.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#35
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#32
   def name=(_arg0); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#37
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#54
+  def normalize_value; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#50
   def option_verifier; end
 
   # Returns the value of attribute subject.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#35
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#32
   def subject; end
 
   # Sets the attribute subject
   #
   # @param value the value to set the attribute subject to.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#35
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#32
   def subject=(_arg0); end
 end
 
@@ -10715,157 +10811,200 @@ end
 
 # @private
 #
-# source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#197
+# source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#284
 class Shoulda::Matchers::ActiveRecord::DefineEnumForMatcher
   # @return [DefineEnumForMatcher] a new instance of DefineEnumForMatcher
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#198
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#285
   def initialize(attribute_name); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#240
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#333
   def backed_by_column_of_type(expected_column_type); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#203
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#290
   def description; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#260
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#365
   def failure_message; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#273
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#378
   def failure_message_when_negated; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#250
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#353
   def matches?(subject); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#230
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#312
+  def validating(value = T.unsafe(nil), allowing_nil: T.unsafe(nil)); end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#348
+  def with_default(default_value); end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#323
   def with_prefix(expected_prefix = T.unsafe(nil)); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#235
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#328
   def with_suffix(expected_suffix = T.unsafe(nil)); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#225
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#318
   def with_values(expected_enum_values); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#245
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#343
+  def without_instance_methods; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#338
   def without_scopes; end
 
   private
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#359
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#657
+  def actual_default_value; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#503
   def actual_enum_values; end
 
   # Returns the value of attribute attribute_name.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#280
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#409
   def attribute_name; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#404
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#548
   def column; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#388
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#532
   def column_type_matches?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#363
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#633
+  def default_value_matches?; end
+
+  # @return [Boolean]
+  #
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#507
   def enum_defined?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#415
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#559
   def enum_value_methods_exist?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#373
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#517
   def enum_values_match?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#532
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#754
   def exclude_scopes?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#283
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#412
   def expectation; end
-
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#400
-  def expected_column_type; end
-
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#347
-  def expected_enum_value_names; end
-
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#351
-  def expected_enum_values; end
-
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#500
-  def expected_instance_methods; end
-
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#512
-  def expected_prefix; end
-
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#491
-  def expected_singleton_methods; end
-
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#522
-  def expected_suffix; end
-
-  # Returns the value of attribute failure_message_continuation.
-  #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#280
-  def failure_message_continuation; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#485
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#742
+  def expected_allowing_nil?; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#544
+  def expected_column_type; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#653
+  def expected_default_value; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#491
+  def expected_enum_value_names; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#495
+  def expected_enum_values; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#702
+  def expected_instance_methods; end
+
+  # @return [Boolean]
+  #
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#714
+  def expected_instance_methods?; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#718
+  def expected_prefix; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#693
+  def expected_singleton_methods; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#728
+  def expected_suffix; end
+
+  # @return [Boolean]
+  #
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#738
+  def expected_validating?; end
+
+  # Returns the value of attribute failure_message_continuation.
+  #
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#409
+  def failure_message_continuation; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#746
+  def find_enum_validator; end
+
+  # @return [Boolean]
+  #
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#687
   def instance_methods_exist?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#459
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#611
   def missing_methods_message; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#411
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#555
   def model; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#355
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#499
   def normalized_actual_enum_values; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#343
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#487
   def normalized_expected_enum_values; end
 
   # Returns the value of attribute options.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#280
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#409
   def options; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#333
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#477
   def presented_enum_mapping(enum_values); end
 
   # Returns the value of attribute record.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#280
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#409
   def record; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#429
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#581
   def scope_presence_matches?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#329
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#473
   def simple_description; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#479
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#681
   def singleton_methods_exist?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#546
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#768
   def to_array(value); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#536
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#758
   def to_hash(value); end
+
+  # @return [Boolean]
+  #
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#385
+  def validating_matches?; end
 end
 
 # @private
@@ -11619,19 +11758,19 @@ class Shoulda::Matchers::ActiveRecord::Uniqueness::Model
   # source://shoulda-matchers//lib/shoulda/matchers/active_record/uniqueness/model.rb#31
   def symlink_to(parent); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/uniqueness/model.rb#35
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/uniqueness/model.rb#47
   def to_s; end
 
   protected
 
   # Returns the value of attribute name.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/uniqueness/model.rb#41
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/uniqueness/model.rb#53
   def name; end
 
   # Returns the value of attribute namespace.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/uniqueness/model.rb#41
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/uniqueness/model.rb#53
   def namespace; end
 
   class << self
@@ -12204,15 +12343,15 @@ end
 
 # @private
 #
-# source://shoulda-matchers//lib/shoulda/matchers/doublespeak.rb#7
+# source://shoulda-matchers//lib/shoulda/matchers/doublespeak.rb#6
 module Shoulda::Matchers::Doublespeak
   class << self
-    # source://shoulda-matchers//lib/shoulda/matchers/doublespeak.rb#22
+    # source://shoulda-matchers//lib/shoulda/matchers/doublespeak.rb#21
     def debug(&block); end
 
     # @return [Boolean]
     #
-    # source://shoulda-matchers//lib/shoulda/matchers/doublespeak.rb#18
+    # source://shoulda-matchers//lib/shoulda/matchers/doublespeak.rb#17
     def debugging_enabled?; end
 
     # source://forwardable/1.3.3/forwardable.rb#231
@@ -12221,7 +12360,7 @@ module Shoulda::Matchers::Doublespeak
     # source://forwardable/1.3.3/forwardable.rb#231
     def with_doubles_activated(*args, **_arg1, &block); end
 
-    # source://shoulda-matchers//lib/shoulda/matchers/doublespeak.rb#14
+    # source://shoulda-matchers//lib/shoulda/matchers/doublespeak.rb#13
     def world; end
   end
 end

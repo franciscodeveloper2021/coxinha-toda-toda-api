@@ -69,16 +69,24 @@ module Warden::JWTAuth::EnvHelper
     # @param env [Hash] Rack env
     # @return [String]
     #
-    # source://warden-jwt_auth//lib/warden/jwt_auth/env_helper.rb#55
+    # source://warden-jwt_auth//lib/warden/jwt_auth/env_helper.rb#57
     def aud_header(env); end
 
-    # Returns HTTP_AUTHORIZATION environment variable
+    # Returns header configured through `token_header` option
     #
     # @param env [Hash] Rack env
     # @return [String]
     #
     # source://warden-jwt_auth//lib/warden/jwt_auth/env_helper.rb#32
     def authorization_header(env); end
+
+    # Returns the ENV name for a given header
+    #
+    # @param header [String] Header name
+    # @return [String]
+    #
+    # source://warden-jwt_auth//lib/warden/jwt_auth/env_helper.rb#66
+    def env_name(header); end
 
     # Returns PATH_INFO environment variable
     #
@@ -96,8 +104,8 @@ module Warden::JWTAuth::EnvHelper
     # source://warden-jwt_auth//lib/warden/jwt_auth/env_helper.rb#24
     def request_method(env); end
 
-    # Returns a copy of `env` with value added to the `HTTP_AUTHORIZATION`
-    # environment variable.
+    # Returns a copy of `env` with value added to the environment variable
+    # configured through `token_header` option
     #
     # Be aware than `env` is not modified in place and still an updated copy
     # is returned.
@@ -106,7 +114,7 @@ module Warden::JWTAuth::EnvHelper
     # @param value [String]
     # @return [Hash] modified rack env
     #
-    # source://warden-jwt_auth//lib/warden/jwt_auth/env_helper.rb#45
+    # source://warden-jwt_auth//lib/warden/jwt_auth/env_helper.rb#46
     def set_authorization_header(env, value); end
   end
 end
@@ -151,8 +159,8 @@ module Warden::JWTAuth::HeaderParser
     # source://warden-jwt_auth//lib/warden/jwt_auth/header_parser.rb#16
     def from_env(env); end
 
-    # Returns a copy of `env` with token added to the `HTTP_AUTHORIZATION`
-    # header. Be aware than `env` is not modified in place.
+    # Returns a copy of `env` with token added to the header configured through
+    # `token_header` option. Be aware than `env` is not modified in place.
     #
     # @param env [Hash] rack env hash
     # @param token [String] JWT token
@@ -223,7 +231,7 @@ end
 # source://warden-jwt_auth//lib/warden/jwt_auth/hooks.rb#10
 Warden::JWTAuth::Hooks::PREPARED_TOKEN_ENV_KEY = T.let(T.unsafe(nil), String)
 
-# source://warden-jwt_auth//lib/warden/jwt_auth.rb#113
+# source://warden-jwt_auth//lib/warden/jwt_auth.rb#116
 Warden::JWTAuth::Import = T.let(T.unsafe(nil), Dry::AutoInject::Builder)
 
 # Interfaces expected to be implemented in applications working with this

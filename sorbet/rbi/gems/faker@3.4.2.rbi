@@ -8,7 +8,6 @@
 # source://faker//lib/helpers/base58.rb#3
 module Faker
   include ::Faker::Deprecator
-  extend ::Faker::Deprecator
 end
 
 # source://faker//lib/faker/default/address.rb#4
@@ -3559,6 +3558,20 @@ module Faker::Deprecator
     #
     # source://faker//lib/helpers/deprecator.rb#9
     def included(base); end
+
+    # source://faker//lib/helpers/deprecator.rb#44
+    def skip; end
+
+    # source://faker//lib/helpers/deprecator.rb#48
+    def skip=(value); end
+
+    # source://faker//lib/helpers/deprecator.rb#32
+    def skip_warning; end
+
+    # @return [Boolean]
+    #
+    # source://faker//lib/helpers/deprecator.rb#40
+    def skip_warning?; end
   end
 end
 
@@ -7575,10 +7588,10 @@ class Faker::Kpop < ::Faker::Base
   end
 end
 
-# source://faker//lib/faker/locations/australia.rb#6
+# source://faker//lib/faker/locations/australia.rb#4
 class Faker::Locations; end
 
-# source://faker//lib/faker/locations/australia.rb#7
+# source://faker//lib/faker/locations/australia.rb#5
 class Faker::Locations::Australia < ::Faker::Base
   class << self
     # Produces an Australian animal
@@ -7588,7 +7601,7 @@ class Faker::Locations::Australia < ::Faker::Base
     #   #=> "Dingo"
     # @return [String]
     #
-    # source://faker//lib/faker/locations/australia.rb#32
+    # source://faker//lib/faker/locations/australia.rb#30
     def animal; end
 
     # Produces a location in Australia
@@ -7598,7 +7611,7 @@ class Faker::Locations::Australia < ::Faker::Base
     #   #=> "Sydney"
     # @return [String]
     #
-    # source://faker//lib/faker/locations/australia.rb#19
+    # source://faker//lib/faker/locations/australia.rb#17
     def location; end
 
     # Produces an Australian State or Territory
@@ -7608,7 +7621,7 @@ class Faker::Locations::Australia < ::Faker::Base
     #   #=> "New South Wales"
     # @return [String]
     #
-    # source://faker//lib/faker/locations/australia.rb#45
+    # source://faker//lib/faker/locations/australia.rb#43
     def state; end
   end
 end
@@ -9826,12 +9839,17 @@ class Faker::NationalHealthService < ::Faker::Base
   class << self
     # Produces a random British NHS number.
     #
+    # The NHS sets aside a range of numbers from 999 000 0000 to 999 999 9999
+    # for test purposes.
+    #
     # @example
-    #   Faker::NationalHealthService.british_number #=> "403 958 5577"
+    #   Faker::NationalHealthService.british_number #=> "999 464 0232"
     # @return [String]
     #
-    # source://faker//lib/faker/default/national_health_service.rb#15
+    # source://faker//lib/faker/default/national_health_service.rb#18
     def british_number; end
+
+    private
 
     # Produces a random British NHS number's check digit.
     #
@@ -9840,7 +9858,7 @@ class Faker::NationalHealthService < ::Faker::Base
     # @param number [Integer] Specifies the NHS number the check digit belongs to.
     # @return [Integer]
     #
-    # source://faker//lib/faker/default/national_health_service.rb#37
+    # source://faker//lib/faker/default/national_health_service.rb#42
     def check_digit(number: T.unsafe(nil)); end
   end
 end
@@ -13540,7 +13558,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.car_options #=> ["DVD System", "MP3 (Single Disc)", "Tow Package", "CD (Multi Disc)", "Cassette Player", "Bucket Seats", "Cassette Player", "Leather Interior", "AM/FM Stereo", "Third Row Seats"]
     # @return [Array<String>]
     #
-    # source://faker//lib/faker/default/vehicle.rb#206
+    # source://faker//lib/faker/default/vehicle.rb#207
     def car_options; end
 
     # Produces a random car type.
@@ -13549,7 +13567,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.car_type #=> "Sedan"
     # @return [String]
     #
-    # source://faker//lib/faker/default/vehicle.rb#177
+    # source://faker//lib/faker/default/vehicle.rb#178
     def car_type; end
 
     # Produces a random vehicle color.
@@ -13558,7 +13576,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.color #=> "Red"
     # @return [String]
     #
-    # source://faker//lib/faker/default/vehicle.rb#125
+    # source://faker//lib/faker/default/vehicle.rb#126
     def color; end
 
     # Produces a random vehicle door count.
@@ -13568,7 +13586,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.door_count #=> 3
     # @return [Integer]
     #
-    # source://faker//lib/faker/default/vehicle.rb#233
+    # source://faker//lib/faker/default/vehicle.rb#234
     def door_count; end
 
     # Produces a random vehicle door count.
@@ -13578,7 +13596,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.door_count #=> 3
     # @return [Integer]
     #
-    # source://faker//lib/faker/default/vehicle.rb#233
+    # source://faker//lib/faker/default/vehicle.rb#234
     def doors; end
 
     # Produces a random vehicle drive type.
@@ -13587,7 +13605,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.drive_type #=> "4x2/2-wheel drive"
     # @return [String]
     #
-    # source://faker//lib/faker/default/vehicle.rb#151
+    # source://faker//lib/faker/default/vehicle.rb#152
     def drive_type; end
 
     # Produces a random engine cylinder count.
@@ -13597,7 +13615,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.engine #=> 4
     # @return [String]
     #
-    # source://faker//lib/faker/default/vehicle.rb#191
+    # source://faker//lib/faker/default/vehicle.rb#192
     def engine; end
 
     # Produces a random engine cylinder count.
@@ -13607,7 +13625,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.engine #=> 4
     # @return [String]
     #
-    # source://faker//lib/faker/default/vehicle.rb#191
+    # source://faker//lib/faker/default/vehicle.rb#192
     def engine_size; end
 
     # Produces a random vehicle fuel type.
@@ -13616,7 +13634,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.fuel_type #=> "Diesel"
     # @return [String]
     #
-    # source://faker//lib/faker/default/vehicle.rb#164
+    # source://faker//lib/faker/default/vehicle.rb#165
     def fuel_type; end
 
     # Produces a random mileage/kilometrage for a vehicle.
@@ -13630,10 +13648,10 @@ class Faker::Vehicle < ::Faker::Base
     # @param max [Integer] Specific maximum limit for mileage generation.
     # @return [Integer]
     #
-    # source://faker//lib/faker/default/vehicle.rb#265
+    # source://faker//lib/faker/default/vehicle.rb#266
     def kilometrage(min: T.unsafe(nil), max: T.unsafe(nil)); end
 
-    # source://faker//lib/faker/default/vehicle.rb#282
+    # source://faker//lib/faker/default/vehicle.rb#283
     def license_plate(state_abbreviation: T.unsafe(nil)); end
 
     # Produces a random vehicle make.
@@ -13642,7 +13660,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.make #=> "Honda"
     # @return [String]
     #
-    # source://faker//lib/faker/default/vehicle.rb#67
+    # source://faker//lib/faker/default/vehicle.rb#68
     def make; end
 
     # Produces a random vehicle make and model.
@@ -13651,17 +13669,26 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.make_and_model #=> "Dodge Charger"
     # @return [String]
     #
-    # source://faker//lib/faker/default/vehicle.rb#97
+    # source://faker//lib/faker/default/vehicle.rb#98
     def make_and_model; end
 
     # Produces a random vehicle manufacturer.
     #
     # @example
-    #   Faker::Vehicle.manufacture #=> "Lamborghini"
+    #   Faker::Vehicle.manufacturer #=> "Lamborghini"
     # @return [String]
     #
     # source://faker//lib/faker/default/vehicle.rb#54
     def manufacture; end
+
+    # Produces a random vehicle manufacturer.
+    #
+    # @example
+    #   Faker::Vehicle.manufacturer #=> "Lamborghini"
+    # @return [String]
+    #
+    # source://faker//lib/faker/default/vehicle.rb#54
+    def manufacturer; end
 
     # Produces a random mileage/kilometrage for a vehicle.
     #
@@ -13674,7 +13701,7 @@ class Faker::Vehicle < ::Faker::Base
     # @param max [Integer] Specific maximum limit for mileage generation.
     # @return [Integer]
     #
-    # source://faker//lib/faker/default/vehicle.rb#265
+    # source://faker//lib/faker/default/vehicle.rb#266
     def mileage(min: T.unsafe(nil), max: T.unsafe(nil)); end
 
     # Produces a random vehicle model.
@@ -13685,10 +13712,10 @@ class Faker::Vehicle < ::Faker::Base
     # @param make_of_model [String] Specific valid vehicle make.
     # @return [String]
     #
-    # source://faker//lib/faker/default/vehicle.rb#82
+    # source://faker//lib/faker/default/vehicle.rb#83
     def model(make_of_model: T.unsafe(nil)); end
 
-    # source://faker//lib/faker/default/vehicle.rb#298
+    # source://faker//lib/faker/default/vehicle.rb#299
     def singapore_license_plate; end
 
     # Produces a random list of standard specs.
@@ -13697,7 +13724,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.standard_specs #=> ["Full-size spare tire w/aluminum alloy wheel", "Back-up camera", "Carpeted cargo area", "Silver accent IP trim finisher -inc: silver shifter finisher", "Back-up camera", "Water-repellent windshield & front door glass", "Floor carpeting"]
     # @return [Array<String>]
     #
-    # source://faker//lib/faker/default/vehicle.rb#219
+    # source://faker//lib/faker/default/vehicle.rb#220
     def standard_specs; end
 
     # Produces a random vehicle style.
@@ -13706,7 +13733,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.style #=> "ESi"
     # @return [String]
     #
-    # source://faker//lib/faker/default/vehicle.rb#112
+    # source://faker//lib/faker/default/vehicle.rb#113
     def style; end
 
     # Produces a random vehicle transmission.
@@ -13715,7 +13742,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.transmission #=> "Automanual"
     # @return [String]
     #
-    # source://faker//lib/faker/default/vehicle.rb#138
+    # source://faker//lib/faker/default/vehicle.rb#139
     def transmission; end
 
     # Produces a car version
@@ -13724,7 +13751,7 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.version #=> "40 TFSI Premium"
     # @return [String]
     #
-    # source://faker//lib/faker/default/vehicle.rb#313
+    # source://faker//lib/faker/default/vehicle.rb#314
     def version; end
 
     # Produces a random vehicle VIN number.
@@ -13742,12 +13769,12 @@ class Faker::Vehicle < ::Faker::Base
     #   Faker::Vehicle.year #=> 2008
     # @return [Integer]
     #
-    # source://faker//lib/faker/default/vehicle.rb#247
+    # source://faker//lib/faker/default/vehicle.rb#248
     def year; end
 
     private
 
-    # source://faker//lib/faker/default/vehicle.rb#319
+    # source://faker//lib/faker/default/vehicle.rb#320
     def singapore_checksum(plate_number); end
   end
 end

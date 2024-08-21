@@ -56,6 +56,7 @@ end
 # source://dry-configurable//lib/dry/configurable/constants.rb#7
 module Dry::Configurable
   include ::Dry::Core::Constants
+  extend ::Dry::Core::Deprecations::Interface
   include ::Dry::Configurable::InstanceMethods
 
   mixes_in_class_methods ::Dry::Configurable::ClassMethods
@@ -89,7 +90,7 @@ end
 
 # @api public
 #
-# source://dry-configurable//lib/dry/configurable/errors.rb#10
+# source://dry-configurable//lib/dry/configurable/errors.rb#14
 class Dry::Configurable::AlreadyIncludedError < ::Dry::Configurable::Error; end
 
 # source://dry-configurable//lib/dry/configurable/class_methods.rb#7
@@ -396,7 +397,7 @@ Dry::Configurable::DSL::VALID_NAME = T.let(T.unsafe(nil), Regexp)
 
 # @api public
 #
-# source://dry-configurable//lib/dry/configurable/errors.rb#8
+# source://dry-configurable//lib/dry/configurable/errors.rb#10
 class Dry::Configurable::Error < ::StandardError; end
 
 # @api public
@@ -425,7 +426,6 @@ class Dry::Configurable::Extension < ::Module
   def extended(klass); end
 
   # @api private
-  # @raise [AlreadyIncludedError]
   #
   # source://dry-configurable//lib/dry/configurable/extension.rb#28
   def included(klass); end
@@ -433,7 +433,7 @@ end
 
 # @api public
 #
-# source://dry-configurable//lib/dry/configurable/errors.rb#11
+# source://dry-configurable//lib/dry/configurable/errors.rb#12
 class Dry::Configurable::FrozenConfigError < ::Dry::Configurable::Error; end
 
 # Initializer method which is prepended when `Dry::Configurable`

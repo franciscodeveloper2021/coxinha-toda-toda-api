@@ -17,7 +17,6 @@ require 'spec_helper'
   puts "Current Database: #{ActiveRecord::Base.connection.current_database}"
 
 require 'rspec/rails'
-  ActiveSupport::Deprecation.behavior = :silence
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
@@ -39,7 +38,7 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.filter_rails_from_backtrace!
- 
+
   config.before(:each, type: :request) do
     Rack::Utils::SYMBOL_TO_STATUS_CODE[:unprocessable_entity] ||= 422
   end
